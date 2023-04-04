@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "520061377985",
+    "project_id": "androidkotlinresellapp",
+    "storage_bucket": "androidkotlinresellapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520061377985:android:034c157d5f820084a5a340",
+        "android_client_info": {
+          "package_name": "com.example.resellapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520061377985-8oco8pni8j21vv4h99r7usvighu0kovs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.resellapp",
+            "certificate_hash": "2492aea38e409f48601e829a62c8d20a742a2c9e"
+          }
+        },
+        {
+          "client_id": "520061377985-61t4u2n9ebhq1v0pic1rqniao43vhljv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5ZXduEkbgykF47WrgN3t21c6VeoCjRqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520061377985-61t4u2n9ebhq1v0pic1rqniao43vhljv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -25,7 +25,8 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".MainActivity2" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".NavigationActivity" />
     </application>
 
 </manifest>

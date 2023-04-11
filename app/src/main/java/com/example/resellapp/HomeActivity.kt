@@ -7,9 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.resellapp.databinding.ActivityMain2Binding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 class HomeActivity : AppCompatActivity(){
 
@@ -43,7 +40,7 @@ class HomeActivity : AppCompatActivity(){
         googlesigninclient.signOut()
 
 
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, SignUpActivity::class.java)
         startActivity(intent)
         finish()
         Log.e("ghe", "am iesit")

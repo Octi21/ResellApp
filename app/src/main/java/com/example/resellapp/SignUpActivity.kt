@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import com.example.resellapp.databinding.ActivityMainBinding
+import com.example.resellapp.databinding.ActivitySignUpBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -15,23 +17,19 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
-class MainActivity : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity() {
 
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var firebaseAuth: FirebaseAuth
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivitySignUpBinding
 
 
-//    companion object {
-//        private const val RC_SIGN_IN = 9001
-//        private const val TAG = "GoogleSignIn"
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivitySignUpBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
@@ -43,14 +41,94 @@ class MainActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
         firebaseAuth = FirebaseAuth.getInstance()
 
-
-
         binding.signInButton.setOnClickListener {
             signInGoogle()
         }
 
+
+        binding.signUpButton.setOnClickListener{
+            val email = binding.inputEmailText.text.toString()
+            val password = binding.inputPasswordText.text.toString()
+            if(checkInput())
+            {
+                firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener{
+                    if(it.isSuccessful){
+                        firebaseAuth.signOut()
+                        Toast.makeText(this,"AccountCreated",Toast.LENGTH_SHORT).show()
+                    }
+                    else
+                    {
+                        Log.e("error", it.exception.toString())
+                    }
+                }
+            }
+        }
+
+
+        binding.haveAccount.setOnClickListener{
+            navToLogin()
+        }
+
     }
 
+    private fun navToLogin(){
+        val intent = Intent(this,LoginActivity::class.java)
+        startActivity(intent)
+        finish()
+
+    }
+
+
+
+    private fun checkInput(): Boolean{
+        val email = binding.inputEmailText.text.toString()
+        val password = binding.inputPasswordText.text.toString()
+        val password2 = binding.inputPasswordText2.text.toString()
+
+        if(email == "")
+        {
+            binding.inputEmail.error = "This field is required"
+            return false
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        {
+            binding.inputEmail.error = "Incorrect email format"
+            return false
+        }
+
+
+        if(password == "")
+        {
+            binding.inputPassword.error = "This field is required"
+            binding.inputPassword.endIconDrawable = null
+            return false
+        }
+        if(password2 == "")
+        {
+            binding.inputPassword2.error = "This field is required"
+            binding.inputPassword2.endIconDrawable = null
+            return false
+        }
+
+        if(binding.inputPasswordText.length() <6)
+        {
+            binding.inputPassword2.error = "Required la least 6 characters"
+            binding.inputPassword.endIconDrawable = null
+            return false
+        }
+
+        if(password != password2)
+        {
+            binding.inputPassword.error = "Password do not match"
+
+            return false
+        }
+
+        return true
+    }
+
+
+    // firebase google sign in
     private fun signInGoogle(){
         val signInIntent = googleSignInClient.signInIntent
         launcher.launch(signInIntent)
@@ -91,20 +169,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//
-//        val currentUser = firebaseAuth.currentUser
-//        if (currentUser != null) {
-//            // User is already signed in
-//            Log.e("ghe","already logged")
-//            val intent = Intent(this,MainActivity2::class.java)
-//            startActivity(intent)
-//
-//        } else {
-//            // User is not signed in, show sign-in button
-//            Log.d("ghe","not logged")
-//        }
-//    }
 
 }

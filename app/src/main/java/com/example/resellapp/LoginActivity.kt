@@ -1,6 +1,7 @@
 package com.example.resellapp
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -44,11 +45,22 @@ class LoginActivity:  AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
         firebaseAuth = FirebaseAuth.getInstance()
 
+
+        val localStorege = applicationContext.getSharedPreferences("LogOption", Context.MODE_PRIVATE)
+        val editor = localStorege.edit()
+
+
         binding.signInButton.setOnClickListener {
+            editor.putString("LoginBy","Google")
+            editor.apply()
+
             signInGoogle()
         }
 
         binding.signInWithEmailButton.setOnClickListener{
+            editor.putString("LoginBy","Email")
+            editor.apply()
+
             val email = binding.inputEmailText.text.toString()
             val password = binding.inputPasswordText.text.toString()
             if(checkInput())
@@ -60,7 +72,7 @@ class LoginActivity:  AppCompatActivity() {
                         startActivity(intent)
 
                         //destroy activity
-                        finish()
+//                        finish()
                     }
                     else
                     {

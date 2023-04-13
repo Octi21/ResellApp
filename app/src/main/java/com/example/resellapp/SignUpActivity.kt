@@ -1,6 +1,7 @@
 package com.example.resellapp
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -41,7 +42,12 @@ class SignUpActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
         firebaseAuth = FirebaseAuth.getInstance()
 
+        val localStorege = applicationContext.getSharedPreferences("LogOption", Context.MODE_PRIVATE)
+        val editor = localStorege.edit()
+
         binding.signInButton.setOnClickListener {
+            editor.putString("LoginBy","Google")
+            editor.apply()
             signInGoogle()
         }
 
@@ -74,7 +80,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun navToLogin(){
         val intent = Intent(this,LoginActivity::class.java)
         startActivity(intent)
-        finish()
+//        finish()
 
     }
 

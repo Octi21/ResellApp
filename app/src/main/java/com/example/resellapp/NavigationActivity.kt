@@ -32,8 +32,7 @@ class NavigationActivity: AppCompatActivity() {
         )
 
 
-        NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration)
-//        NavigationUI.setupWithNavController(binding.navView, navController)
+//        NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration)
 
         NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
 

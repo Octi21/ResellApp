@@ -10,8 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/backgroundgrew">
+        android:layout_height="match_parent">
+<!--        android:background="@color/backgroundgrew">-->
 
         <TextView
             android:id="@+id/textView2"
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:background="@color/purple_200"
+            android:background="@drawable/round_button_login"
             android:text="Sign In"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +87,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
-            android:background="@color/white"
+            android:background="@drawable/round_button"
             android:drawableLeft="@drawable/google_icon"
             android:drawablePadding="15dp"
             android:paddingRight="15dp"

@@ -4,9 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable
-            name="myItemsViewModel"
-            type="com.example.resellapp.myItems.MyItemsViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,15 +13,14 @@
         android:layout_marginBottom="64dp">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="myItems"
+            android:text="add itemss!!"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addItemsButton"
@@ -34,8 +31,7 @@
             android:layout_marginBottom="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@android:drawable/ic_input_add"
-            app:tint="@android:color/white"
-            android:onClick="@{() -> myItemsViewModel.onClickAddItem()}"/>
+            app:srcCompat="@android:drawable/ic_input_get"
+            app:tint="@android:color/white"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

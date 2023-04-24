@@ -35,6 +35,14 @@ class ProfileFragment: Fragment() {
 
         binding.textView3.text = loginMethod
 
+        binding.email.text = binding.email.text.toString() + localStorege.getString("email","").toString()
+
+        if (loginMethod.equals("Google"))
+        {
+            binding.name.text = binding.name.text.toString() + localStorege.getString("name","").toString()
+        }
+
+
         binding.signOutButton.setOnClickListener{
             signOut()
         }
@@ -44,7 +52,7 @@ class ProfileFragment: Fragment() {
 
     private fun signOut() {
 
-        if (loginMethod.equals("Gmail")) {
+        if (loginMethod.equals("Google")) {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("520061377985-61t4u2n9ebhq1v0pic1rqniao43vhljv.apps.googleusercontent.com")
                 .requestEmail()

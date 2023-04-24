@@ -68,6 +68,8 @@ class LoginActivity:  AppCompatActivity() {
                 firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener{
                     if(it.isSuccessful)
                     {
+                        editor.putString("email",email)
+                        editor.apply()
                         val intent =Intent(this,NavigationActivity::class.java)
                         startActivity(intent)
 
@@ -153,8 +155,16 @@ class LoginActivity:  AppCompatActivity() {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful){
                 val intent : Intent = Intent(this , NavigationActivity::class.java)
-                intent.putExtra("email" , account.email)
-                intent.putExtra("name" , account.displayName)
+//                intent.putExtra("email" , account.email)
+//                intent.putExtra("name" , account.displayName)
+
+                val localStorege = applicationContext.getSharedPreferences("LogOption", Context.MODE_PRIVATE)
+                val editor = localStorege.edit()
+
+                editor.putString("email",account.email)
+                editor.putString("name",account.displayName)
+                editor.apply()
+
                 startActivity(intent)
             }else{
                 Toast.makeText(this, it.exception.toString() , Toast.LENGTH_SHORT).show()

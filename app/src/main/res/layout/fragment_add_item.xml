@@ -14,6 +14,65 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="64dp">
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/name"
+            android:layout_width="319dp"
+            android:layout_height="0dp"
+            android:layout_margin="50dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+<!--            app:startIconDrawable="@drawable/ic_baseline_email_24">-->
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:hint="Name" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/price"
+            android:layout_width="319dp"
+            android:layout_height="0dp"
+            android:layout_margin="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name">
+            <!--            app:startIconDrawable="@drawable/ic_baseline_email_24">-->
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/priceText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:hint="Price"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/description"
+            android:layout_width="319dp"
+            android:layout_height="0dp"
+            android:layout_margin="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/price">
+            <!--            app:startIconDrawable="@drawable/ic_baseline_email_24">-->
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descriptionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:hint="Despription" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"

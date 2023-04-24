@@ -17,6 +17,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -33,6 +35,18 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
+
+        firebaseAuth = Firebase.auth
+        val user = firebaseAuth.currentUser
+
+        if(user != null)
+        {
+//            Log.e("error", "auto login")
+            val intent = Intent(this,NavigationActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("520061377985-61t4u2n9ebhq1v0pic1rqniao43vhljv.apps.googleusercontent.com")
@@ -165,8 +179,16 @@ class SignUpActivity : AppCompatActivity() {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful){
                 val intent : Intent = Intent(this , NavigationActivity::class.java)
-                intent.putExtra("email" , account.email)
-                intent.putExtra("name" , account.displayName)
+//                intent.putExtra("email" , account.email)
+//                intent.putExtra("name" , account.displayName)
+
+                val localStorege = applicationContext.getSharedPreferences("LogOption", Context.MODE_PRIVATE)
+                val editor = localStorege.edit()
+
+                editor.putString("email",account.email)
+                editor.putString("name",account.displayName)
+                editor.apply()
+
                 startActivity(intent)
             }else{
                 Toast.makeText(this, it.exception.toString() , Toast.LENGTH_SHORT).show()

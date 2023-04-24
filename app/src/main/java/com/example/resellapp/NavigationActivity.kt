@@ -23,7 +23,14 @@ class NavigationActivity: AppCompatActivity() {
 
         setContentView(binding.root)
 
+
+        val bundle = Bundle()
+        bundle.putString("email", intent.getStringExtra("email"))
+
+
         val navController = this.findNavController(R.id.myNavHostFragment)
+
+//        navController.navigate(R.id.profileFragment,bundle)
 
         appBarConfiguration = AppBarConfiguration(
             setOf(

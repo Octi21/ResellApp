@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.example.resellapp.Item
 import com.example.resellapp.R
@@ -61,38 +59,44 @@ class MyItemsFragment: Fragment() {
 
         // onClock on xml file
 
+
+        val adapter = ItemsAdapter()
+        binding.itemsList.adapter = adapter
+
         myItemsViewModel.getItemsList().observe(viewLifecycleOwner, Observer {
             Log.e("itemsList", "${it}")
-
+            adapter.submitList(it)
         })
 
 
 
 
-        database = FirebaseDatabase.getInstance("https://androidkotlinresellapp-default-rtdb.europe-west1.firebasedatabase.app/")
-
-        dbRef = database.getReference("Items")
-
-        dbRef.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if(snapshot.exists())
-                {
-                    for(json in snapshot.children)
-                    {
-                        val data = json.getValue(Item::class.java)
-
-                        Log.e("data","${data}")
-
-                    }
-                }
 
 
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })
+//        database = FirebaseDatabase.getInstance("https://androidkotlinresellapp-default-rtdb.europe-west1.firebasedatabase.app/")
+//
+//        dbRef = database.getReference("Items")
+//
+//        dbRef.addValueEventListener(object : ValueEventListener{
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//
+//                if(snapshot.exists())
+//                {
+//                    for(json in snapshot.children)
+//                    {
+//                        val data = json.getValue(Item::class.java)
+//
+//                        Log.e("data","${data}")
+//
+//                    }
+//                }
+//
+//
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//            }
+//        })
 
         return binding.root
     }

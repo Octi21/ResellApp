@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_myItemsFragment_to_addItemFragment"
             app:destination="@id/addItemFragment" />
+        <action
+            android:id="@+id/action_myItemsFragment_to_itemDetailFragment"
+            app:destination="@id/itemDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/shoppingCartFragment"
@@ -37,6 +40,18 @@
         <action
             android:id="@+id/action_addItemFragment_to_myItemsFragment"
             app:destination="@id/myItemsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemDetailFragment"
+        android:name="com.example.resellapp.itemDetail.ItemDetailFragment"
+        android:label="ItemDetailFragment"
+        tools:layout="@layout/fragment_item_detail" >
+        <action
+            android:id="@+id/action_itemDetailFragment_to_myItemsFragment"
+            app:destination="@id/myItemsFragment" />
+        <argument
+            android:name="itemIdString"
+            app:argType="string" />
     </fragment>
 
 </navigation>

@@ -60,7 +60,29 @@ class MyItemsFragment: Fragment() {
         // onClock on xml file
 
 
-        val adapter = ItemsAdapter()
+
+
+        //nav to detail onClick
+        myItemsViewModel.navigateToItemDetail.observe(viewLifecycleOwner, Observer {
+            if (it != null)
+            {
+                val action = MyItemsFragmentDirections.actionMyItemsFragmentToItemDetailFragment(it)
+                findNavController().navigate(action)
+
+                myItemsViewModel.doneNavigatingDetails()
+            }
+        })
+
+
+        /// adapater things
+
+        val adapter = ItemsAdapter(ItemListener { itemId ->
+            Log.e("itemId","${itemId}")
+            myItemsViewModel.clickOnItem(itemId)
+        })
+
+
+
         binding.itemsList.adapter = adapter
 
         myItemsViewModel.getItemsList().observe(viewLifecycleOwner, Observer {
@@ -69,34 +91,6 @@ class MyItemsFragment: Fragment() {
         })
 
 
-
-
-
-
-//        database = FirebaseDatabase.getInstance("https://androidkotlinresellapp-default-rtdb.europe-west1.firebasedatabase.app/")
-//
-//        dbRef = database.getReference("Items")
-//
-//        dbRef.addValueEventListener(object : ValueEventListener{
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//
-//                if(snapshot.exists())
-//                {
-//                    for(json in snapshot.children)
-//                    {
-//                        val data = json.getValue(Item::class.java)
-//
-//                        Log.e("data","${data}")
-//
-//                    }
-//                }
-//
-//
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//            }
-//        })
 
         return binding.root
     }

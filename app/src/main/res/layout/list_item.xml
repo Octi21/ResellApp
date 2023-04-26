@@ -7,11 +7,15 @@
         <variable
             name="itemValue"
             type="com.example.resellapp.Item" />
+        <variable
+            name="clickListener"
+            type="com.example.resellapp.myItems.ItemListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{()-> clickListener.onClick(itemValue)}">
 
         <ImageView
             android:id="@+id/imageView2"

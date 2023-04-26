@@ -10,7 +10,7 @@ import com.example.resellapp.Item
 import com.example.resellapp.databinding.ListItemBinding
 import kotlinx.coroutines.withContext
 
-class ItemsAdapter:ListAdapter<Item,ItemsAdapter.ViewHolder>(ItemDiffCallback()) {
+class ItemsAdapter(val clickListener: ItemListener):ListAdapter<Item,ItemsAdapter.ViewHolder>(ItemDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -18,15 +18,18 @@ class ItemsAdapter:ListAdapter<Item,ItemsAdapter.ViewHolder>(ItemDiffCallback())
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)!!
-        holder.bind(item)
+        holder.bind(item, clickListener)
     }
 
 
 
     class ViewHolder private constructor(val binding: ListItemBinding): RecyclerView.ViewHolder(binding.root){
 
-        fun bind(item: Item ){
+        fun bind(item: Item, clickListener: ItemListener ){
             binding.itemValue = item
+
+            binding.clickListener  = clickListener
+
             binding.priceText.text = item.price.toString()
             binding.nameText.text = item.name.toString()
 
@@ -56,4 +59,8 @@ class ItemDiffCallback: DiffUtil.ItemCallback<Item>(){
     override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
         return oldItem == newItem
     }
+}
+
+class ItemListener(val clickListener: (itemId: String?) -> Unit){
+    fun onClick(item: Item) = clickListener(item.id)
 }

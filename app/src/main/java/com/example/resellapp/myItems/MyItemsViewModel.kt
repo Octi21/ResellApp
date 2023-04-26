@@ -24,6 +24,10 @@ class MyItemsViewModel: ViewModel() {
     val navigateToAddItem: LiveData<Boolean?>
         get() = _navigateToAddItem
 
+    private val _navigateToItemDetail = MutableLiveData<String?>()
+    val navigateToItemDetail: LiveData<String?>
+        get() = _navigateToItemDetail
+
 
     override fun onCleared() {
         super.onCleared()
@@ -70,37 +74,15 @@ class MyItemsViewModel: ViewModel() {
         return itemList
     }
 
+    fun clickOnItem(id: String?){
+        _navigateToItemDetail.value = id
 
+    }
 
+    fun doneNavigatingDetails(){
+        _navigateToItemDetail.value = null
+    }
 
-//    fun getItemsFromDatabase() {
-//        // Call the modified version of the getYourItems() function
-//        getYourItems { items ->
-//            // Set the value of the MutableLiveData variable to the retrieved items
-//            this.items = items
-//
-//        }
-//    }
-//
-//    fun getYourItems(callback: (MutableList<Item?>) -> Unit) {
-//        val list: MutableList<Item?> = mutableListOf()
-//
-//        dbRef.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                if(snapshot.exists()) {
-//                    for(json in snapshot.children) {
-//                        val data = json.getValue(Item::class.java)
-//                        list.add(data)
-//                        Log.e("data", "${data}")
-//                    }
-//                }
-//                callback(list)
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//            }
-//        })
-//    }
 
 
 }

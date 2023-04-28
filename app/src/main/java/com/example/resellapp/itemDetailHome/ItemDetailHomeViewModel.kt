@@ -68,7 +68,7 @@ class ItemDetailHomeViewModel(
                     var ok = 1
                     for(elem in items)
                     {
-                        if(elem.id.equals(_item.value!!.id))
+                        if(_item.value != null && elem.id.equals(_item.value!!.id))
                         {
                             ok =0
                         }

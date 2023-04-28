@@ -2,6 +2,7 @@ package com.example.resellapp.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,7 @@ import kotlinx.coroutines.withContext
 
 class ItemsHomeAdapter(val clickListener: ItemHomeListener):ListAdapter<Item,ItemsHomeAdapter.ViewHolder>(ItemDiffCallback()) {
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
@@ -20,6 +22,11 @@ class ItemsHomeAdapter(val clickListener: ItemHomeListener):ListAdapter<Item,Ite
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)!!
         holder.bind(item, clickListener)
+    }
+
+    fun setFilteredList(mList: List<Item>){
+        submitList(mList)
+        notifyDataSetChanged()
     }
 
 

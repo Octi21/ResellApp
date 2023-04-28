@@ -5,15 +5,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.resellapp.Item
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentHomeBinding
 import com.example.resellapp.myItems.ItemListener
 import com.example.resellapp.myItems.MyItemsFragmentDirections
+import java.util.*
+import kotlin.collections.ArrayList
 
 class HomeFragment: Fragment() {
 
@@ -60,6 +65,38 @@ class HomeFragment: Fragment() {
         })
 
 
+        //search bar
+        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText!= null)
+                {
+                    val filteredList = ArrayList<Item>()
+                    for (i in homeViewModel.getItemsList().value!!) {
+                        if (i.name!!.lowercase(Locale.ROOT).contains(newText)) {
+                            filteredList.add(i)
+                        }
+                    }
+
+                    if (filteredList.isEmpty()) {
+                        Toast.makeText(requireContext(), "No Data found", Toast.LENGTH_SHORT).show()
+                    } else {
+                        adapter.setFilteredList(filteredList)
+                    }
+                }
+                return true
+            }
+
+        })
+
+
         return binding.root
     }
+
+
+
 }
+

@@ -7,15 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentHomeBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.example.resellapp.myItems.ItemListener
+import com.example.resellapp.myItems.MyItemsFragmentDirections
 
 class HomeFragment: Fragment() {
 
-    private lateinit var firebaseAuth: FirebaseAuth
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -23,14 +24,40 @@ class HomeFragment: Fragment() {
         val binding: FragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false)
 
 
-//        firebaseAuth = Firebase.auth
-//        val user = firebaseAuth.currentUser
-//
-//        val uid = user?.uid
-////        val name = user?.
-//
-//        Log.e("userInfo","${uid}")
+        val viewModelFactory = HomeViewModelFactory()
 
+        val homeViewModel = ViewModelProvider(this,viewModelFactory).get(HomeViewModel::class.java)
+
+        binding.homeViewModel = homeViewModel
+
+
+
+        //nav to detail onClick
+        homeViewModel.navigateToItemDetail.observe(viewLifecycleOwner, Observer {
+            if (it != null)
+            {
+                val action = HomeFragmentDirections.actionHomeFragmentToItemDetailHomeFragment(it)
+                findNavController().navigate(action)
+
+                homeViewModel.doneNavigatingDetails()
+            }
+        })
+
+
+        //adapter
+
+        val adapter = ItemsHomeAdapter(ItemHomeListener { itemId ->
+            Log.e("itemId","${itemId}")
+            homeViewModel.clickOnItem(itemId)
+        })
+
+
+        binding.itemsList.adapter = adapter
+
+        homeViewModel.getItemsList().observe(viewLifecycleOwner, Observer {
+            Log.e("itemsList", "${it}")
+            adapter.submitList(it)
+        })
 
 
         return binding.root

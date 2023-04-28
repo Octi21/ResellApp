@@ -1,17 +1,15 @@
-package com.example.resellapp.myItems
+package com.example.resellapp.home
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.resellapp.Item
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 
-class MyItemsViewModel: ViewModel() {
-
+class HomeViewModel: ViewModel() {
 
     private var database: FirebaseDatabase =  FirebaseDatabase.getInstance("https://androidkotlinresellapp-default-rtdb.europe-west1.firebasedatabase.app/")
 
@@ -20,26 +18,17 @@ class MyItemsViewModel: ViewModel() {
     private  var userId = Firebase.auth.currentUser!!.uid
 
 
+    private val _navigateToItemDetail = MutableLiveData<String?>()
+    val navigateToItemDetail: LiveData<String?>
+        get() = _navigateToItemDetail
+
     private val _itemsList = MutableLiveData<List<Item>>()
     val itemList: LiveData<List<Item>>
         get() = _itemsList
 
 
-    private val _navigateToAddItem = MutableLiveData<Boolean?>()
-    val navigateToAddItem: LiveData<Boolean?>
-        get() = _navigateToAddItem
-
-    private val _navigateToItemDetail = MutableLiveData<String?>()
-    val navigateToItemDetail: LiveData<String?>
-        get() = _navigateToItemDetail
-
-
-    override fun onCleared() {
-        super.onCleared()
-    }
-
-    init {
-        dbRef.addValueEventListener(object : ValueEventListener{
+    init{
+        dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists())
                 {
@@ -50,7 +39,7 @@ class MyItemsViewModel: ViewModel() {
                         Log.e("item","${item!!.userId}")
                         Log.e("item","${userId}")
 
-                        if(userId!!.equals(item!!.userId) )
+                        if(!userId!!.equals(item!!.userId) )
                         {
                             Log.e("item","${item}")
                             item?.let{
@@ -78,16 +67,6 @@ class MyItemsViewModel: ViewModel() {
         return itemList
     }
 
-    fun onClickAddItem()
-    {
-        _navigateToAddItem.value = true
-    }
-
-    fun doneNavigating(){
-        _navigateToAddItem.value = false
-    }
-
-
 
     fun clickOnItem(id: String?){
         _navigateToItemDetail.value = id
@@ -97,7 +76,6 @@ class MyItemsViewModel: ViewModel() {
     fun doneNavigatingDetails(){
         _navigateToItemDetail.value = null
     }
-
 
 
 }

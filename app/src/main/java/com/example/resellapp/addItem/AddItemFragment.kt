@@ -20,8 +20,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.resellapp.Item
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentAddItemBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
@@ -30,6 +33,9 @@ class AddItemFragment: Fragment() {
     private lateinit var binding: FragmentAddItemBinding
 
     private lateinit var database: FirebaseDatabase
+
+    private lateinit var firebaseAuth: FirebaseAuth
+
 
     private lateinit var dbRef: DatabaseReference
 
@@ -167,7 +173,7 @@ class AddItemFragment: Fragment() {
                     val url = it.toString()
                     Log.e("photolink","$url")
 
-                    val item = Item(itemId,name,price2,description,url)
+                    val item = Item(itemId,name,price2,description,url, Firebase.auth.currentUser!!.uid)
 
                     dbRef.child(itemId).setValue(item).addOnCompleteListener{
                         Toast.makeText(requireContext(),"Data inserted Success", Toast.LENGTH_LONG).show()

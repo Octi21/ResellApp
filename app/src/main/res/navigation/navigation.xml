@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.example.resellapp.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_itemDetailHomeFragment"
+            app:destination="@id/itemDetailHomeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/myItemsFragment"
         android:name="com.example.resellapp.myItems.MyItemsFragment"
@@ -49,6 +53,18 @@
         <action
             android:id="@+id/action_itemDetailFragment_to_myItemsFragment"
             app:destination="@id/myItemsFragment" />
+        <argument
+            android:name="itemIdString"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemDetailHomeFragment"
+        android:name="com.example.resellapp.itemDetailHome.ItemDetailHomeFragment"
+        android:label="ItemDetailHomeFragment"
+        tools:layout="@layout/fragment_item_detail_home">
+        <action
+            android:id="@+id/action_itemDetailHomeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
         <argument
             android:name="itemIdString"
             app:argType="string" />

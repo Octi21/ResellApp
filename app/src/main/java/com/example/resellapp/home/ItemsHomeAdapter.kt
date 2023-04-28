@@ -26,7 +26,7 @@ class ItemsHomeAdapter(val clickListener: ItemHomeListener):ListAdapter<Item,Ite
 
     fun setFilteredList(mList: List<Item>){
         submitList(mList)
-        notifyDataSetChanged()
+//        notifyDataSetChanged()
     }
 
 

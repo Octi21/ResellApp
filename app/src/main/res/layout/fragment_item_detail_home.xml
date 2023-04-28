@@ -75,6 +75,7 @@
             android:layout_marginBottom="16dp"
             android:text="Add To Cart"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="@{() -> itemDetailHomeViewModel.addItemToYourCart()}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

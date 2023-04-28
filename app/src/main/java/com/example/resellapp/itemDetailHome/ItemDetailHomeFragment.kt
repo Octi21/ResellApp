@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -58,6 +59,18 @@ class ItemDetailHomeFragment: Fragment(){
 
             }
         })
+
+
+
+        itemDetailHomeViewModel.showToast.observe(viewLifecycleOwner, Observer {
+            if(it == true){
+                Toast.makeText(requireContext(),"Already added",Toast.LENGTH_SHORT).show()
+                itemDetailHomeViewModel.doneToast()
+            }
+        })
+        //onClick on xml
+
+
 
 
 

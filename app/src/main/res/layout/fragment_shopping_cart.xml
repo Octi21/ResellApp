@@ -4,6 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <variable
+            name="shoppingCartViewModel"
+            type="com.example.resellapp.shoppingCart.ShoppingCartViewModel" />
 
     </data>
 
@@ -11,6 +14,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="64dp">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/itemsList"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/buyButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/textView3"
@@ -21,5 +38,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
+            android:text="Buy"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="@{() -> shoppingCartViewModel.buyItemFromCart()}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -39,9 +41,11 @@ class AddItemFragment: Fragment() {
 
     private lateinit var dbRef: DatabaseReference
 
-    private lateinit var storRef: StorageReference
+    private lateinit var storeRef: StorageReference
 
     private val pickImage = 100
+    private val pickCamera = 200
+
     private var imageUri: Uri? = null
 
 
@@ -80,12 +84,34 @@ class AddItemFragment: Fragment() {
 
         dbRef = database.getReference("Items")
 
-        storRef = FirebaseStorage.getInstance("gs://androidkotlinresellapp.appspot.com").getReference("Images")
+        storeRef = FirebaseStorage.getInstance("gs://androidkotlinresellapp.appspot.com").getReference("Images")
 
 
         binding.addImage.setOnClickListener{
-            val galery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-            startActivityForResult(galery, pickImage)
+//            val galery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+//            startActivityForResult(galery, pickImage)
+
+//            val camera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//            startActivityForResult(camera, CAMERA_REQUEST_CODE)
+
+            val options = arrayOf<CharSequence>("Camera", "Gallery")
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Choose an option")
+            builder.setItems(options) { _, which ->
+                when (which) {
+                    0 -> {
+                        // Camera option selected
+                        val camera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        startActivityForResult(camera, pickCamera)
+                    }
+                    1 -> {
+                        // Gallery option selected
+                        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+                        startActivityForResult(gallery, pickImage)
+                    }
+                }
+            }
+            builder.show()
         }
 
 
@@ -108,9 +134,24 @@ class AddItemFragment: Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == pickImage) {
-            imageUri = data?.data
-            binding.addImage.setImageURI(imageUri)
+//        if (resultCode == RESULT_OK && requestCode == pickImage) {
+//            imageUri = data?.data
+//            binding.addImage.setImageURI(imageUri)
+//        }
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                pickCamera -> {
+                    // Camera activity result
+                    val image = data?.extras?.get("data") as Bitmap
+                    binding.addImage.setImageBitmap(image)
+                    // TODO: Save the image to storage
+                }
+                pickImage -> {
+                    // Gallery activity result
+                    imageUri = data?.data
+                    binding.addImage.setImageURI(imageUri)
+                }
+            }
         }
     }
 
@@ -160,7 +201,7 @@ class AddItemFragment: Fragment() {
             progressDialog.show()
 
 
-            val imageRef = storRef.child(System.currentTimeMillis().toString() + ".jpg")
+            val imageRef = storeRef.child(System.currentTimeMillis().toString() + ".jpg")
 
             imageRef.putFile(imageUri!!).addOnSuccessListener {
 
@@ -208,17 +249,6 @@ class AddItemFragment: Fragment() {
         }
 
 
-
-//        val itemId = dbRef.push().key!!
-//
-//        val item = Item(itemId,name,price2,description)
-//
-//        dbRef.child(itemId).setValue(item).addOnCompleteListener{
-//                Toast.makeText(requireContext(),"Data inserted Success", Toast.LENGTH_LONG).show()
-//        }.addOnFailureListener {
-//            Toast.makeText(requireContext(),"Error ${it.message}", Toast.LENGTH_LONG).show()
-//
-//        }
 
         Log.e("finished","yes")
 

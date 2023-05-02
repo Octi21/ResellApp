@@ -43,7 +43,8 @@ class HomeViewModel: ViewModel() {
                         {
                             Log.e("item","${item}")
                             item?.let{
-                                items.add(it)
+                                if(it.bought != true)
+                                    items.add(it)
                             }
                         }
 

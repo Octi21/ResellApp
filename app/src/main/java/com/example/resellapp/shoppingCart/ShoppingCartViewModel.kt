@@ -7,10 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.resellapp.Item
 import com.example.resellapp.User
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 
@@ -19,6 +16,9 @@ class ShoppingCartViewModel: ViewModel() {
     private var database: FirebaseDatabase =  FirebaseDatabase.getInstance("https://androidkotlinresellapp-default-rtdb.europe-west1.firebasedatabase.app/")
 
     private  var userId = Firebase.auth.currentUser!!.uid
+
+    private var itemsRef: DatabaseReference = database.getReference("Items")
+
 
     private val _itemsList = MutableLiveData<List<Item>>()
     val itemList: LiveData<List<Item>>
@@ -32,8 +32,8 @@ class ShoppingCartViewModel: ViewModel() {
 
 
                 if (user!!.items != null) {
-                    _itemsList.value = user!!.items?.map {
-                        it
+                    _itemsList.value = user!!.items?.filter {
+                        it.bought != true
                     }
                 }
             }
@@ -64,7 +64,6 @@ class ShoppingCartViewModel: ViewModel() {
 
                 user?.items = items.toList()
 
-//                Log.e("newUser","${user}")
 
                 userRef.setValue(user)
 
@@ -83,8 +82,36 @@ class ShoppingCartViewModel: ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue<User>(User::class.java)
 
+                val idList: MutableList<String> = mutableListOf()
+
+                user?.items?.forEach {
+                    it.bought = true
+                    idList.add(it.id!!)
+                    user?.boughtItems = user?.boughtItems?.plus(it)
+                    Log.e("boughtIthem","${user?.boughtItems}")
+                }
+                Log.e("boughtIthem","${user?.boughtItems}")
+
 
                 user?.items = emptyList()
+
+                for(id in idList)
+                {
+                    Log.e("id","${id}")
+                    itemsRef.child(id).child("bought").setValue(true)
+                }
+
+                //                itemsRef.addListenerForSingleValueEvent(object :ValueEventListener{
+//                    override fun onDataChange(snapshot: DataSnapshot) {
+//                        TODO("Not yet implemented")
+//                    }
+//
+//                    override fun onCancelled(error: DatabaseError) {
+//                        Log.e("errorMakeBought","${error}")
+//                    }
+//                })
+
+
 
 //                Log.e("newUser","${user}")
 

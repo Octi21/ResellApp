@@ -6,5 +6,6 @@ data class Item(
     var price: Float? = null,
     var description: String? = null,
     var imageUrl: String? = null,
-    var userId: String? = null
+    var userId: String? = null,
+    var bought: Boolean? = false
 )

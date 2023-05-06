@@ -113,6 +113,7 @@ class ShoppingCartViewModel: ViewModel() {
 
                             }
 
+
                             override fun onCancelled(error: DatabaseError) {
                                 Log.e("notificationError", error.toString())
                             }

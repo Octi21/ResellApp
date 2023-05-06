@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -29,6 +30,8 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.io.File
+import java.io.FileOutputStream
 
 class AddItemFragment: Fragment() {
 
@@ -144,12 +147,27 @@ class AddItemFragment: Fragment() {
                     // Camera activity result
                     val image = data?.extras?.get("data") as Bitmap
                     binding.addImage.setImageBitmap(image)
-                    // TODO: Save the image to storage
+
+                    val file = File(requireContext().externalCacheDir, "camera_image.jpg")
+                    try {
+                        val fos = FileOutputStream(file)
+                        image.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                        fos.flush()
+                        fos.close()
+                        imageUri = Uri.fromFile(file)
+                        binding.addImage.setImageURI(imageUri)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                    Log.e("imageUri","$imageUri")
+
+
                 }
                 pickImage -> {
                     // Gallery activity result
                     imageUri = data?.data
                     binding.addImage.setImageURI(imageUri)
+//                    Log.e("imageUri","$imageUri")
                 }
             }
         }

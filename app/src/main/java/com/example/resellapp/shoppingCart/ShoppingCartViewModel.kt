@@ -6,10 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.resellapp.Item
 import com.example.resellapp.User
+import com.example.resellapp.notification.NotificationData
+import com.example.resellapp.notification.PushNotification
+import com.example.resellapp.notification.RetrofitInstance
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ShoppingCartViewModel: ViewModel() {
 
@@ -84,12 +91,42 @@ class ShoppingCartViewModel: ViewModel() {
 
                 val idList: MutableList<String> = mutableListOf()
 
-                user?.items?.forEach {
-                    it.bought = true
-                    idList.add(it.id!!)
-                    user?.boughtItems = user?.boughtItems?.plus(it)
-                    Log.e("boughtIthem","${user?.boughtItems}")
+                if(user?.items != null)
+                {
+                    user?.items?.forEach {
+
+                        // pushnotification to the items user
+                        val notifIdRef = database.getReference("Users").child(it.userId!!).child("notificationId")
+                        notifIdRef.addListenerForSingleValueEvent(object :ValueEventListener{
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                val notificationId = snapshot.getValue(String::class.java)
+                                Log.e("notificationId",notificationId.toString())
+                                if(notificationId != null) {
+
+                                    PushNotification(
+                                        NotificationData("Sold item", "Someone Bought ${it.name}"),
+                                        notificationId
+                                    ).also {
+                                        sendNotification(it)
+                                    }
+                                }
+
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.e("notificationError", error.toString())
+                            }
+                        })
+
+
+
+                        it.bought = true
+                        idList.add(it.id!!)
+                        user?.boughtItems = user?.boughtItems?.plus(it)
+                        Log.e("boughtIthem","${user?.boughtItems}")
+                    }
                 }
+
                 Log.e("boughtIthem","${user?.boughtItems}")
 
 
@@ -101,19 +138,6 @@ class ShoppingCartViewModel: ViewModel() {
                     itemsRef.child(id).child("bought").setValue(true)
                 }
 
-                //                itemsRef.addListenerForSingleValueEvent(object :ValueEventListener{
-//                    override fun onDataChange(snapshot: DataSnapshot) {
-//                        TODO("Not yet implemented")
-//                    }
-//
-//                    override fun onCancelled(error: DatabaseError) {
-//                        Log.e("errorMakeBought","${error}")
-//                    }
-//                })
-
-
-
-//                Log.e("newUser","${user}")
 
                 userRef.setValue(user)
 
@@ -123,5 +147,26 @@ class ShoppingCartViewModel: ViewModel() {
                 Log.e("cartdelete","${error}")
             }
         })
+    }
+    fun sendNotifTo() {
+        PushNotification(
+            NotificationData("Sold item", "Someone Bought your item"),
+            "ftocnU-YR3eg1oc7WvWL8w:APA91bEgvfkSKx0tkier2g6iBk1jzlKQJatFwgb63tWXomrsABkODT8yAjfXlp_WVHouEj4YuXGAULuwVH00R0QLt1syHqqCWiga9cKpvvA4Tdazwx3r-xNQFyQCDk55sxROyA3hySSg"
+        ).also {
+            sendNotification(it)
+        }
+    }
+
+    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val response = RetrofitInstance.api.postNotification(notification)
+            if(response.isSuccessful) {
+                Log.e("notif", "Response: ${Gson().toJson(response)}")
+            } else {
+                Log.e("notif2", response.code().toString())
+            }
+        } catch(e: Exception) {
+            Log.e("notif3", e.toString())
+        }
     }
 }

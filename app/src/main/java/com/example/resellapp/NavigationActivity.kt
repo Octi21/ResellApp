@@ -11,7 +11,10 @@ import com.example.resellapp.databinding.ActivityNavigationBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+
 
 class NavigationActivity: AppCompatActivity() {
 
@@ -45,6 +48,15 @@ class NavigationActivity: AppCompatActivity() {
 
 
 
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+
+            if(it.isSuccessful)
+                Log.e("notif id", it.result.toString())
+        }
+
+
+
         firebaseAuth = Firebase.auth
         val user = firebaseAuth.currentUser
 
@@ -62,12 +74,33 @@ class NavigationActivity: AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.hasChild(uid))
                 {
+                    val user = dataSnapshot.child(uid).getValue(User::class.java)
+                    if(user!!.notificationId == null)
+                    {
+                        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+                            if(it.isSuccessful)
+                            {
+                                user.notificationId =  it.result
+                                dbRef.child(uid).setValue(user)
+                            }
+                        }
+
+
+                    }
 
                 }
                 else
                 {
-                    val user = User(uid,name,email)
-                    dbRef.child(uid).setValue(user)
+                    FirebaseMessaging.getInstance().token.addOnCompleteListener {
+                        if(it.isSuccessful)
+                        {
+                            val notif = it.result
+                            val user = User(uid,name,email,notif)
+                            dbRef.child(uid).setValue(user)
+                        }
+                    }
+//                    val user = User(uid,name,email)
+//                    dbRef.child(uid).setValue(user)
                 }
             }
 

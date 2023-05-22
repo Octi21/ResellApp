@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentItemDetailBinding
 
+
 class ItemDetailFragment: Fragment() {
 
     private lateinit var binding: FragmentItemDetailBinding
@@ -49,7 +50,10 @@ class ItemDetailFragment: Fragment() {
                 binding.name.text = it.name
                 binding.price.text = it.price.toString()
 
-                Glide.with(binding.root.context).load(it.imageUrl).into(binding.imageView)
+                Glide.with(binding.root.context)
+                    .load(it.imageUrl)
+                    .override(400,300)
+                    .into(binding.imageView)
 
             }
         })

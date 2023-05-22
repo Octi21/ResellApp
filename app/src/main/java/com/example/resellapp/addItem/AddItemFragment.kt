@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -30,8 +32,10 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.yalantis.ucrop.UCrop
 import java.io.File
 import java.io.FileOutputStream
+
 
 class AddItemFragment: Fragment() {
 
@@ -50,6 +54,12 @@ class AddItemFragment: Fragment() {
     private val pickCamera = 200
 
     private var imageUri: Uri? = null
+
+    private val contract = registerForActivityResult(ActivityResultContracts.TakePicture()){
+        binding.addImage.setImageURI(null)
+        binding.addImage.setImageURI(imageUri)
+        cropImage(imageUri!!)
+    }
 
 
 
@@ -104,8 +114,10 @@ class AddItemFragment: Fragment() {
                 when (which) {
                     0 -> {
                         // Camera option selected
-                        val camera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        startActivityForResult(camera, pickCamera)
+//                        val camera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//                        startActivityForResult(camera, pickCamera)
+                        imageUri = createImageUri()!!
+                        contract.launch(imageUri)
                     }
                     1 -> {
                         // Gallery option selected
@@ -135,6 +147,14 @@ class AddItemFragment: Fragment() {
     }
 
 
+
+    private fun createImageUri(): Uri?{
+        val image = File(requireContext().applicationContext.filesDir, "camera_image.png")
+        return FileProvider.getUriForFile(requireContext().applicationContext,"com.example.resellapp.fileProvider",
+            image)
+
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 //        if (resultCode == RESULT_OK && requestCode == pickImage) {
@@ -143,36 +163,61 @@ class AddItemFragment: Fragment() {
 //        }
         if (resultCode == RESULT_OK) {
             when (requestCode) {
-                pickCamera -> {
-                    // Camera activity result
-                    val image = data?.extras?.get("data") as Bitmap
-                    binding.addImage.setImageBitmap(image)
-
-                    val file = File(requireContext().externalCacheDir, "camera_image.jpg")
-                    try {
-                        val fos = FileOutputStream(file)
-                        image.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-                        fos.flush()
-                        fos.close()
-                        imageUri = Uri.fromFile(file)
-                        binding.addImage.setImageURI(imageUri)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                    Log.e("imageUri","$imageUri")
-
-
-                }
+//                pickCamera -> {
+//                    // Camera activity result
+//                    val image = data?.extras?.get("data") as Bitmap
+//
+//                    // Save the image to a file
+//                    val file = File(requireContext().externalCacheDir, "camera_image.png")
+//                    val fos = FileOutputStream(file)
+//                    image.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+//                    fos.flush()
+//                    fos.close()
+//
+//                    // Load the saved image from file
+//                    val savedImage = BitmapFactory.decodeFile(file.path)
+//
+//                    // Display the loaded image
+//                    binding.addImage.setImageBitmap(savedImage)
+//
+//                    imageUri = Uri.fromFile(file)
+//                    binding.addImage.setImageURI(imageUri)
+//
+//                    cropImage(imageUri!!)
+//
+//                }
                 pickImage -> {
                     // Gallery activity result
                     imageUri = data?.data
-                    binding.addImage.setImageURI(imageUri)
+//                    binding.addImage.setImageURI(imageUri)
 //                    Log.e("imageUri","$imageUri")
+
+                    cropImage(imageUri!!)
+                }
+                UCrop.REQUEST_CROP -> {
+                    // Crop activity result
+                    val croppedUri = UCrop.getOutput(data!!)
+                    if (croppedUri != null) {
+                        // Do something with the cropped image Uri
+                        imageUri = croppedUri
+                        binding.addImage.setImageURI(croppedUri)
+                    } else {
+                        // Handle crop error
+                        Toast.makeText(requireContext(), "Failed to crop image", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
     }
 
+    private fun cropImage(imageUri: Uri) {
+        // Specify the destination Uri for the cropped image
+        val destinationUri = Uri.fromFile(File(requireContext().cacheDir, "cropped_image.jpg"))
+
+        UCrop.of(imageUri, destinationUri)
+            .withAspectRatio(4f, 3f) // Set the desired aspect ratio (4:3 in this case)
+            .start(requireContext(), this)
+    }
 
 
 

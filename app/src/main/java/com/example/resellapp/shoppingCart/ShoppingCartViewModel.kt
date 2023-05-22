@@ -152,7 +152,7 @@ class ShoppingCartViewModel: ViewModel() {
     fun sendNotifTo() {
         PushNotification(
             NotificationData("Sold item", "Someone Bought your item"),
-            "ftocnU-YR3eg1oc7WvWL8w:APA91bEgvfkSKx0tkier2g6iBk1jzlKQJatFwgb63tWXomrsABkODT8yAjfXlp_WVHouEj4YuXGAULuwVH00R0QLt1syHqqCWiga9cKpvvA4Tdazwx3r-xNQFyQCDk55sxROyA3hySSg"
+            "dwEEpQezTeesSLmu9oV7Ah:APA91bG785ltVpPjCy6J02mI7kgZmkB3kPvUa5KC1gPua8zvVEoRZukMuITgao-dVizgOt9VYvi1LIZIbUfG2uas6yGRl0FXrSWQ8xu8vY8TAXc8sM4eFMnktZDVb0kfSBm-jW6TWvG4"
         ).also {
             sendNotification(it)
         }

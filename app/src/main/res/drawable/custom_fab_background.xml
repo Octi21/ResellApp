@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#45454141" /> <!-- Change the background color here -->
+    <size android:width="30dp" android:height="30dp" /> <!-- Change the size of the background here -->
+    <corners android:radius="28dp" /> <!-- Adjust the corner radius as needed -->
+</shape>

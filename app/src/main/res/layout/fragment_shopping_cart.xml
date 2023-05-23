@@ -57,6 +57,7 @@
             android:text="notif"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{() -> shoppingCartViewModel.sendNotifTo()}"/>
+            android:onClick="@{() -> shoppingCartViewModel.sendNotifTo()}"
+            android:visibility="gone"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

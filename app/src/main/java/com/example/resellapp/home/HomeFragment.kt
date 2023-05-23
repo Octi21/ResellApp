@@ -5,8 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,10 +17,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.resellapp.Item
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentHomeBinding
-import com.example.resellapp.myItems.ItemListener
-import com.example.resellapp.myItems.MyItemsFragmentDirections
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class HomeFragment: Fragment() {
 
@@ -91,6 +91,7 @@ class HomeFragment: Fragment() {
             }
 
         })
+
 
 
         return binding.root

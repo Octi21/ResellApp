@@ -49,6 +49,7 @@ class ItemDetailFragment: Fragment() {
             if (it != null) {
                 binding.name.text = it.name
                 binding.price.text = it.price.toString()
+                binding.description.text = it.description
 
                 Glide.with(binding.root.context)
                     .load(it.imageUrl)

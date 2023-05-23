@@ -81,8 +81,6 @@ class MyItemsFragment: Fragment() {
             myItemsViewModel.clickOnItem(itemId)
         })
 
-
-
         binding.itemsList.adapter = adapter
 
         myItemsViewModel.getItemsList().observe(viewLifecycleOwner, Observer {
@@ -90,7 +88,9 @@ class MyItemsFragment: Fragment() {
             adapter.submitList(it)
         })
 
-        val adapter2 =  ItemsAdapter(ItemListener { itemId ->
+
+
+        val adapter2 =  BoughtItemsAdapter(ItemListener2 { itemId ->
             Log.e("itemId","${itemId}")
             myItemsViewModel.clickOnItem(itemId)
         })

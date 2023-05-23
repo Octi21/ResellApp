@@ -1,7 +1,17 @@
 package com.example.resellapp.itemDetailHome
 
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.FileProvider
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,9 +21,13 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class ItemDetailHomeViewModel(
-    private val itemId: String = ""):  ViewModel(){
+    private val itemId: String = ""
+):  ViewModel(){
 
     private var database: FirebaseDatabase =  FirebaseDatabase.getInstance("https://androidkotlinresellapp-default-rtdb.europe-west1.firebasedatabase.app/")
 
@@ -97,6 +111,7 @@ class ItemDetailHomeViewModel(
     fun doneToast(){
         _showToast.value = false
     }
+
 
 
 }

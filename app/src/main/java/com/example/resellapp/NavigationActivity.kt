@@ -111,9 +111,11 @@ class NavigationActivity: AppCompatActivity() {
 
 
 
+
+        /// navigation
+
         val navController = this.findNavController(R.id.myNavHostFragment)
 
-//        navController.navigate(R.id.profileFragment,bundle)
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -122,9 +124,15 @@ class NavigationActivity: AppCompatActivity() {
         )
 
 
-//        NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration)
 
         NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
+
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            NavigationUI.onNavDestinationSelected(it, navController)
+
+            return@setOnItemSelectedListener true
+        }
+
 
     }
 }

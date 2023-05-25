@@ -110,11 +110,15 @@ class SignUpActivity : AppCompatActivity() {
             binding.inputEmail.error = "This field is required"
             return false
         }
+        binding.inputEmail.error = null
+
+
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
         {
             binding.inputEmail.error = "Incorrect email format"
             return false
         }
+        binding.inputEmail.error = null
 
 
         if(password == "")
@@ -123,19 +127,26 @@ class SignUpActivity : AppCompatActivity() {
             binding.inputPassword.endIconDrawable = null
             return false
         }
+        binding.inputPassword.error = null
+
+
         if(password2 == "")
         {
             binding.inputPassword2.error = "This field is required"
             binding.inputPassword2.endIconDrawable = null
             return false
         }
+        binding.inputPassword2.error = null
+
 
         if(binding.inputPasswordText.length() <6)
         {
-            binding.inputPassword2.error = "Required la least 6 characters"
+            binding.inputPassword2.error = "Required at least 6 characters"
             binding.inputPassword.endIconDrawable = null
             return false
         }
+        binding.inputPassword2.error = null
+
 
         if(password != password2)
         {
@@ -143,6 +154,8 @@ class SignUpActivity : AppCompatActivity() {
 
             return false
         }
+        binding.inputPassword.error = null
+
 
         return true
     }

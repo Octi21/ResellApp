@@ -1,6 +1,8 @@
 package com.example.resellapp.itemDetail
 
+
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -50,9 +52,41 @@ class ItemDetailViewModel(
         _navToMyItems.value = true
     }
 
+
+
     fun doneNavigating(){
         _navToMyItems.value = null
     }
+
+//    fun viewDeleteButton(): Int{
+//        dbRef.child(itemId).child("bought").addListenerForSingleValueEvent(object : ValueEventListener{
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                val boughtValue = snapshot.value
+//                if(boughtValue == true)
+//                {
+//                    return View.VISIBLE
+//                }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//            }
+//        })
+//        Log.e("true","${}")
+//        if(_item.value?.bought == true)
+//        {
+////            Log.e("true","${_item.value?.bought}")
+//            return View.VISIBLE
+//        }
+////        Log.e("false","${_item.value?.bought}")
+//        return View.GONE
+//    }
+
+    fun deleteItem() {
+        dbRef.child(itemId).removeValue()
+        _navToMyItems.value = true
+    }
+
+
 
 
 }

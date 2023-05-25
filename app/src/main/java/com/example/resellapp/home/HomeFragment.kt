@@ -82,7 +82,8 @@ class HomeFragment: Fragment() {
                     }
 
                     if (filteredList.isEmpty()) {
-                        Toast.makeText(requireContext(), "No Data found", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(requireContext(), "No Data found", Toast.LENGTH_SHORT).show()
+                        adapter.setFilteredList(filteredList)
                     } else {
                         adapter.setFilteredList(filteredList)
                     }

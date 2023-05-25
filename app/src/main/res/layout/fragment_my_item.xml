@@ -23,7 +23,7 @@
             android:fontFamily="sans-serif-condensed-light"
             android:text="My Items"
             android:textColor="@color/black"
-            android:textSize="20dp"
+            android:textSize="24dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -67,6 +67,8 @@
             android:layout_marginTop="32dp"
             android:fontFamily="sans-serif-medium"
             android:text="Bought Items"
+            android:textSize="24dp"
+
             android:textAlignment="textEnd"
             android:textColor="#000000"
             android:textStyle="bold"

@@ -58,6 +58,7 @@ class ProfileFragment: Fragment() {
                 .requestEmail()
                 .build()
 
+            FirebaseAuth.getInstance().signOut()
             val googlesigninclient = GoogleSignIn.getClient(requireContext(), gso)
             googlesigninclient.signOut()
 

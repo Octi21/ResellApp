@@ -28,6 +28,9 @@ import com.example.resellapp.itemDetail.ItemDetailViewModelFactory
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
 
 class ItemDetailHomeFragment: Fragment(){
 
@@ -63,7 +66,12 @@ class ItemDetailHomeFragment: Fragment(){
             Log.e("item","${it}")
             if (it != null) {
                 binding.name.text = it.name
-                binding.price.text = it.price.toString()
+
+                val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+                formatter.applyPattern("#,##0.##")
+                val formattedNumber = formatter.format(it.price)
+
+                binding.price.text = formattedNumber.toString() + "$"
                 binding.description.text = it.description
 
 
@@ -89,8 +97,8 @@ class ItemDetailHomeFragment: Fragment(){
             val imageUri = getImageUri(binding.imageView)
             val text = "Check out this item\n" +
                     "Name: ${binding.name.text} \n" +
-                    "Price: ${binding.price} \n" +
-                    "Description: ${binding.description} \n"
+                    "Price: ${binding.price.text} \n" +
+                    "Description: ${binding.description.text} \n"
             sharePhotoAndText(imageUri!!, text)
 
         }

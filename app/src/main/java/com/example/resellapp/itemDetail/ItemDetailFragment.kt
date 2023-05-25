@@ -1,5 +1,7 @@
 package com.example.resellapp.itemDetail
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +20,7 @@ import com.example.resellapp.databinding.FragmentItemDetailBinding
 class ItemDetailFragment: Fragment() {
 
     private lateinit var binding: FragmentItemDetailBinding
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +54,16 @@ class ItemDetailFragment: Fragment() {
                 binding.price.text = it.price.toString()
                 binding.description.text = it.description
 
+                if(it.bought == true)
+                {
+                    binding.deleteButton.visibility = View.GONE
+                }
+                else
+                {
+                    binding.deleteButton.visibility = View.VISIBLE
+
+                }
+
                 Glide.with(binding.root.context)
                     .load(it.imageUrl)
                     .override(400,300)
@@ -60,7 +73,27 @@ class ItemDetailFragment: Fragment() {
         })
 
 
+        binding.deleteButton.setOnClickListener {
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Confirmation")
+            builder.setMessage("Are you sure you want to delete?")
+            builder.setPositiveButton("Yes") { dialogInterface: DialogInterface, _: Int ->
+                itemDetailViewModel.deleteItem()
+                dialogInterface.dismiss()
+            }
+            builder.setNegativeButton("No") { dialogInterface: DialogInterface, _: Int ->
+                // Handle negative button click
+                dialogInterface.dismiss()
+            }
+
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+
+
         return binding.root
 
     }
+
+
 }

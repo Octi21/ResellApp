@@ -104,11 +104,14 @@ class LoginActivity:  AppCompatActivity() {
             binding.inputEmail.error = "This field is required"
             return false
         }
+        binding.inputEmail.error = null
+
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
         {
             binding.inputEmail.error = "Incorrect email format"
             return false
         }
+        binding.inputEmail.error = null
 
 
         if(password == "")
@@ -117,6 +120,7 @@ class LoginActivity:  AppCompatActivity() {
             binding.inputPassword.endIconDrawable = null
             return false
         }
+        binding.inputPassword.error = null
 
 
         return true

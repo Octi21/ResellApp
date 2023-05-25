@@ -11,6 +11,9 @@ import com.example.resellapp.Item
 import com.example.resellapp.databinding.ListItemBinding
 import com.example.resellapp.databinding.ListItemHomeBinding
 import kotlinx.coroutines.withContext
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
 
 class ItemsHomeAdapter(val clickListener: ItemHomeListener):ListAdapter<Item,ItemsHomeAdapter.ViewHolder>(ItemDiffCallback()) {
 
@@ -37,8 +40,12 @@ class ItemsHomeAdapter(val clickListener: ItemHomeListener):ListAdapter<Item,Ite
             binding.itemValue = item
 
             binding.clickListener  = clickListener
+            val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+            formatter.applyPattern("#,##0.##")
+            val formattedNumber = formatter.format(item.price)
 
-            binding.priceText.text = item.price.toString()
+
+            binding.priceText.text = formattedNumber.toString() + "$"
             binding.nameText.text = item.name.toString()
 
             Glide.with(binding.root.context).load(item.imageUrl).into(binding.imageView2)

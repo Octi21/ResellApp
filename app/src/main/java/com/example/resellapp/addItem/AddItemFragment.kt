@@ -101,11 +101,7 @@ class AddItemFragment: Fragment() {
 
 
         binding.addImage.setOnClickListener{
-//            val galery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-//            startActivityForResult(galery, pickImage)
 
-//            val camera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//            startActivityForResult(camera, CAMERA_REQUEST_CODE)
 
             val options = arrayOf<CharSequence>("Camera", "Gallery")
             val builder = AlertDialog.Builder(requireContext())
@@ -114,8 +110,7 @@ class AddItemFragment: Fragment() {
                 when (which) {
                     0 -> {
                         // Camera option selected
-//                        val camera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//                        startActivityForResult(camera, pickCamera)
+
                         imageUri = createImageUri()!!
                         contract.launch(imageUri)
                     }
@@ -157,35 +152,10 @@ class AddItemFragment: Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode == RESULT_OK && requestCode == pickImage) {
-//            imageUri = data?.data
-//            binding.addImage.setImageURI(imageUri)
-//        }
+
         if (resultCode == RESULT_OK) {
             when (requestCode) {
-//                pickCamera -> {
-//                    // Camera activity result
-//                    val image = data?.extras?.get("data") as Bitmap
-//
-//                    // Save the image to a file
-//                    val file = File(requireContext().externalCacheDir, "camera_image.png")
-//                    val fos = FileOutputStream(file)
-//                    image.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-//                    fos.flush()
-//                    fos.close()
-//
-//                    // Load the saved image from file
-//                    val savedImage = BitmapFactory.decodeFile(file.path)
-//
-//                    // Display the loaded image
-//                    binding.addImage.setImageBitmap(savedImage)
-//
-//                    imageUri = Uri.fromFile(file)
-//                    binding.addImage.setImageURI(imageUri)
-//
-//                    cropImage(imageUri!!)
-//
-//                }
+
                 pickImage -> {
                     // Gallery activity result
                     imageUri = data?.data

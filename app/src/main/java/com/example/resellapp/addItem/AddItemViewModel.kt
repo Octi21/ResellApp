@@ -1,5 +1,6 @@
 package com.example.resellapp.addItem
 
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -19,16 +20,16 @@ class AddItemViewModel: ViewModel() {
     val navToMyItems: LiveData<Boolean?>
         get() = _navToMyItems
 
-//    val _navAfterInsert = MutableLiveData<Boolean?>()
-//    val navAfterInsert: LiveData<Boolean?>
-//        get() = _navAfterInsert
+    private val _imageUriList = MutableLiveData<List<Uri>>()
+    val imageUriList: LiveData<List<Uri>>
+        get() = _imageUriList
 
     override fun onCleared() {
         super.onCleared()
     }
 
     init{
-
+        _imageUriList.value = emptyList()
     }
 
     fun navigateToMyItems(){
@@ -40,50 +41,17 @@ class AddItemViewModel: ViewModel() {
     }
 
 
-//    fun afterInsert(name: String, price: Float, description: String){
-//        if(insertItem(name, price, description))
-//        {
-//            _navAfterInsert.value = true
-//        }
-//    }
-//
-//
-//    fun insertItem(name: String, price: Float, description: String): Boolean
-//    {
-//
-//        if(name == "")
-//        {
-////            binding.name.error = "This field is required"
-//            return false
-//        }
-//
-//        if(price.toString() == "")
-//        {
-////            binding.price.error = "This field is required"
-//            return false
-//        }
-//
-//        if(description == "")
-//        {
-////            binding.name.error = "This field is required"
-//            return false
-//        }
-//
-//        val itemId = dbRef.push().key!!
-//
-//        val item = Item(itemId,name,price,description)
-//
-//        dbRef.child(itemId).setValue(item).addOnCompleteListener{
-////            Toast.makeText(requireContext(),"Data inserted Success", Toast.LENGTH_LONG).show()
-//        }.addOnFailureListener {
-////            Toast.makeText(requireContext(),"Error ${it.message}", Toast.LENGTH_LONG).show()
-//
-//        }
-//
-//        Log.e("finished","yes")
-//
-//        return true
-//    }
+
+    fun getImageList(): LiveData<List<Uri>>{
+        return imageUriList
+    }
+
+    fun addImageUri(imageUri: Uri) {
+        val currentList = _imageUriList.value?.toMutableList() ?: mutableListOf()
+        currentList.add(imageUri)
+        _imageUriList.value = currentList
+    }
+
 
 
 

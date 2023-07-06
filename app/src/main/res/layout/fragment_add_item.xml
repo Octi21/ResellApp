@@ -9,71 +9,132 @@
             type="com.example.resellapp.addItem.AddItemViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="64dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/name"
-            android:layout_width="319dp"
-            android:layout_height="0dp"
-            android:layout_margin="50dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-<!--            app:startIconDrawable="@drawable/ic_baseline_email_24">-->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nameText"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:hint="Name" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="match_parent"
+                android:layout_marginBottom="64dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/price"
-            android:layout_width="319dp"
-            android:layout_height="0dp"
-            android:layout_margin="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name">
-            <!--            app:startIconDrawable="@drawable/ic_baseline_email_24">-->
-
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/priceText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:hint="Price"
-                android:inputType="numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/description"
-            android:layout_width="319dp"
-            android:layout_height="0dp"
-            android:layout_margin="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/price">
-            <!--            app:startIconDrawable="@drawable/ic_baseline_email_24">-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/name"
+                    android:layout_width="319dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="50dp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+                    <!--            app:startIconDrawable="@drawable/ic_baseline_email_24">-->
 
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/descriptionText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:hint="Despription" />
-        </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/nameText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:hint="Name" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/price"
+                    android:layout_width="319dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="50dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/name">
+                    <!--            app:startIconDrawable="@drawable/ic_baseline_email_24">-->
 
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/priceText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:hint="Price"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/description"
+                    android:layout_width="319dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="50dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/price">
+                    <!--            app:startIconDrawable="@drawable/ic_baseline_email_24">-->
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/descriptionText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:hint="Despription" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+                <!--            android:id="@+id/confirm_button"-->
+                <!--            android:layout_width="wrap_content"-->
+                <!--            android:layout_height="wrap_content"-->
+                <!--            android:layout_gravity="end|bottom"-->
+                <!--            android:layout_marginEnd="24dp"-->
+                <!--            android:layout_marginBottom="24dp"-->
+                <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--            app:layout_constraintEnd_toEndOf="parent"-->
+                <!--            app:srcCompat="@drawable/baseline_done_24"-->
+                <!--            app:tint="@android:color/white"-->
+                <!--                />-->
+
+                <!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+                <!--                android:id="@+id/cancel_button"-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_gravity="end|bottom"-->
+                <!--                android:layout_marginStart="24dp"-->
+                <!--                android:layout_marginBottom="24dp"-->
+                <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                app:layout_constraintStart_toStartOf="parent"-->
+                <!--                app:srcCompat="@drawable/baseline_close_24"-->
+                <!--                app:tint="@android:color/white"-->
+                <!--                android:onClick="@{() -> addItemViewModel.navigateToMyItems()}"/>-->
+
+                <ImageView
+                    android:id="@+id/addImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/description"
+                    app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPagerId"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/addImage" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/confirm_button"
@@ -82,8 +143,8 @@
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
         app:srcCompat="@drawable/baseline_done_24"
         app:tint="@android:color/white"
             />
@@ -95,20 +156,14 @@
             android:layout_gravity="end|bottom"
             android:layout_marginStart="24dp"
             android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
             app:srcCompat="@drawable/baseline_close_24"
             app:tint="@android:color/white"
             android:onClick="@{() -> addItemViewModel.navigateToMyItems()}"/>
 
-        <ImageView
-            android:id="@+id/addImage"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description"
-            app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+
 </layout>

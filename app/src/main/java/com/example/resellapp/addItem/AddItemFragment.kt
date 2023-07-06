@@ -2,10 +2,7 @@ package com.example.resellapp.addItem
 
 import android.app.Activity.RESULT_OK
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -22,19 +19,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager.widget.ViewPager
 import com.example.resellapp.Item
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentAddItemBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.yalantis.ucrop.UCrop
 import java.io.File
-import java.io.FileOutputStream
 
 
 class AddItemFragment: Fragment() {
@@ -54,6 +50,14 @@ class AddItemFragment: Fragment() {
     private val pickCamera = 200
 
     private var imageUri: Uri? = null
+    private var imageUriList: MutableList<Uri> = mutableListOf()
+
+    lateinit var viewPager: ViewPager
+    lateinit var viewPagerAdapter: ViewPageAdapter
+
+    private lateinit var addItemViewModel: AddItemViewModel
+
+
 
     private val contract = registerForActivityResult(ActivityResultContracts.TakePicture()){
         binding.addImage.setImageURI(null)
@@ -73,7 +77,7 @@ class AddItemFragment: Fragment() {
 
         val viewModelFactory = AddItemsViewModelFactory()
 
-        val addItemViewModel = ViewModelProvider(this,viewModelFactory).get(AddItemViewModel::class.java)
+        addItemViewModel = ViewModelProvider(this,viewModelFactory).get(AddItemViewModel::class.java)
 
         binding.addItemViewModel = addItemViewModel
 
@@ -87,6 +91,17 @@ class AddItemFragment: Fragment() {
                 addItemViewModel.doneNavigating()
             }
         })
+
+        viewPager = binding.viewPagerId
+
+
+        addItemViewModel.getImageList().observe(viewLifecycleOwner, Observer {
+            Log.e("ImageList",it.toString())
+            viewPagerAdapter = ViewPageAdapter(requireContext(),it)
+            viewPager.adapter = viewPagerAdapter
+
+        })
+
 
 
 
@@ -171,6 +186,12 @@ class AddItemFragment: Fragment() {
                         // Do something with the cropped image Uri
                         imageUri = croppedUri
                         binding.addImage.setImageURI(croppedUri)
+                        imageUriList.add(imageUri!!)
+                        addItemViewModel.addImageUri(imageUri!!)
+                        for(uri in imageUriList)
+                        {
+                            Log.e("ImageListElem",uri.toString())
+                        }
                     } else {
                         // Handle crop error
                         Toast.makeText(requireContext(), "Failed to crop image", Toast.LENGTH_SHORT).show()
@@ -182,7 +203,10 @@ class AddItemFragment: Fragment() {
 
     private fun cropImage(imageUri: Uri) {
         // Specify the destination Uri for the cropped image
-        val destinationUri = Uri.fromFile(File(requireContext().cacheDir, "cropped_image.jpg"))
+//        val imageNumber = imageUriList.size
+        val timestamp = System.currentTimeMillis() // Get the current timestamp
+
+        val destinationUri = Uri.fromFile(File(requireContext().cacheDir, "cropped_image$timestamp.jpg"))
 
         UCrop.of(imageUri, destinationUri)
             .withAspectRatio(4f, 3f) // Set the desired aspect ratio (4:3 in this case)

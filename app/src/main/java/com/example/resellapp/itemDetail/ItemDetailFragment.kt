@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.example.resellapp.R
+import com.example.resellapp.addItem.ViewPageAdapter
 import com.example.resellapp.databinding.FragmentItemDetailBinding
 
 
@@ -22,6 +24,8 @@ class ItemDetailFragment: Fragment() {
     private lateinit var binding: FragmentItemDetailBinding
 
 
+    lateinit var viewPager: ViewPager
+    lateinit var viewPagerAdapterHome: ViewPagerAdapterHome
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -36,6 +40,8 @@ class ItemDetailFragment: Fragment() {
         val itemDetailViewModel = ViewModelProvider(this,viewModelFactory).get(ItemDetailViewModel::class.java)
 
         binding.itemDetailViewModel = itemDetailViewModel
+
+        viewPager = binding.viewPagerId
 
 
         itemDetailViewModel.navToMyItems.observe(viewLifecycleOwner, Observer {
@@ -68,6 +74,9 @@ class ItemDetailFragment: Fragment() {
                     .load(it.imageUrl)
                     .override(400,300)
                     .into(binding.imageView)
+
+                viewPagerAdapterHome = ViewPagerAdapterHome(requireContext(),it.imageUrlList!!)
+                viewPager.adapter = viewPagerAdapterHome
 
             }
         })

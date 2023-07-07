@@ -18,6 +18,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.resellapp.Item
@@ -30,6 +31,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.yalantis.ucrop.UCrop
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 import java.io.File
 
 
@@ -215,19 +218,41 @@ class AddItemFragment: Fragment() {
 
 
 
+
+
+    suspend fun uploadPhotoToStorage(photoUri: Uri): String = withContext(Dispatchers.IO) {
+        val imageRef = storeRef.child(System.currentTimeMillis().toString() + ".jpg")
+
+
+        return@withContext try {
+            val uploadTask = imageRef.putFile(photoUri)
+            uploadTask.await() // Wait for the upload to complete
+            imageRef.downloadUrl.await().toString()
+        } catch (e: Exception) {
+            // Handle any potential exceptions here
+            e.printStackTrace()
+            ""
+        }
+    }
+
+    suspend fun uploadMultiplePhotosToStorage(photoUris: List<Uri>): List<String> = coroutineScope {
+        val deferredUploads = photoUris.map { uri ->
+            async { uploadPhotoToStorage(uri) }
+        }
+
+        return@coroutineScope deferredUploads.awaitAll()
+    }
+
+
     private fun addObject(): Boolean{
 
         val name = binding.nameText.text.toString()
         val price = binding.priceText.text.toString()
         val description = binding.descriptionText.text.toString()
 
-
-
-
         if(name == "")
         {
             binding.name.error = "This field is required"
-
 
             return false
         }
@@ -251,59 +276,110 @@ class AddItemFragment: Fragment() {
         }
         binding.description.error = null
 
-        if(imageUri != null)
-        {
-            val progressDialog = ProgressDialog(requireContext())
-            progressDialog.setTitle("Uploading...")
-            progressDialog.show()
+
+        //new version
+        Log.e("imageUri","$imageUri")
 
 
-            val imageRef = storeRef.child(System.currentTimeMillis().toString() + ".jpg")
-
-            imageRef.putFile(imageUri!!).addOnSuccessListener {
-
-                progressDialog.dismiss()
-                Toast.makeText(requireContext(), "Image uploaded", Toast.LENGTH_SHORT).show()
-
-                val itemId = dbRef.push().key!!
-
-                imageRef.downloadUrl.addOnSuccessListener {
-                    val url = it.toString()
-                    Log.e("photolink","$url")
-
-                    val item = Item(itemId,name,price2,description,url, Firebase.auth.currentUser!!.uid)
-
-                    dbRef.child(itemId).setValue(item).addOnCompleteListener{
-                        Toast.makeText(requireContext(),"Data inserted Success", Toast.LENGTH_LONG).show()
-                    }.addOnFailureListener {
-                        Toast.makeText(requireContext(),"Error ${it.message}", Toast.LENGTH_LONG).show()
-
-                    }
-
-                }
-
-//                val url = it.storage.downloadUrl.toString()
-//                Log.e("photolink3","${imageUri}")
-//                Log.e("photolink2", "${it.toString()}")
-//                Log.e("photolink","${url}")
-
-
-
-            }
-                .addOnFailureListener {
-                    progressDialog.dismiss()
-                    Toast.makeText(requireContext(), "Failed " + it.message, Toast.LENGTH_SHORT).show()
-                }
-                .addOnProgressListener {
-                    val progress = 100.0 * it.bytesTransferred / it.totalByteCount
-                    progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
-                }
-
-        }
-        else{
+        if (imageUri == null) {
             Toast.makeText(requireContext(), "Please select an image", Toast.LENGTH_SHORT).show()
             return false
         }
+
+        val progressDialog = ProgressDialog(requireContext())
+        progressDialog.setTitle("Uploading...")
+        progressDialog.show()
+
+        val itemId = dbRef.push().key!!
+
+        addItemViewModel.getImageList().observe(viewLifecycleOwner, Observer { imageUriList ->
+            if (imageUriList.isNotEmpty())
+            {
+                lifecycleScope.launch {
+                    try {
+                        val downloadUrls = uploadMultiplePhotosToStorage(imageUriList)
+                        // Use the list of download URLs as needed
+
+                        progressDialog.dismiss()
+
+                        val item = Item(
+                            itemId,
+                            name,
+                            price2,
+                            description,
+                            downloadUrls.get(0),
+                            Firebase.auth.currentUser!!.uid,
+                            false,
+                            downloadUrls
+                        )
+                        dbRef.child(itemId).setValue(item).addOnCompleteListener {
+                            Toast.makeText(requireContext(), "Data inserted successfully", Toast.LENGTH_LONG).show()
+                        }.addOnFailureListener {
+                            Toast.makeText(requireContext(), "Error ${it.message}", Toast.LENGTH_LONG).show()
+                        }
+
+
+                    } catch (e: Exception) {
+                        // Handle any exceptions that occurred during the coroutine execution
+                        e.printStackTrace()
+                    }
+                }
+            }
+        })
+
+//        if(imageUri != null)
+//        {
+//            val progressDialog = ProgressDialog(requireContext())
+//            progressDialog.setTitle("Uploading...")
+//            progressDialog.show()
+//
+//
+//            val imageRef = storeRef.child(System.currentTimeMillis().toString() + ".jpg")
+//
+//            imageRef.putFile(imageUri!!).addOnSuccessListener {
+//
+//                progressDialog.dismiss()
+//                Toast.makeText(requireContext(), "Image uploaded", Toast.LENGTH_SHORT).show()
+//
+//                val itemId = dbRef.push().key!!
+//
+//                imageRef.downloadUrl.addOnSuccessListener {
+//                    val url = it.toString()
+//                    Log.e("photolink","$url")
+//
+//                    val item = Item(itemId,name,price2,description,url, Firebase.auth.currentUser!!.uid)
+//
+//                    dbRef.child(itemId).setValue(item).addOnCompleteListener{
+//                        Toast.makeText(requireContext(),"Data inserted Success", Toast.LENGTH_LONG).show()
+//                    }.addOnFailureListener {
+//                        Toast.makeText(requireContext(),"Error ${it.message}", Toast.LENGTH_LONG).show()
+//
+//                    }
+//
+//                }
+//
+////                val url = it.storage.downloadUrl.toString()
+////                Log.e("photolink3","${imageUri}")
+////                Log.e("photolink2", "${it.toString()}")
+////                Log.e("photolink","${url}")
+//
+//
+//
+//            }
+//                .addOnFailureListener {
+//                    progressDialog.dismiss()
+//                    Toast.makeText(requireContext(), "Failed " + it.message, Toast.LENGTH_SHORT).show()
+//                }
+//                .addOnProgressListener {
+//                    val progress = 100.0 * it.bytesTransferred / it.totalByteCount
+//                    progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
+//                }
+//
+//        }
+//        else{
+//            Toast.makeText(requireContext(), "Please select an image", Toast.LENGTH_SHORT).show()
+//            return false
+//        }
 
 
 

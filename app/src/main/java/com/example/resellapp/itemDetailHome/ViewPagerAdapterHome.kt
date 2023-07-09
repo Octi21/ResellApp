@@ -1,4 +1,4 @@
-package com.example.resellapp.addItem
+package com.example.resellapp.itemDetailHome
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,13 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.example.resellapp.R
 import java.util.*
 
-class ViewPageAdapter(val context: Context, val imageList: List<Uri>): PagerAdapter() {
+class ViewPagerAdapterHome(val context: Context, val imageList: List<String>): PagerAdapter() {
     override fun getCount(): Int {
         return imageList.size
     }
@@ -35,8 +34,6 @@ class ViewPageAdapter(val context: Context, val imageList: List<Uri>): PagerAdap
         // on below line we are initializing
         // our image view with the id.
         val imageView: ImageView = itemView.findViewById<View>(R.id.idImage) as ImageView
-        val textView: TextView = itemView.findViewById<TextView>(R.id.imageNumber)
-        textView.text = "${position+1}/${imageList.size}"
 
         // on below line we are setting
         // image resource for image view.

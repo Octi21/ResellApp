@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentItemDetailHomeBinding
@@ -25,6 +26,7 @@ import com.example.resellapp.databinding.ListItemHomeBinding
 import com.example.resellapp.itemDetail.ItemDetailFragmentArgs
 import com.example.resellapp.itemDetail.ItemDetailViewModel
 import com.example.resellapp.itemDetail.ItemDetailViewModelFactory
+import com.example.resellapp.itemDetail.ViewPagerAdapterMyItems
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -35,6 +37,9 @@ import java.util.*
 class ItemDetailHomeFragment: Fragment(){
 
     private lateinit var binding: FragmentItemDetailHomeBinding
+
+    lateinit var viewPager: ViewPager
+    lateinit var viewPagerAdapterHome: ViewPagerAdapterHome
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -62,6 +67,8 @@ class ItemDetailHomeFragment: Fragment(){
             }
         })
 
+        viewPager = binding.viewPagerId
+
         itemDetailHomeViewModel.item.observe(viewLifecycleOwner, Observer {
             Log.e("item","${it}")
             if (it != null) {
@@ -75,7 +82,12 @@ class ItemDetailHomeFragment: Fragment(){
                 binding.description.text = it.description
 
 
-                Glide.with(binding.root.context).load(it.imageUrl).into(binding.imageView)
+                viewPagerAdapterHome = ViewPagerAdapterHome(requireContext(),it.imageUrlList!!)
+                viewPager.adapter = viewPagerAdapterHome
+
+
+
+//                Glide.with(binding.root.context).load(it.imageUrl).into(binding.imageView)
 
             }
         })

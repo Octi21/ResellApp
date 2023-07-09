@@ -2,7 +2,6 @@ package com.example.resellapp.itemDetail
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.resellapp.R
 import java.util.*
 
-class ViewPagerAdapterHome(val context: Context, val imageList: List<String>): PagerAdapter() {
+class ViewPagerAdapterMyItems(val context: Context, val imageList: List<String>): PagerAdapter() {
     override fun getCount(): Int {
         return imageList.size
     }

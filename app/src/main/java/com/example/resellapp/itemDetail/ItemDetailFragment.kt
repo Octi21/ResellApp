@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.example.resellapp.R
-import com.example.resellapp.addItem.ViewPageAdapter
 import com.example.resellapp.databinding.FragmentItemDetailBinding
 
 
@@ -25,7 +24,7 @@ class ItemDetailFragment: Fragment() {
 
 
     lateinit var viewPager: ViewPager
-    lateinit var viewPagerAdapterHome: ViewPagerAdapterHome
+    lateinit var ViewPagerAdapterMyItems: ViewPagerAdapterMyItems
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -75,8 +74,8 @@ class ItemDetailFragment: Fragment() {
                     .override(400,300)
                     .into(binding.imageView)
 
-                viewPagerAdapterHome = ViewPagerAdapterHome(requireContext(),it.imageUrlList!!)
-                viewPager.adapter = viewPagerAdapterHome
+                ViewPagerAdapterMyItems = ViewPagerAdapterMyItems(requireContext(),it.imageUrlList!!)
+                viewPager.adapter = ViewPagerAdapterMyItems
 
             }
         })

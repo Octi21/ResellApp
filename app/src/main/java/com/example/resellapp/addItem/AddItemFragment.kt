@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -63,8 +64,8 @@ class AddItemFragment: Fragment() {
 
 
     private val contract = registerForActivityResult(ActivityResultContracts.TakePicture()){
-        binding.addImage.setImageURI(null)
-        binding.addImage.setImageURI(imageUri)
+//        binding.addImage.setImageURI(null)
+//        binding.addImage.setImageURI(imageUri)
         cropImage(imageUri!!)
     }
 
@@ -102,6 +103,16 @@ class AddItemFragment: Fragment() {
             Log.e("ImageList",it.toString())
             viewPagerAdapter = ViewPageAdapter(requireContext(),it)
             viewPager.adapter = viewPagerAdapter
+
+            if(it.isEmpty())
+            {
+                binding.viewPagerId.visibility = View.GONE
+            }
+            else
+            {
+                binding.viewPagerId.visibility = View.VISIBLE
+
+            }
 
         })
 
@@ -188,7 +199,7 @@ class AddItemFragment: Fragment() {
                     if (croppedUri != null) {
                         // Do something with the cropped image Uri
                         imageUri = croppedUri
-                        binding.addImage.setImageURI(croppedUri)
+//                        binding.addImage.setImageURI(croppedUri)
                         imageUriList.add(imageUri!!)
                         addItemViewModel.addImageUri(imageUri!!)
                         for(uri in imageUriList)

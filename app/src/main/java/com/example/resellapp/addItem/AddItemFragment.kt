@@ -99,18 +99,36 @@ class AddItemFragment: Fragment() {
         viewPager = binding.viewPagerId
 
 
+
+
         addItemViewModel.getImageList().observe(viewLifecycleOwner, Observer {
             Log.e("ImageList",it.toString())
-            viewPagerAdapter = ViewPageAdapter(requireContext(),it)
+            viewPagerAdapter = ViewPageAdapter(requireContext(),it,binding.countImages)
             viewPager.adapter = viewPagerAdapter
+            viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                    // Not needed for this implementation
+                }
+
+                override fun onPageSelected(position: Int) {
+                    viewPagerAdapter.setPrimaryItem(viewPager, position, viewPagerAdapter.instantiateItem(viewPager, position))
+                }
+
+                override fun onPageScrollStateChanged(state: Int) {
+                    // Not needed for this implementation
+                }
+            })
+
 
             if(it.isEmpty())
             {
                 binding.viewPagerId.visibility = View.GONE
+                binding.countImages.visibility = View.GONE
             }
             else
             {
                 binding.viewPagerId.visibility = View.VISIBLE
+                binding.countImages.visibility = View.VISIBLE
 
             }
 

@@ -66,16 +66,29 @@ class ItemDetailFragment: Fragment() {
                 else
                 {
                     binding.deleteButton.visibility = View.VISIBLE
-
                 }
+
 
                 Glide.with(binding.root.context)
                     .load(it.imageUrl)
                     .override(400,300)
                     .into(binding.imageView)
 
-                ViewPagerAdapterMyItems = ViewPagerAdapterMyItems(requireContext(),it.imageUrlList!!)
+                ViewPagerAdapterMyItems = ViewPagerAdapterMyItems(requireContext(),it.imageUrlList!!,binding.countImages)
                 viewPager.adapter = ViewPagerAdapterMyItems
+                viewPager.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
+                    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                        // Not needed for this implementation
+                    }
+
+                    override fun onPageSelected(position: Int) {
+                        ViewPagerAdapterMyItems.setPrimaryItem(viewPager, position, ViewPagerAdapterMyItems.instantiateItem(viewPager, position))
+                    }
+
+                    override fun onPageScrollStateChanged(state: Int) {
+                        // Not needed for this implementation
+                    }
+                })
 
             }
         })

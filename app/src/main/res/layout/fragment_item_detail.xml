@@ -70,6 +70,22 @@
             app:layout_constraintTop_toBottomOf="@+id/backButton" />
 
         <TextView
+            android:id="@+id/countImages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:text=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            android:background="@drawable/black_transparent_background"
+            android:textColor="@color/white"/>
+        />
+
+        <TextView
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

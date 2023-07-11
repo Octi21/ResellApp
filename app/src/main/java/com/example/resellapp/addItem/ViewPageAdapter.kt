@@ -17,7 +17,6 @@ import com.example.resellapp.R
 import java.util.*
 
 class ViewPageAdapter(val context: Context, val imageList: List<Uri>, var imageNumber: TextView? = null): PagerAdapter() {
-//    private var imageNumber: TextView? = null
 
     private var currentPosition = 0
 

@@ -82,8 +82,21 @@ class ItemDetailHomeFragment: Fragment(){
                 binding.description.text = it.description
 
 
-                viewPagerAdapterHome = ViewPagerAdapterHome(requireContext(),it.imageUrlList!!)
+                viewPagerAdapterHome = ViewPagerAdapterHome(requireContext(),it.imageUrlList!!,binding.countImages)
                 viewPager.adapter = viewPagerAdapterHome
+                viewPager.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
+                    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                        // Not needed for this implementation
+                    }
+
+                    override fun onPageSelected(position: Int) {
+                        viewPagerAdapterHome.setPrimaryItem(viewPager, position, viewPagerAdapterHome.instantiateItem(viewPager, position))
+                    }
+
+                    override fun onPageScrollStateChanged(state: Int) {
+                        // Not needed for this implementation
+                    }
+                })
 
 
 

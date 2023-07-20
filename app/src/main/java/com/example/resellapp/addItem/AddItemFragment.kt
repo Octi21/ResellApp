@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
+import com.example.resellapp.AspectRatioViewPager
 import com.example.resellapp.Item
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentAddItemBinding
@@ -241,7 +242,7 @@ class AddItemFragment: Fragment() {
         val destinationUri = Uri.fromFile(File(requireContext().cacheDir, "cropped_image$timestamp.jpg"))
 
         UCrop.of(imageUri, destinationUri)
-            .withAspectRatio(4f, 3f) // Set the desired aspect ratio (4:3 in this case)
+            .withAspectRatio(3f, 4f) // Set the desired aspect ratio (3:5 in this case)
             .start(requireContext(), this)
     }
 

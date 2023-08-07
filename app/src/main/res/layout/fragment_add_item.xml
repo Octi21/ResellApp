@@ -24,15 +24,122 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="64dp">
 
+                <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|bottom"
+
+                    android:layout_marginStart="24dp"
+
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/custom_fab_background"
+                    android:onClick="@{() -> addItemViewModel.navigateToMyItems()}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+                    app:tint="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/introduceCateg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Select a Category:"
+                    android:textColor="#4C3E3E"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/backButton" />
+
+                <Button
+                    android:id="@+id/clothingButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="64dp"
+                    app:cornerRadius="32dp"
+
+                    android:text="Clothing"
+                    android:textSize="13dp"
+                    android:backgroundTint="@color/backgroundgrew"
+                    android:textColor="@color/grey"
+                    app:layout_constraintBottom_toBottomOf="@+id/introduceCateg"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/introduceCateg"
+                    app:layout_constraintTop_toTopOf="@+id/introduceCateg" />
+
+
+                <Button
+                    android:id="@+id/clothingButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@color/backgroundgrew"
+                    android:text="Footwear"
+                    android:textColor="@color/grey"
+                    android:textSize="13dp"
+                    app:cornerRadius="32dp"
+                    app:layout_constraintStart_toStartOf="@+id/introduceCateg"
+                    app:layout_constraintTop_toBottomOf="@+id/introduceCateg" />
+
+                <Button
+                    android:id="@+id/clothingButton3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:backgroundTint="@color/backgroundgrew"
+                    android:text="Accessories"
+                    android:textColor="@color/grey"
+                    android:textSize="13dp"
+                    app:cornerRadius="32dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/clothingButton2"
+                    app:layout_constraintEnd_toEndOf="@+id/clothingButton"
+                    app:layout_constraintTop_toBottomOf="@+id/clothingButton" />
+
+                <TextView
+                    android:id="@+id/categText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="val"
+                    app:layout_constraintStart_toStartOf="@+id/clothingButton2"
+                    app:layout_constraintTop_toBottomOf="@+id/clothingButton2" />
+
+                <LinearLayout
+                    android:id="@+id/bouttonsLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="48dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/categText">
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/subcategText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="val"
+                    app:layout_constraintStart_toStartOf="@+id/introduceCateg"
+                    app:layout_constraintTop_toBottomOf="@+id/bouttonsLayout" />
+
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/name"
                     android:layout_width="319dp"
                     android:layout_height="0dp"
                     android:layout_margin="50dp"
-                    android:layout_marginTop="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@+id/subcategText">
                     <!--            app:startIconDrawable="@drawable/ic_baseline_email_24">-->
 
 
@@ -45,13 +152,30 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/price"
+                    android:id="@+id/brand"
                     android:layout_width="319dp"
                     android:layout_height="0dp"
                     android:layout_margin="50dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/name">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/brandText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:hint="Brand" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/price"
+                    android:layout_width="319dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="50dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/brand">
                     <!--            app:startIconDrawable="@drawable/ic_baseline_email_24">-->
 
 
@@ -149,6 +273,7 @@
                     app:layout_constraintDimensionRatio="3:4"/>
 
 
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
@@ -163,21 +288,21 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
         app:srcCompat="@drawable/baseline_done_24"
-        app:tint="@android:color/white"
-            />
+        app:tint="@android:color/white" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/cancel_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_marginStart="24dp"
-            android:layout_marginBottom="24dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            app:srcCompat="@drawable/baseline_close_24"
-            app:tint="@android:color/white"
-            android:onClick="@{() -> addItemViewModel.navigateToMyItems()}"/>
+
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/cancel_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="end|bottom"-->
+<!--            android:layout_marginStart="24dp"-->
+<!--            android:layout_marginBottom="24dp"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            app:srcCompat="@drawable/baseline_close_24"-->
+<!--            app:tint="@android:color/white"-->
+<!--            android:onClick="@{() -> addItemViewModel.navigateToMyItems()}"/>-->
 
 
     </RelativeLayout>

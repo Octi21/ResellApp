@@ -3,6 +3,8 @@ package com.example.resellapp.addItem
 import android.app.Activity.RESULT_OK
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.opengl.Visibility
 import android.os.Bundle
@@ -11,9 +13,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -62,6 +67,10 @@ class AddItemFragment: Fragment() {
 
     private lateinit var addItemViewModel: AddItemViewModel
 
+    private var categ: Int = 0
+    private var selectedButton: Button? = null
+
+
 
 
     private val contract = registerForActivityResult(ActivityResultContracts.TakePicture()){
@@ -96,6 +105,180 @@ class AddItemFragment: Fragment() {
                 addItemViewModel.doneNavigating()
             }
         })
+
+        binding.clothingButton.setOnClickListener {
+            val defalultColor = ContextCompat.getColor(requireContext(), R.color.backgroundgrew)
+            val defalultColor2 = ContextCompat.getColor(requireContext(), R.color.niceblue)
+
+            if(categ != 1)
+            {
+                categ = 1
+                addItemViewModel.setCategory(categ)
+
+                it.setBackgroundColor(defalultColor2)
+                binding.clothingButton2.setBackgroundColor(defalultColor)
+                binding.clothingButton3.setBackgroundColor(defalultColor)
+
+            }
+            else
+            {
+                categ = 0
+                addItemViewModel.setCategory(categ)
+                it.setBackgroundColor(defalultColor)
+
+            }
+
+
+        }
+
+        binding.clothingButton2.setOnClickListener {
+            val defalultColor = ContextCompat.getColor(requireContext(), R.color.backgroundgrew)
+            val defalultColor2 = ContextCompat.getColor(requireContext(), R.color.niceblue)
+
+            if(categ != 2)
+            {
+                categ = 2
+                addItemViewModel.setCategory(categ)
+
+                it.setBackgroundColor(defalultColor2)
+                binding.clothingButton.setBackgroundColor(defalultColor)
+                binding.clothingButton3.setBackgroundColor(defalultColor)
+
+
+            }
+            else
+            {
+                categ = 0
+                addItemViewModel.setCategory(categ)
+                it.setBackgroundColor(defalultColor)
+
+            }
+
+
+        }
+
+        binding.clothingButton3.setOnClickListener {
+            val defalultColor = ContextCompat.getColor(requireContext(), R.color.backgroundgrew)
+            val defalultColor2 = ContextCompat.getColor(requireContext(), R.color.niceblue)
+
+            if(categ != 3)
+            {
+                categ = 3
+                addItemViewModel.setCategory(categ)
+                it.setBackgroundColor(defalultColor2)
+                binding.clothingButton.setBackgroundColor(defalultColor)
+                binding.clothingButton2.setBackgroundColor(defalultColor)
+
+            }
+            else
+            {
+                categ = 0
+                addItemViewModel.setCategory(categ)
+                it.setBackgroundColor(defalultColor)
+
+            }
+
+
+        }
+        addItemViewModel.category.observe(viewLifecycleOwner, Observer {
+            binding.categText.text = it.toString()
+
+            val buttonContainer = binding.bouttonsLayout
+            when(it){
+                1 -> {
+                    buttonContainer.removeAllViews()
+
+                    val buttonNames = listOf("Jacket", "T-shirt", "Hoodie", "Pants")
+
+                    for(name in buttonNames)
+                    {
+                        val button = Button(requireContext())
+                        button.text = name
+                        button.setBackgroundResource(R.drawable.button_subcategory)
+
+                        val params = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        params.setMargins(0, 24, 0, 0)
+                        button.layoutParams = params
+
+                        buttonContainer.addView(button)
+
+                        // Set click listener for the button
+                        button.setOnClickListener {
+                            binding.subcategText.text = name
+                            addItemViewModel.setSubcategory(name)
+                            selectSubcategory(button)
+                        }
+                    }
+
+
+                }
+                2 ->{
+                    buttonContainer.removeAllViews()
+
+                    val buttonNames = listOf("Sneakers", "Shoes", "Boots", "Splippers")
+                    for(name in buttonNames)
+                    {
+                        val button = Button(requireContext())
+                        button.text = name
+
+                        button.setBackgroundResource(R.drawable.button_subcategory)
+
+                        val params = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        params.setMargins(0, 24, 0, 0)
+                        button.layoutParams = params
+
+                        buttonContainer.addView(button)
+
+                        // Set click listener for the button
+                        button.setOnClickListener {
+                            selectSubcategory(button)
+                            addItemViewModel.setSubcategory(name)
+                            binding.subcategText.text = name
+                        }
+                    }
+                }
+                3 ->{
+                    buttonContainer.removeAllViews()
+
+                    val buttonNames = listOf("Bags", "Hats", "Jewellery", "Others")
+                    for(name in buttonNames)
+                    {
+                        val button = Button(requireContext())
+                        button.text = name
+
+                        button.setBackgroundResource(R.drawable.button_subcategory)
+
+                        val params = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        params.setMargins(0, 24, 0, 0)
+                        button.layoutParams = params
+
+                        buttonContainer.addView(button)
+
+                        // Set click listener for the button
+                        button.setOnClickListener {
+                            selectSubcategory(button)
+                            addItemViewModel.setSubcategory(name)
+                            binding.subcategText.text = name
+                        }
+                    }
+                }
+
+                else -> {
+                    buttonContainer.removeAllViews()
+                }
+            }
+        })
+
+
 
         viewPager = binding.viewPagerId
 
@@ -187,6 +370,16 @@ class AddItemFragment: Fragment() {
         }
 
         return binding.root
+    }
+
+
+
+    private fun selectSubcategory(button:Button){
+        selectedButton?.setBackgroundResource(R.drawable.button_subcategory)
+
+        button.setBackgroundResource(R.drawable.button_subcategory_blue)
+
+        selectedButton = button
     }
 
 
@@ -356,61 +549,6 @@ class AddItemFragment: Fragment() {
                 }
             }
         })
-
-//        if(imageUri != null)
-//        {
-//            val progressDialog = ProgressDialog(requireContext())
-//            progressDialog.setTitle("Uploading...")
-//            progressDialog.show()
-//
-//
-//            val imageRef = storeRef.child(System.currentTimeMillis().toString() + ".jpg")
-//
-//            imageRef.putFile(imageUri!!).addOnSuccessListener {
-//
-//                progressDialog.dismiss()
-//                Toast.makeText(requireContext(), "Image uploaded", Toast.LENGTH_SHORT).show()
-//
-//                val itemId = dbRef.push().key!!
-//
-//                imageRef.downloadUrl.addOnSuccessListener {
-//                    val url = it.toString()
-//                    Log.e("photolink","$url")
-//
-//                    val item = Item(itemId,name,price2,description,url, Firebase.auth.currentUser!!.uid)
-//
-//                    dbRef.child(itemId).setValue(item).addOnCompleteListener{
-//                        Toast.makeText(requireContext(),"Data inserted Success", Toast.LENGTH_LONG).show()
-//                    }.addOnFailureListener {
-//                        Toast.makeText(requireContext(),"Error ${it.message}", Toast.LENGTH_LONG).show()
-//
-//                    }
-//
-//                }
-//
-////                val url = it.storage.downloadUrl.toString()
-////                Log.e("photolink3","${imageUri}")
-////                Log.e("photolink2", "${it.toString()}")
-////                Log.e("photolink","${url}")
-//
-//
-//
-//            }
-//                .addOnFailureListener {
-//                    progressDialog.dismiss()
-//                    Toast.makeText(requireContext(), "Failed " + it.message, Toast.LENGTH_SHORT).show()
-//                }
-//                .addOnProgressListener {
-//                    val progress = 100.0 * it.bytesTransferred / it.totalByteCount
-//                    progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
-//                }
-//
-//        }
-//        else{
-//            Toast.makeText(requireContext(), "Please select an image", Toast.LENGTH_SHORT).show()
-//            return false
-//        }
-
 
 
         Log.e("finished","yes")

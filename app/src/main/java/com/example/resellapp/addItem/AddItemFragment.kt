@@ -26,8 +26,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.example.resellapp.AspectRatioViewPager
+import com.example.resellapp.ButtonItem
 import com.example.resellapp.Item
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentAddItemBinding
@@ -69,6 +71,8 @@ class AddItemFragment: Fragment() {
 
     private var categ: Int = 0
     private var selectedButton: Button? = null
+
+    private var sizeButton: Button? = null
 
 
 
@@ -180,6 +184,7 @@ class AddItemFragment: Fragment() {
 
 
         }
+
         addItemViewModel.category.observe(viewLifecycleOwner, Observer {
             binding.categText.text = it.toString()
 
@@ -276,6 +281,113 @@ class AddItemFragment: Fragment() {
                     buttonContainer.removeAllViews()
                 }
             }
+
+            if(it != 0)
+            {
+                binding.size.visibility = View.VISIBLE
+                binding.sizeLayout.visibility = View.VISIBLE
+            }
+            else{
+                binding.size.visibility = View.GONE
+                binding.sizeLayout.visibility = View.GONE
+            }
+            val sizeLayout = binding.sizeLayout
+            when(it){
+                1 ->{
+
+//                    val buttonNames = listOf(ButtonItem("XS"),ButtonItem("S"),ButtonItem("M"),ButtonItem("L"),ButtonItem("XL"), )
+//                    val sizebuttonsAdapter = SizeButtonsAdapter(buttonNames)
+//                    binding.sizeButtonsRecyclerView.adapter = sizebuttonsAdapter
+////                    binding.sizeButtonsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+//                    sizebuttonsAdapter.setOnItemClickListener
+                    sizeLayout.removeAllViews()
+
+                    val buttonNames = listOf("XS", "S", "M", "L", "XL", "XXL")
+                    for(name in buttonNames)
+                    {
+                        val button = Button(requireContext())
+                        button.text = name
+
+                        button.setBackgroundResource(R.drawable.button_subcategory)
+
+                        val params = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        params.setMargins(0, 24, 24, 0)
+                        button.layoutParams = params
+
+                        sizeLayout.addView(button)
+
+                        // Set click listener for the button
+                        button.setOnClickListener {
+                            selectSubcategorySize(button)
+                            addItemViewModel.setSize(name)
+                            binding.sizeText.text = name
+                        }
+                    }
+                }
+                2->{
+                    sizeLayout.removeAllViews()
+
+                    val buttonNames = listOf("35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46")
+                    for(name in buttonNames)
+                    {
+                        val button = Button(requireContext())
+                        button.text = name
+
+                        button.setBackgroundResource(R.drawable.button_subcategory)
+
+                        val params = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        params.setMargins(0, 24, 24, 0)
+                        button.layoutParams = params
+
+                        sizeLayout.addView(button)
+
+                        // Set click listener for the button
+                        button.setOnClickListener {
+                            selectSubcategorySize(button)
+                            addItemViewModel.setSize(name)
+                            binding.sizeText.text = name
+                        }
+                    }
+                }
+                3->{
+                    sizeLayout.removeAllViews()
+
+                    val buttonNames = listOf("XS", "S", "M", "L", "XL", "XXL","35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46")
+                    for(name in buttonNames)
+                    {
+                        val button = Button(requireContext())
+                        button.text = name
+
+                        button.setBackgroundResource(R.drawable.button_subcategory)
+
+                        val params = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        params.setMargins(0, 24, 24, 0)
+                        button.layoutParams = params
+
+                        sizeLayout.addView(button)
+
+                        // Set click listener for the button
+                        button.setOnClickListener {
+                            selectSubcategorySize(button)
+                            addItemViewModel.setSize(name)
+                            binding.sizeText.text = name
+                        }
+                    }
+                }
+                else ->{
+                    sizeLayout.removeAllViews()
+                }
+            }
+
         })
 
 
@@ -381,6 +493,14 @@ class AddItemFragment: Fragment() {
 
         selectedButton = button
     }
+    private fun selectSubcategorySize(button:Button){
+        sizeButton?.setBackgroundResource(R.drawable.button_subcategory)
+
+        button.setBackgroundResource(R.drawable.button_subcategory_blue)
+
+        sizeButton = button
+    }
+
 
 
 

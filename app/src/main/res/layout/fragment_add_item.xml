@@ -22,6 +22,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingBottom="80dp"
                 android:layout_marginBottom="64dp">
 
                 <ImageButton
@@ -127,10 +128,65 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="32dp"
                     android:text="val"
-                    app:layout_constraintStart_toStartOf="@+id/introduceCateg"
+
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/bouttonsLayout" />
 
+                <TextView
+                    android:id="@+id/size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Select a Size:"
+                    android:textColor="#4C3E3E"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/bouttonsLayout" />
+
+
+
+                    <GridLayout
+                        android:id="@+id/sizeLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="48dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="48dp"
+                        android:visibility="gone"
+                        android:columnCount="3"                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/size">
+                    </GridLayout>
+
+                <TextView
+                    android:id="@+id/sizeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:text="val"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/subcategText" />
+
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                        android:id="@+id/sizeButtonsRecyclerView"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="24dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:layout_marginEnd="24dp"-->
+<!--                        android:visibility="gone"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@+id/size" />-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/name"
@@ -139,7 +195,7 @@
                     android:layout_margin="50dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/subcategText">
+                    app:layout_constraintTop_toBottomOf="@+id/sizeLayout">
                     <!--            app:startIconDrawable="@drawable/ic_baseline_email_24">-->
 
 
@@ -284,7 +340,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
         app:srcCompat="@drawable/baseline_done_24"

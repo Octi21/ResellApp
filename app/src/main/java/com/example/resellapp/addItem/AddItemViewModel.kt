@@ -32,6 +32,10 @@ class AddItemViewModel: ViewModel() {
     val subcategory: LiveData<String>
         get() = _subcategory
 
+    private val _size = MutableLiveData<String>()
+    val size: LiveData<String>
+        get() = _size
+
     override fun onCleared() {
         super.onCleared()
     }
@@ -40,6 +44,7 @@ class AddItemViewModel: ViewModel() {
         _imageUriList.value = emptyList()
         _category.value = 0
         _subcategory.value = ""
+        _size.value = ""
 
     }
 
@@ -57,6 +62,13 @@ class AddItemViewModel: ViewModel() {
 
     fun setSubcategory(value:String){
         _subcategory.value = value
+    }
+
+    fun setSize(size:String){
+        _size.value = size
+    }
+    fun getSize():String{
+        return _size.value.toString()
     }
 
     fun getSubcatogory():String{

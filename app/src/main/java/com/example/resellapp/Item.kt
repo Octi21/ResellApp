@@ -10,7 +10,11 @@ data class Item(
     var imageUrl: String? = null,
     var userId: String? = null,
     var bought: Boolean? = false,
-    var imageUrlList: List<String>? = emptyList()
+    var imageUrlList: List<String>? = emptyList(),
+    var brand: String? = null,
+    var category: String? = null,
+    var subcatigory: String? = null,
+    var size: String? = null
 
 
     )

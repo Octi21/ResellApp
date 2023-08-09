@@ -73,7 +73,18 @@ class SignUpActivity : AppCompatActivity() {
             {
                 firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener{
                     if(it.isSuccessful){
-                        firebaseAuth.signOut()
+
+                        // send email verification
+                        firebaseAuth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
+                            Toast.makeText(this,"Verify your email", Toast.LENGTH_SHORT ).show()
+                            firebaseAuth.signOut()
+
+                        }
+                        ?.addOnFailureListener{
+                            Toast.makeText(this,it.toString(), Toast.LENGTH_SHORT ).show()
+
+                        }
+
                         Toast.makeText(this,"AccountCreated",Toast.LENGTH_SHORT).show()
                     }
                     else

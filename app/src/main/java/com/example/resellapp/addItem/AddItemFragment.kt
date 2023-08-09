@@ -110,9 +110,32 @@ class AddItemFragment: Fragment() {
             }
         })
 
+        val defalultColor = ContextCompat.getColor(requireContext(), R.color.backgroundgrew)
+        val defalultColor2 = ContextCompat.getColor(requireContext(), R.color.niceblue)
+
+        categ = when(addItemViewModel.getCatogory()){
+            "Clothing" -> 1
+            "Footwear" -> 2
+            "Accessories" ->3
+            else -> 0
+
+        }
+
+        if(categ == 1)
+        {
+            binding.clothingButton.setBackgroundColor(defalultColor2)
+        }
+        if(categ == 2)
+        {
+            binding.clothingButton2.setBackgroundColor(defalultColor2)
+        }
+        if(categ == 3)
+        {
+            binding.clothingButton3.setBackgroundColor(defalultColor2)
+        }
+
         binding.clothingButton.setOnClickListener {
-            val defalultColor = ContextCompat.getColor(requireContext(), R.color.backgroundgrew)
-            val defalultColor2 = ContextCompat.getColor(requireContext(), R.color.niceblue)
+
 
             if(categ != 1)
             {

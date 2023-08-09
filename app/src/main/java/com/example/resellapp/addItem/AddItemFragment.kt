@@ -128,6 +128,8 @@ class AddItemFragment: Fragment() {
             {
                 categ = 0
                 addItemViewModel.setCategory(categ)
+                addItemViewModel.setSubcategory("")
+                addItemViewModel.setSize("")
                 it.setBackgroundColor(defalultColor)
 
             }
@@ -154,6 +156,8 @@ class AddItemFragment: Fragment() {
             {
                 categ = 0
                 addItemViewModel.setCategory(categ)
+                addItemViewModel.setSubcategory("")
+                addItemViewModel.setSize("")
                 it.setBackgroundColor(defalultColor)
 
             }
@@ -178,6 +182,8 @@ class AddItemFragment: Fragment() {
             {
                 categ = 0
                 addItemViewModel.setCategory(categ)
+                addItemViewModel.setSubcategory("")
+                addItemViewModel.setSize("")
                 it.setBackgroundColor(defalultColor)
 
             }
@@ -295,11 +301,7 @@ class AddItemFragment: Fragment() {
             when(it){
                 1 ->{
 
-//                    val buttonNames = listOf(ButtonItem("XS"),ButtonItem("S"),ButtonItem("M"),ButtonItem("L"),ButtonItem("XL"), )
-//                    val sizebuttonsAdapter = SizeButtonsAdapter(buttonNames)
-//                    binding.sizeButtonsRecyclerView.adapter = sizebuttonsAdapter
-////                    binding.sizeButtonsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-//                    sizebuttonsAdapter.setOnItemClickListener
+
                     sizeLayout.removeAllViews()
 
                     val buttonNames = listOf("XS", "S", "M", "L", "XL", "XXL")
@@ -358,7 +360,7 @@ class AddItemFragment: Fragment() {
                 3->{
                     sizeLayout.removeAllViews()
 
-                    val buttonNames = listOf("XS", "S", "M", "L", "XL", "XXL","35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46")
+                    val buttonNames = listOf("XS", "S", "M", "L", "XL", "XXL","35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46","No Size")
                     for(name in buttonNames)
                     {
                         val button = Button(requireContext())
@@ -478,6 +480,7 @@ class AddItemFragment: Fragment() {
             }
             else{
                 Log.e("nuseajunge","nuseajunge")
+                Toast.makeText(requireContext(),"Please fill add fields", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -592,6 +595,21 @@ class AddItemFragment: Fragment() {
         val name = binding.nameText.text.toString()
         val price = binding.priceText.text.toString()
         val description = binding.descriptionText.text.toString()
+        val brand = binding.brandText.text.toString()
+
+        val category = addItemViewModel.getCatogory()
+        val subcatogory = addItemViewModel.getSubcatogory()
+        val size = addItemViewModel.getSize()
+
+        if(categ == 0)
+        {
+            return false
+        }
+        else
+        {
+            if(subcatogory == "" || size == "")
+                return false
+        }
 
         if(name == "")
         {
@@ -618,6 +636,14 @@ class AddItemFragment: Fragment() {
             return false
         }
         binding.description.error = null
+
+        if(brand == "")
+        {
+            binding.name.error = "This field is required"
+
+            return false
+        }
+        binding.name.error = null
 
 
         //new version
@@ -653,7 +679,13 @@ class AddItemFragment: Fragment() {
                             downloadUrls.get(0),
                             Firebase.auth.currentUser!!.uid,
                             false,
-                            downloadUrls
+                            downloadUrls,
+                            brand,
+                            category,
+                            subcatogory,
+                            size
+
+
                         )
                         dbRef.child(itemId).setValue(item).addOnCompleteListener {
                             Toast.makeText(requireContext(), "Data inserted successfully", Toast.LENGTH_LONG).show()

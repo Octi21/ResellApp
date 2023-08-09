@@ -13,7 +13,7 @@ data class Item(
     var imageUrlList: List<String>? = emptyList(),
     var brand: String? = null,
     var category: String? = null,
-    var subcatigory: String? = null,
+    var subcategory: String? = null,
     var size: String? = null
 
 

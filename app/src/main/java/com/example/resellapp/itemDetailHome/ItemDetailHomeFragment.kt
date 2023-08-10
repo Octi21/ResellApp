@@ -41,6 +41,8 @@ class ItemDetailHomeFragment: Fragment(){
     lateinit var viewPager: ViewPager
     lateinit var viewPagerAdapterHome: ViewPagerAdapterHome
 
+    lateinit var firstImageView: ImageView
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
@@ -83,6 +85,7 @@ class ItemDetailHomeFragment: Fragment(){
 
 
                 viewPagerAdapterHome = ViewPagerAdapterHome(requireContext(),it.imageUrlList!!,binding.countImages)
+
                 viewPager.adapter = viewPagerAdapterHome
                 viewPager.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
                     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -98,9 +101,10 @@ class ItemDetailHomeFragment: Fragment(){
                     }
                 })
 
+                Glide.with(binding.root.context).load(it.imageUrl).into(binding.imageView)
 
+                firstImageView = viewPagerAdapterHome.firstImage?: binding.imageView
 
-//                Glide.with(binding.root.context).load(it.imageUrl).into(binding.imageView)
 
             }
         })
@@ -119,13 +123,21 @@ class ItemDetailHomeFragment: Fragment(){
 
 
         binding.shareButton.setOnClickListener {
-            val imageUri = getImageUri(binding.imageView)
+//            val imageUri = getImageUri(binding.imageView)
             val text = "Check out this item\n" +
                     "Name: ${binding.name.text} \n" +
                     "Price: ${binding.price.text} \n" +
                     "Description: ${binding.description.text} \n"
+
+
+
+            val imageUri = getImageUri(firstImageView)
             sharePhotoAndText(imageUri!!, text)
 
+        }
+
+        binding.addToCart.setOnClickListener {
+            Toast.makeText(requireContext(),"This Item was Added to yout Cart",Toast.LENGTH_LONG).show()
         }
 
 

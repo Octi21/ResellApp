@@ -16,6 +16,7 @@ import java.util.*
 
 class ViewPagerAdapterHome(val context: Context, val imageList: List<String>, var imageNumber: TextView): PagerAdapter() {
     private var currentPosition = 0
+    var firstImage: ImageView? = null
 
     override fun getCount(): Int {
         return imageList.size
@@ -38,10 +39,13 @@ class ViewPagerAdapterHome(val context: Context, val imageList: List<String>, va
         // our image view with the id.
         val imageView: ImageView = itemView.findViewById<View>(R.id.idImage) as ImageView
 
+        if(position == 0)
+            firstImage = imageView
 
         imageNumber?.let {
             it.text = "${position+1}/${imageList.size}"
         }
+
 
         // on below line we are setting
         // image resource for image view.
@@ -70,4 +74,5 @@ class ViewPagerAdapterHome(val context: Context, val imageList: List<String>, va
         val totalImages = imageList.size
         imageNumber!!.text   = "$imageNumber2/$totalImages"
     }
+
 }

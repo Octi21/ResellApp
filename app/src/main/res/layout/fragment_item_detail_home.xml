@@ -14,10 +14,57 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="64dp">
 
+        <ImageView
+            android:id="@+id/shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_share_24"
+            app:tint="@color/black"/>
+
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+
+            app:tint="@android:color/white"
+            android:background="@drawable/custom_fab_background"
+            android:onClick="@{() -> itemDetailHomeViewModel.navToHome()}"/>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="1dp"
+            android:background="#676767"
+            android:layout_marginTop="74dp"
+            android:layout_gravity="start|top"
+            android:layout_alignParentStart="true"
+
+            android:layout_alignParentEnd="true"
+            />
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="74dp"
         >
 
 
@@ -27,36 +74,7 @@
             android:layout_marginBottom="64dp">
 
 
-            <ImageView
-                android:id="@+id/shareButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
 
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
-
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_share_24"
-                app:tint="@color/black"/>
-
-
-            <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_arrow_back_24"
-
-                app:tint="@android:color/white"
-                android:background="@drawable/custom_fab_background"
-                android:onClick="@{() -> itemDetailHomeViewModel.navToHome()}"/>
 
 
             <ImageView
@@ -101,18 +119,18 @@
                 android:textColor="@color/white"/>
             />
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
-                android:text="TextView"
-                android:textSize="22sp"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/backButton" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
             <TextView
@@ -152,15 +170,14 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
+                android:textColor="@color/black"
                 android:onClick="@{() -> itemDetailHomeViewModel.addItemToYourCart()}"
                 android:text="Add To Cart"
+                app:cornerRadius="32dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description"
-
-                android:background="@drawable/custom_fab_background"/>
-
+                app:layout_constraintTop_toBottomOf="@id/description" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -128,8 +128,23 @@ class NavigationActivity: AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
 
         binding.bottomNavigationView.setOnItemSelectedListener {
-            NavigationUI.onNavDestinationSelected(it, navController)
-
+//            NavigationUI.onNavDestinationSelected(it, navController)
+            val handled = when (it.itemId) {
+                R.id.homeFragment -> {
+                    navController.popBackStack(R.id.homeFragment, false) // Clear back stack up to homeFragment
+                    navController.navigate(it.itemId)
+                    true
+                }
+                R.id.myItemsFragment ->{
+                    navController.popBackStack(R.id.homeFragment, false) // Clear back stack up to homeFragment
+                    navController.navigate(it.itemId)
+                    true
+                }
+                else -> {
+                    NavigationUI.onNavDestinationSelected(it, navController)
+                }
+            }
+            handled
             return@setOnItemSelectedListener true
         }
 

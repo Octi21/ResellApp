@@ -26,6 +26,11 @@ class HomeViewModel: ViewModel() {
     val itemList: LiveData<List<Item>>
         get() = _itemsList
 
+    private val _hideFilters = MutableLiveData<Boolean?>()
+    val hideFilters: LiveData<Boolean?>
+        get() = _hideFilters
+
+
 
     init{
         dbRef.addValueEventListener(object : ValueEventListener {
@@ -77,6 +82,11 @@ class HomeViewModel: ViewModel() {
     fun doneNavigatingDetails(){
         _navigateToItemDetail.value = null
     }
+
+    fun setHideFilters(value:Boolean){
+        _hideFilters.value = value
+    }
+
 
 
 }

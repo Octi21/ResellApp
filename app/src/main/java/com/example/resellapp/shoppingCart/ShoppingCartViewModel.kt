@@ -31,6 +31,10 @@ class ShoppingCartViewModel: ViewModel() {
     val itemList: LiveData<List<Item>>
         get() = _itemsList
 
+    private val _emptyListToast = MutableLiveData<Boolean?>()
+    val emptyListToast: LiveData<Boolean?>
+        get() = _emptyListToast
+
     init{
         val userRef = database.getReference("Users").child(userId)
         userRef.addValueEventListener(object : ValueEventListener{
@@ -91,8 +95,10 @@ class ShoppingCartViewModel: ViewModel() {
 
                 val idList: MutableList<String> = mutableListOf()
 
-                if(user?.items != null)
+                val listsize = user?.items?.size ?: 0
+                if(listsize !=0)
                 {
+                    Log.e("MyCartItems","${user?.items.toString()}")
                     user?.items?.forEach {
 
                         // pushnotification to the items user
@@ -126,21 +132,28 @@ class ShoppingCartViewModel: ViewModel() {
                         user?.boughtItems = user?.boughtItems?.plus(it)
                         Log.e("boughtIthem","${user?.boughtItems}")
                     }
+
+                    Log.e("boughtIthem","${user?.boughtItems}")
+
+
+                    user?.items = emptyList()
+
+                    for(id in idList)
+                    {
+                        Log.e("id","${id}")
+                        itemsRef.child(id).child("bought").setValue(true)
+                    }
+
+
+                    userRef.setValue(user)
                 }
-
-                Log.e("boughtIthem","${user?.boughtItems}")
-
-
-                user?.items = emptyList()
-
-                for(id in idList)
+                else
                 {
-                    Log.e("id","${id}")
-                    itemsRef.child(id).child("bought").setValue(true)
+                    Log.e("emptyBag","EmptyBag")
+                    _emptyListToast.value = true
                 }
 
 
-                userRef.setValue(user)
 
             }
 
@@ -170,4 +183,11 @@ class ShoppingCartViewModel: ViewModel() {
             Log.e("notif3", e.toString())
         }
     }
+
+
+
+    fun resetToast(){
+        _emptyListToast.value = false
+    }
+
 }

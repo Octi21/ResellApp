@@ -4,10 +4,10 @@
     <item android:title="Home"
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_baseline_home_24"/>
-    <item android:title="MyItems"
+    <item android:title="My Items"
         android:id="@+id/myItemsFragment"
         android:icon="@drawable/ic_baseline_inventory_2_24"/>
-    <item android:title="ShoppingCart"
+    <item android:title="Shopping Bag"
         android:id="@+id/shoppingCartFragment"
         android:icon="@drawable/ic_baseline_shopping_bag_24"/>
     <item android:title="Profile"

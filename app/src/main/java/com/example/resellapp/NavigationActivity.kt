@@ -127,6 +127,36 @@ class NavigationActivity: AppCompatActivity() {
 
         NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
 
+
+        val userRef = dbRef.child(uid)
+
+        userRef.addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java)
+                val size = user!!.items?.size ?: 0
+
+                val shoppingBagBadge = binding.bottomNavigationView.getOrCreateBadge(R.id.shoppingCartFragment)
+                shoppingBagBadge.number = size
+
+                shoppingBagBadge.isVisible = true
+
+                if(size == 0)
+                    shoppingBagBadge.isVisible = false
+
+
+
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("errorBadge","${error}")
+            }
+        })
+
+
+
+
+
         binding.bottomNavigationView.setOnItemSelectedListener {
 //            NavigationUI.onNavDestinationSelected(it, navController)
             val handled = when (it.itemId) {

@@ -66,12 +66,42 @@ class HomeFragment: Fragment() {
 
 
         //search bar
+        binding.searchBar.queryHint = "Name,Brand"
+
+        homeViewModel.hideFilters.observe(viewLifecycleOwner, Observer {
+            if(it == true)
+            {
+                binding.filterButton.visibility = View.GONE
+            }
+            else
+            {
+                binding.filterButton.visibility = View.VISIBLE
+
+            }
+        })
+
+        binding.searchBar.setOnCloseListener(object :SearchView.OnCloseListener{
+            override fun onClose(): Boolean {
+                homeViewModel.setHideFilters(false)
+                return false
+
+            }
+        })
+
+        binding.searchBar.setOnClickListener {
+            homeViewModel.setHideFilters(true)
+
+        }
+
         binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+
                 return false
             }
 
+
             override fun onQueryTextChange(newText: String?): Boolean {
+                homeViewModel.setHideFilters(true)
                 if(newText!= null)
                 {
                     val filteredList = ArrayList<Item>()

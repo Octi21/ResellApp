@@ -16,6 +16,9 @@ import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentItemDetailBinding
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
 
 
 class ItemDetailFragment: Fragment() {
@@ -56,7 +59,11 @@ class ItemDetailFragment: Fragment() {
             Log.e("item","${it}")
             if (it != null) {
                 binding.name.text = it.name
-                binding.price.text = it.price.toString()
+                val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+                formatter.applyPattern("#,##0.##")
+                val formattedNumber = formatter.format(it.price)
+
+                binding.price.text = formattedNumber.toString() + "$"
                 binding.description.text = it.description
 
                 if(it.bought == true)

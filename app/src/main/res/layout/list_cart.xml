@@ -14,7 +14,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@color/white"
+        >
 
         <ImageView
             android:id="@+id/imageView3"
@@ -48,6 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:textStyle="bold"
             android:text="TextView"
             app:layout_constraintStart_toEndOf="@+id/imageView3"
             app:layout_constraintTop_toBottomOf="@+id/nameText"/>
@@ -63,6 +67,18 @@
             app:srcCompat="@drawable/ic_baseline_restore_from_trash_24"
             android:onClick="@{() -> shoppingCartViewModel.deleteItemFromCart(itemValue.id)}"/>
         <!--            app:itemPrice="@{itemValue}"/>-->
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="#676767"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

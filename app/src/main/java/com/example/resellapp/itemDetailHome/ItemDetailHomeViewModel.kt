@@ -48,6 +48,10 @@ class ItemDetailHomeViewModel(
     val showToast: LiveData<Boolean?>
         get() = _showToast
 
+    private val _addToast = MutableLiveData<Boolean?>()
+    val addTast: LiveData<Boolean?>
+        get() = _addToast
+
 
 
     init{
@@ -89,6 +93,7 @@ class ItemDetailHomeViewModel(
                     }
                     if(ok ==1)
                     {
+                        _addToast.value = true
                         items.add(it)
                     }
                     else
@@ -110,6 +115,7 @@ class ItemDetailHomeViewModel(
 
     fun doneToast(){
         _showToast.value = false
+        _addToast.value = false
     }
 
 

@@ -82,6 +82,8 @@ class ItemDetailHomeFragment: Fragment(){
 
                 binding.price.text = formattedNumber.toString() + "$"
                 binding.description.text = it.description
+                binding.brandName.text = it.brand
+                binding.details.text = it.category + " / " + it.subcategory
 
 
                 viewPagerAdapterHome = ViewPagerAdapterHome(requireContext(),it.imageUrlList!!,binding.countImages)
@@ -117,6 +119,12 @@ class ItemDetailHomeFragment: Fragment(){
                 itemDetailHomeViewModel.doneToast()
             }
         })
+        itemDetailHomeViewModel.addTast.observe(viewLifecycleOwner, Observer {
+            if(it == true){
+                Toast.makeText(requireContext(),"Item added To Cart",Toast.LENGTH_SHORT).show()
+                itemDetailHomeViewModel.doneToast()
+            }
+        })
         //onClick on xml
 
 
@@ -137,7 +145,8 @@ class ItemDetailHomeFragment: Fragment(){
         }
 
         binding.addToCart.setOnClickListener {
-            Toast.makeText(requireContext(),"This Item was Added to yout Cart",Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(),"Added to yout Cart",Toast.LENGTH_SHORT).show()
+            Log.e("click","yes")
         }
 
 

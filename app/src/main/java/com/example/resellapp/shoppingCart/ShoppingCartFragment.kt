@@ -13,6 +13,9 @@ import androidx.lifecycle.get
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentMyItemBinding
 import com.example.resellapp.databinding.FragmentShoppingCartBinding
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
 
 class ShoppingCartFragment: Fragment() {
 
@@ -41,6 +44,25 @@ class ShoppingCartFragment: Fragment() {
 
         shoppingCartViewModel.getItemsList().observe(viewLifecycleOwner, Observer {
             Log.e("cartList", "${it}")
+            Log.e("size","${it.size}")
+            val size = it.size
+            if(size ==1)
+                binding.title.text = "Shopping Bag (1 item)"
+            if(size == 0)
+                binding.title.text = "Shopping Bag (empty)"
+            else
+                binding.title.text = "Shopping Bag ($size items)"
+            var sum = 0.0
+            for(item in it)
+                sum += item.price!!
+
+            val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+            formatter.applyPattern("#,##0.##")
+            val formattedNumber = formatter.format(sum)
+
+            binding.subtotal.text = formattedNumber.toString() + "$"
+
+
             adapter.submitList(it)
         })
 

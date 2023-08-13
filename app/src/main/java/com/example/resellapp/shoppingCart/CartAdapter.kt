@@ -11,6 +11,9 @@ import com.example.resellapp.databinding.ListCartBinding
 import com.example.resellapp.databinding.ListItemBinding
 import com.example.resellapp.myItems.ItemListener
 import com.example.resellapp.myItems.ItemsAdapter
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
 
 class CartAdapter(private val shoppingCartViewModel: ShoppingCartViewModel): ListAdapter<Item, CartAdapter.ViewHolder>(ItemDiffCallback()) {
 
@@ -32,7 +35,13 @@ class CartAdapter(private val shoppingCartViewModel: ShoppingCartViewModel): Lis
 
             binding.shoppingCartViewModel = shoppingCartViewModel
 
-            binding.priceText.text = item.price.toString()
+            val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+            formatter.applyPattern("#,##0.##")
+            val formattedNumber = formatter.format(item.price)
+
+            binding.priceText.text = formattedNumber.toString() + "$"
+
+//            binding.priceText.text = item.price.toString()
             binding.nameText.text = item.name.toString()
 
             Glide.with(binding.root.context).load(item.imageUrl).into(binding.imageView3)

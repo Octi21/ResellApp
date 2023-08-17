@@ -8,15 +8,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.transition.Visibility
 import com.example.resellapp.Item
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentHomeBinding
@@ -63,7 +66,7 @@ class HomeFragment: Fragment() {
 
         binding.itemsList.adapter = adapter
 
-        homeViewModel.getItemsList().observe(viewLifecycleOwner, Observer {
+        homeViewModel.getItemsList1().observe(viewLifecycleOwner, Observer {
             Log.e("itemsList", "${it}")
             adapter.submitList(it)
         })
@@ -112,8 +115,8 @@ class HomeFragment: Fragment() {
                 if(newText!= null)
                 {
                     val filteredList = ArrayList<Item>()
-                    for (i in homeViewModel.getItemsList().value!!) {
-                        if (i.name!!.lowercase(Locale.ROOT).contains(newText)) {
+                    for (i in homeViewModel.getItemsList1().value!!) {
+                        if (i.name!!.lowercase(Locale.ROOT).contains(newText.lowercase(Locale.ROOT))) {
                             filteredList.add(i)
                         }
                     }
@@ -141,6 +144,220 @@ class HomeFragment: Fragment() {
 
 
         }
+
+
+        homeViewModel.RBvalue.observe(viewLifecycleOwner, Observer {
+            Log.e("RBVALUE","$it")
+            when(it){
+                2 -> binding.newRB.isChecked = true
+                3 -> binding.priceHighRB.isChecked = true
+                4 -> binding.priceLowRB.isChecked = true
+                else -> binding.featureRB.isChecked = true
+
+            }
+
+        })
+
+
+        binding.finish.setOnClickListener {
+            binding.refineLayout.visibility = View.GONE
+            homeViewModel.ResetFirstList()
+
+            if(binding.featureRB.isChecked)
+            {
+                homeViewModel.changeRBvalue(1)
+
+                homeViewModel.ResetFirstList()
+            }
+
+            val checkboxList: List<CheckBox> = listOf(binding.CB43,binding.CB44,binding.CB45,binding.CB46,binding.CBbags,binding.CBJacket,
+                binding.CBboots,binding.CBhats,binding.CBhoodie,binding.CBjewellery,binding.CBothers,binding.CBpants,
+                binding.CBshoes,binding.CBslippers,binding.CBsneakers,binding.CBtshirt)
+
+            val checkboxSizeList: List<CheckBox> = listOf(binding.CB43,binding.CB44,binding.CB45,binding.CB46,binding.CB35,
+                binding.CB36,binding.CB37,binding.CB38,binding.CB39,binding.CB40,binding.CB41,binding.CB42,binding.CBnosize,
+                binding.CBxs,binding.CBs,binding.CBm,binding.CBl,binding.CBxl,binding.CBxxl)
+
+            val list: MutableList<String> = emptyList<String>().toMutableList()
+
+            for(elem in checkboxList)
+            {
+                if(elem.isChecked)
+                    list.add(elem.text.toString())
+            }
+
+
+            val listSize: MutableList<String> = emptyList<String>().toMutableList()
+
+            for(elem in checkboxSizeList)
+            {
+                if(elem.isChecked)
+                    listSize.add(elem.text.toString())
+            }
+
+
+
+            if(!list.isEmpty())
+            {
+                Log.e("list","$list")
+                homeViewModel.setSubcatList(list.toList())
+
+                homeViewModel.filterListCateg()
+            }
+            if(!listSize.isEmpty())
+            {
+                Log.e("list","$listSize")
+                homeViewModel.setSizeList(listSize.toList())
+
+                homeViewModel.filterListSize()
+            }
+
+
+
+            if(binding.priceLowRB.isChecked)
+            {
+                homeViewModel.changeRBvalue(4)
+                homeViewModel.listByPriceAsc()
+            }
+            if(binding.priceHighRB.isChecked)
+            {
+                homeViewModel.changeRBvalue(3)
+
+                homeViewModel.listByPriceDesc()
+            }
+            if(binding.newRB.isChecked)
+            {
+                homeViewModel.changeRBvalue(2)
+
+                homeViewModel.listByDate()
+            }
+
+
+
+
+        }
+        var sizeBtn = false
+
+        binding.sizeButton.setOnClickListener {
+
+            sizeBtn = !sizeBtn
+            if(sizeBtn)
+            {
+                binding.arrow1size.visibility = View.GONE
+                binding.arrow2size.visibility = View.VISIBLE
+                binding.sizeFrame.visibility = View.VISIBLE
+
+            }
+            else
+            {
+                binding.arrow1size.visibility = View.VISIBLE
+                binding.arrow2size.visibility = View.GONE
+                binding.sizeFrame.visibility = View.GONE
+            }
+
+        }
+        var cloBtn = false
+
+        binding.clothingButton.setOnClickListener {
+
+            cloBtn = !cloBtn
+            if(cloBtn)
+            {
+                binding.arrow1clothing.visibility = View.GONE
+                binding.arrow2clothing.visibility = View.VISIBLE
+                binding.clothingFrame.visibility = View.VISIBLE
+
+            }
+            else
+            {
+                binding.arrow1clothing.visibility = View.VISIBLE
+                binding.arrow2clothing.visibility = View.GONE
+                binding.clothingFrame.visibility = View.GONE
+            }
+
+        }
+
+        var fooBtn = false
+
+        binding.footwearButton.setOnClickListener {
+
+            fooBtn = !fooBtn
+            if(fooBtn)
+            {
+                binding.arrow1footwear.visibility = View.GONE
+                binding.arrow2footwear.visibility = View.VISIBLE
+                binding.footwearFrame.visibility = View.VISIBLE
+
+            }
+            else
+            {
+                binding.arrow1footwear.visibility = View.VISIBLE
+                binding.arrow2footwear.visibility = View.GONE
+                binding.footwearFrame.visibility = View.GONE
+            }
+
+        }
+
+        var accBtn = false
+
+        binding.accessoriesButton.setOnClickListener {
+
+            accBtn = !accBtn
+            if(accBtn)
+            {
+                binding.arrow1accessories.visibility = View.GONE
+                binding.arrow2accessories.visibility = View.VISIBLE
+                binding.accessoriesFrame.visibility = View.VISIBLE
+
+            }
+            else
+            {
+                binding.arrow1accessories.visibility = View.VISIBLE
+                binding.arrow2accessories.visibility = View.GONE
+                binding.accessoriesFrame.visibility = View.GONE
+            }
+
+        }
+
+        binding.resetFilters.setOnClickListener {
+            homeViewModel.ResetFirstList()
+            val checkboxList: List<CheckBox> = listOf(binding.CB43,binding.CB44,binding.CB45,binding.CB46,binding.CB35,
+                binding.CB36,binding.CB37,binding.CB38,binding.CB39,binding.CB40,binding.CB41,binding.CB42,binding.CBnosize,
+                binding.CBxs,binding.CBs,binding.CBm,binding.CBl,binding.CBxl,binding.CBxxl,binding.CBbags,binding.CBJacket,
+                binding.CBboots,binding.CBhats,binding.CBhoodie,binding.CBjewellery,binding.CBothers,binding.CBpants,
+                binding.CBshoes,binding.CBslippers,binding.CBsneakers,binding.CBtshirt)
+
+            for(elem in checkboxList)
+                elem.isChecked = false
+
+            binding.featureRB.isChecked = true
+            binding.newRB.isChecked = false
+            binding.priceHighRB.isChecked = false
+            binding.priceLowRB.isChecked = false
+
+            homeViewModel.setSubcatList(emptyList())
+            homeViewModel.changeRBvalue(1)
+
+
+            binding.arrow1footwear.visibility = View.VISIBLE
+            binding.arrow2footwear.visibility = View.GONE
+            binding.footwearFrame.visibility = View.GONE
+            binding.arrow1accessories.visibility = View.VISIBLE
+            binding.arrow2accessories.visibility = View.GONE
+            binding.accessoriesFrame.visibility = View.GONE
+            binding.arrow1clothing.visibility = View.VISIBLE
+            binding.arrow2clothing.visibility = View.GONE
+            binding.clothingFrame.visibility = View.GONE
+            binding.arrow1size.visibility = View.VISIBLE
+            binding.arrow2size.visibility = View.GONE
+            binding.sizeFrame.visibility = View.GONE
+
+            binding.refineLayout.visibility = View.GONE
+
+
+        }
+
+
 
 
 

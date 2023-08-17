@@ -23,16 +23,36 @@ class HomeViewModel: ViewModel() {
         get() = _navigateToItemDetail
 
     private val _itemsList = MutableLiveData<List<Item>>()
-    val itemList: LiveData<List<Item>>
+    val itemsList: LiveData<List<Item>>
         get() = _itemsList
+
+    private val _itemsList2 = MutableLiveData<List<Item>>()
+    val itemsList2: LiveData<List<Item>>
+        get() = _itemsList2
 
     private val _hideFilters = MutableLiveData<Boolean?>()
     val hideFilters: LiveData<Boolean?>
         get() = _hideFilters
 
+    private val _RBvalue = MutableLiveData<Int>()
+    val RBvalue: LiveData<Int>
+        get() = _RBvalue
+
+    private val _subcategList = MutableLiveData<List<String>>()
+    val subcategList: LiveData<List<String>>
+        get() = _subcategList
+
+    private val _sizeList = MutableLiveData<List<String>>()
+    val sizeList: LiveData<List<String>>
+        get() = _sizeList
+
 
 
     init{
+        _RBvalue.value = 1
+
+        _subcategList.value = emptyList()
+
         dbRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists())
@@ -41,12 +61,12 @@ class HomeViewModel: ViewModel() {
                     for(json in snapshot.children)
                     {
                         val item = json.getValue(Item::class.java)
-                        Log.e("item","${item!!.userId}")
-                        Log.e("item","${userId}")
+//                        Log.e("item","${item!!.userId}")
+//                        Log.e("item","${userId}")
 
                         if(!userId!!.equals(item!!.userId) )
                         {
-                            Log.e("item","${item}")
+//                            Log.e("item","${item}")
                             item?.let{
                                 if(it.bought != true)
                                     items.add(it)
@@ -58,6 +78,7 @@ class HomeViewModel: ViewModel() {
 
                     }
                     _itemsList.value = items
+                    _itemsList2.value = items
 
 
                 }
@@ -69,8 +90,58 @@ class HomeViewModel: ViewModel() {
         })
     }
 
-    fun getItemsList(): LiveData<List<Item>>{
-        return itemList
+    fun changeRBvalue(value:Int){
+        _RBvalue.value = value
+    }
+
+    fun setSubcatList(list:List<String>){
+        _subcategList.value = list
+    }
+    fun setSizeList(list:List<String>){
+        _sizeList.value = list
+    }
+
+
+
+
+    fun listByPriceAsc(){
+        val itemListAsc = _itemsList.value?.sortedBy { it.price } ?: emptyList()
+        _itemsList.value = itemListAsc
+    }
+
+    fun listByPriceDesc(){
+        val itemListAsc = _itemsList.value?.sortedByDescending { it.price } ?: emptyList()
+        _itemsList.value = itemListAsc
+    }
+
+    fun listByDate(){
+        val itemListByDate = _itemsList.value?.sortedByDescending { it.timestamp } ?: emptyList()
+        _itemsList.value = itemListByDate
+    }
+
+    fun ResetFirstList(){
+        _itemsList.value = _itemsList2.value
+    }
+
+    fun filterListCateg(){
+        val filterList = _itemsList.value?.filter { inList(_subcategList.value ?: emptyList(),it.subcategory)  } ?: emptyList()
+        Log.e("list2","$filterList")
+
+        _itemsList.value = filterList
+    }
+
+    fun filterListSize(){
+        val filterList = _itemsList.value?.filter { inList(_sizeList.value ?: emptyList(),it.size)  } ?: emptyList()
+        Log.e("list2","$filterList")
+
+        _itemsList.value = filterList
+    }
+
+
+
+
+    fun getItemsList1(): LiveData<List<Item>>{
+        return itemsList
     }
 
 
@@ -87,6 +158,17 @@ class HomeViewModel: ViewModel() {
         _hideFilters.value = value
     }
 
+    fun inList(list:List<String>,string: String?):Boolean{
+
+        for(elem in list)
+        {
+            if(elem == string)
+            {
+                return true
+            }
+        }
+        return false
+    }
 
 
 }

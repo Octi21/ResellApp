@@ -9,47 +9,274 @@
             type="com.example.resellapp.home.HomeViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="64dp">
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/parentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="64dp"
+            >
 
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_bar"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="12dp"
-            app:searchIcon="@drawable/ic_baseline_search_24"
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_bar"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                app:searchIcon="@drawable/ic_baseline_search_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/filterButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_tune_24"
+                app:tint="@color/black" />
 
-        <ImageView
-            android:id="@+id/filterButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/itemsList"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search_bar" />
 
-
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_tune_24"
-            app:tint="@color/black" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/itemsList"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_bar" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:id="@+id/refineLayout"
+            android:layout_width="500px"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="end|top"
+            android:background="@color/backgroundgrew"
+            android:alpha="1"
+            android:layout_marginBottom="64dp"
+
+            android:visibility="visible"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Refine:"
+                android:alpha="1"
+
+                android:textColor="#000000"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                />
+
+            <ImageView
+                android:id="@+id/exitRefineView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:layout_alignParentEnd="true"
+
+                app:srcCompat="@drawable/baseline_close_24" />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="1dp"
+                android:background="#676767"
+                android:layout_marginTop="60dp"
+                android:layout_gravity="start|top"
+                android:layout_alignParentStart="true"
+
+                android:layout_alignParentEnd="true"
+                />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="1dp"
+                android:background="#676767"
+                android:layout_marginBottom="60dp"
+                android:layout_gravity="start|bottom"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+
+                android:layout_alignParentEnd="true"
+                />
+
+            <Button
+                android:id="@+id/finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="8dp"
+                android:text="Done"
+                android:layout_gravity="start|bottom"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+
+                android:textColor="@color/black"
+                app:cornerRadius="3dp"
+                />
+
+            <!--                <ScrollView-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="match_parent"-->
+            <!--                    android:layout_marginTop="64dp"-->
+            <!--                    android:layout_marginBottom="64dp">-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="64dp"
+                android:layout_marginTop="64dp">
+
+                <TextView
+                    android:id="@+id/sortByText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Sort By"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#676767"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sortByText" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view2">
+
+                    <!--adding a radio button -->
+                    <RadioButton
+                        android:id="@+id/featureRB"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:checked="true"
+                        android:text="Feature"
+                        android:paddingStart="10dp"
+                        android:textSize="17sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+
+                        android:layout_height="1dp"
+                        android:background="#676767"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                         />
+
+                    <!--adding a radio button -->
+                    <RadioButton
+                        android:id="@+id/newRB"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="Newest"
+                        android:paddingStart="10dp"
+                        android:textSize="17sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+
+                        android:layout_height="1dp"
+                        android:background="#676767"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        />
+
+                    <!--adding a radio button -->
+                    <RadioButton
+                        android:id="@+id/priceHighRB"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="Price:High to Low"
+                        android:paddingStart="10dp"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+
+                        android:layout_height="1dp"
+                        android:background="#676767"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        />
+                    <RadioButton
+                        android:id="@+id/priceLowRB"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="Price:Low to High"
+                        android:paddingStart="10dp"
+                        android:textSize="16sp" />
+                    <View
+                        android:layout_width="match_parent"
+
+                        android:layout_height="1dp"
+                        android:background="#676767"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        />
+
+
+                </RadioGroup>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+            <!--                </ScrollView>-->
+
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
 </layout>

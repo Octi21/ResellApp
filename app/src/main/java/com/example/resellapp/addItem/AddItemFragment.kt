@@ -1,10 +1,12 @@
 package com.example.resellapp.addItem
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.hardware.camera2.CameraCharacteristics
 import android.net.Uri
 import android.opengl.Visibility
 import android.os.Bundle
@@ -75,11 +77,18 @@ class AddItemFragment: Fragment() {
     private var sizeButton: Button? = null
 
 
+    private val contract2  = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if (it.resultCode == Activity.RESULT_OK) {
+
+            cropImage(imageUri!!)
+        }
+    }
 
 
     private val contract = registerForActivityResult(ActivityResultContracts.TakePicture()){
 //        binding.addImage.setImageURI(null)
 //        binding.addImage.setImageURI(imageUri)
+
         cropImage(imageUri!!)
     }
 
@@ -478,9 +487,17 @@ class AddItemFragment: Fragment() {
                 when (which) {
                     0 -> {
                         // Camera option selected
+                        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        // Specify the camera lens facing direction (rear camera)
+//                        cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", CameraCharacteristics.LENS_FACING_BACK)
 
                         imageUri = createImageUri()!!
-                        contract.launch(imageUri)
+
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+
+                        contract2.launch(cameraIntent)
+
+//                        contract.launch(imageUri)
                     }
                     1 -> {
                         // Gallery option selected
@@ -496,6 +513,7 @@ class AddItemFragment: Fragment() {
 
         binding.confirmButton.setOnClickListener{
             if(addObject()) {
+                Log.e("ajungemesajul","ajungemesajul")
 
 
                 val action = AddItemFragmentDirections.actionAddItemFragmentToMyItemsFragment()
@@ -576,7 +594,7 @@ class AddItemFragment: Fragment() {
     private fun cropImage(imageUri: Uri) {
         // Specify the destination Uri for the cropped image
 //        val imageNumber = imageUriList.size
-        val timestamp = System.currentTimeMillis() // Get the current timestamp
+        val timestamp: Long = System.currentTimeMillis() // Get the current timestamp
 
         val destinationUri = Uri.fromFile(File(requireContext().cacheDir, "cropped_image$timestamp.jpg"))
 
@@ -590,24 +608,42 @@ class AddItemFragment: Fragment() {
 
 
     suspend fun uploadPhotoToStorage(photoUri: Uri): String = withContext(Dispatchers.IO) {
-        val imageRef = storeRef.child(System.currentTimeMillis().toString() + ".jpg")
 
 
         return@withContext try {
+            val imageRef = storeRef.child(System.currentTimeMillis().toString() + ".jpg")
+
             val uploadTask = imageRef.putFile(photoUri)
             uploadTask.await() // Wait for the upload to complete
-            imageRef.downloadUrl.await().toString()
+
+            val imageUrlSting =imageRef.downloadUrl.await().toString()
+            Log.e("PhotoGood",imageUrlSting)
+
+            imageUrlSting
+
         } catch (e: Exception) {
             // Handle any potential exceptions here
+            Log.e("PhotoError",e.toString())
+
             e.printStackTrace()
-            ""
+            throw e // Rethrow the exception to handle it in the caller function
         }
     }
 
     suspend fun uploadMultiplePhotosToStorage(photoUris: List<Uri>): List<String> = coroutineScope {
         val deferredUploads = photoUris.map { uri ->
-            async { uploadPhotoToStorage(uri) }
+            async {
+                try {
+                uploadPhotoToStorage(uri)
+                }
+                catch (e: Exception) {
+                    Log.e("PhotoUploadError", e.toString())
+                    throw e
+                }
+            }
         }
+
+        Log.e("AllUris", deferredUploads.toString())
 
         return@coroutineScope deferredUploads.awaitAll()
     }
@@ -685,6 +721,8 @@ class AddItemFragment: Fragment() {
         val itemId = dbRef.push().key!!
 
         addItemViewModel.getImageList().observe(viewLifecycleOwner, Observer { imageUriList ->
+            Log.e("PhotoListFinal1", imageUriList.toString())
+
             if (imageUriList.isNotEmpty())
             {
                 lifecycleScope.launch {
@@ -692,8 +730,10 @@ class AddItemFragment: Fragment() {
                         val downloadUrls = uploadMultiplePhotosToStorage(imageUriList)
                         // Use the list of download URLs as needed
 
-                        progressDialog.dismiss()
+                        val timestamp: Long = System.currentTimeMillis() // Get the current timestamp
 
+
+                        Log.e("PhotoListFinal2", downloadUrls.toString())
                         val item = Item(
                             itemId,
                             name,
@@ -706,11 +746,14 @@ class AddItemFragment: Fragment() {
                             brand,
                             category,
                             subcatogory,
-                            size
+                            size,
+                            timestamp
 
 
                         )
                         dbRef.child(itemId).setValue(item).addOnCompleteListener {
+                            progressDialog.dismiss()
+
                             Toast.makeText(requireContext(), "Data inserted successfully", Toast.LENGTH_LONG).show()
                         }.addOnFailureListener {
                             Toast.makeText(requireContext(), "Error ${it.message}", Toast.LENGTH_LONG).show()

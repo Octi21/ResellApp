@@ -1,5 +1,8 @@
 package com.example.resellapp.home
 
+import android.annotation.SuppressLint
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,6 +27,7 @@ class HomeFragment: Fragment() {
 
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val binding: FragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false)
@@ -88,8 +92,11 @@ class HomeFragment: Fragment() {
             }
         })
 
-        binding.searchBar.setOnClickListener {
+
+        binding.searchBar.setOnSearchClickListener  {
             homeViewModel.setHideFilters(true)
+            binding.refineLayout.visibility = View.GONE
+
 
         }
 
@@ -122,6 +129,18 @@ class HomeFragment: Fragment() {
             }
 
         })
+
+        binding.exitRefineView.setOnClickListener {
+            binding.refineLayout.visibility = View.GONE
+
+
+        }
+        binding.filterButton.setOnClickListener {
+            binding.refineLayout.visibility = View.VISIBLE
+
+
+
+        }
 
 
 

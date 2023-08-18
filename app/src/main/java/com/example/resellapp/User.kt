@@ -7,5 +7,6 @@ data class User(
     var notificationId: String? = null,
     var items: List<Item>? = emptyList(),
     var boughtItems: List<Item>? = emptyList(),
+    var likedItems: List<Item>? = emptyList()
 
     )

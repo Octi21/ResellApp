@@ -35,7 +35,15 @@
         android:id="@+id/profileFragment"
         android:name="com.example.resellapp.profile.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_itemDetailHomeFragment"
+            app:destination="@id/itemDetailHomeFragment" >
+            <argument
+                android:name="destination"
+                android:defaultValue="2" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/addItemFragment"
         android:name="com.example.resellapp.addItem.AddItemFragment"
@@ -68,6 +76,13 @@
         <argument
             android:name="itemIdString"
             app:argType="string" />
+        <action
+            android:id="@+id/action_itemDetailHomeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <argument
+            android:name="destination"
+            app:argType="integer"
+            android:defaultValue="1" />
     </fragment>
 
 </navigation>

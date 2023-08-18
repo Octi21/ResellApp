@@ -33,6 +33,7 @@ class ItemDetailHomeViewModel(
 
     private var dbRef: DatabaseReference = database.getReference("Items")
 
+
     private val userId = Firebase.auth.currentUser!!.uid
 
 
@@ -52,6 +53,11 @@ class ItemDetailHomeViewModel(
     val addTast: LiveData<Boolean?>
         get() = _addToast
 
+    private val _liked = MutableLiveData<Boolean?>()
+    val liked: LiveData<Boolean?>
+        get() = _liked
+
+
 
 
     init{
@@ -65,6 +71,27 @@ class ItemDetailHomeViewModel(
                 Log.e("showItem", "loadItems:onCancelled", error.toException())
             }
         })
+
+        val userRef = database.getReference("Users").child(userId)
+        userRef.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java)
+                val likedList = user!!.likedItems?.toMutableList() ?: mutableListOf()
+                for(elem in likedList)
+                {
+                    if(elem.id == itemId) {
+                        _liked.value = true
+                        break
+                    }
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("addTofav","${error}")
+            }
+        })
+
     }
 
     fun navToHome(){
@@ -73,6 +100,39 @@ class ItemDetailHomeViewModel(
 
     fun doneNavigating(){
         _navToHome.value = null
+    }
+
+    fun addItemToLiked(){
+        val userRef = database.getReference("Users").child(userId)
+        userRef.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java)
+                val likedList = user!!.likedItems?.toMutableList() ?: mutableListOf()
+                _item.value?.let {
+                    var ok = true
+                    for(elem in likedList)
+                    {
+                        if(elem.id == itemId) {
+                            likedList.remove(elem)
+                            ok = false
+                            _liked.value = false
+                            break
+                        }
+                    }
+                    if(ok)
+                    {
+                        likedList.add(it)
+                        _liked.value = true
+                    }
+                }
+                user?.likedItems = likedList
+                userRef.setValue(user)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("addTofav","${error}")
+            }
+        })
     }
 
     fun addItemToYourCart(){

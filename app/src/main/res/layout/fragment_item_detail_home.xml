@@ -30,6 +30,39 @@
             app:srcCompat="@drawable/ic_baseline_share_24"
             app:tint="@color/black"/>
 
+        <ImageView
+            android:id="@+id/likedborderButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="72dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baseline_favorite_border_24"
+            app:tint="@color/grey"/>
+
+        <ImageView
+            android:id="@+id/likedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:visibility="gone"
+
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="72dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baseline_favorite_24"
+            app:tint="@color/redheart"/>
+
 
         <ImageButton
             android:id="@+id/backButton"

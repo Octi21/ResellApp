@@ -9,10 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
+import androidx.navigation.fragment.findNavController
 import com.example.resellapp.LoginActivity
 import com.example.resellapp.R
 import com.example.resellapp.SignUpActivity
 import com.example.resellapp.databinding.FragmentProfileBinding
+import com.example.resellapp.home.HomeFragmentDirections
+import com.example.resellapp.home.ItemHomeListener
+import com.example.resellapp.home.ItemsHomeAdapter
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -29,6 +36,14 @@ class ProfileFragment: Fragment() {
 
         binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_profile,container,false)
 
+        val viewModelFactory = ProfileViewModelFactory()
+        val profileViewModel = ViewModelProvider(this,viewModelFactory).get(ProfileViewModel::class.java)
+
+        binding.profileViewModel = profileViewModel
+
+
+
+
         val localStorege = requireContext().getSharedPreferences("LogOption", Context.MODE_PRIVATE)
 
         loginMethod = localStorege.getString("LoginBy","").toString()
@@ -43,12 +58,46 @@ class ProfileFragment: Fragment() {
         }
 
 
+
+        //nav to detail onClick
+        profileViewModel.navigateToItemDetail.observe(viewLifecycleOwner, Observer {
+            if (it != null)
+            {
+                val action = ProfileFragmentDirections.actionProfileFragmentToItemDetailHomeFragment(it)
+                findNavController().navigate(action)
+
+                profileViewModel.doneNavigatingDetails()
+            }
+        })
+
+        //adapter
+
+        val adapter = ItemsHomeAdapter(ItemHomeListener { itemId ->
+            Log.e("itemId","${itemId}")
+            profileViewModel.clickOnItem(itemId)
+        },2)
+
+        binding.likedItemsList.adapter = adapter
+
+        profileViewModel.likeditemsList.observe(viewLifecycleOwner, Observer {
+            Log.e("likedItems",it.toString())
+            adapter.submitList(it)
+        })
+
+
+
+
         binding.signOutButton.setOnClickListener{
             signOut()
         }
 
         return binding.root
     }
+
+
+
+
+
 
     private fun signOut() {
 

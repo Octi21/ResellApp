@@ -50,6 +50,8 @@ class ItemDetailHomeFragment: Fragment(){
 
 
         val arguments = ItemDetailHomeFragmentArgs.fromBundle(requireArguments())
+        val destination = arguments.destination
+        Log.e("destination",destination.toString())
 
 
         val viewModelFactory = ItemDetailHomeViewModelFactory(arguments.itemIdString)
@@ -62,8 +64,19 @@ class ItemDetailHomeFragment: Fragment(){
         itemDetailHomeViewModel.navToHome.observe(viewLifecycleOwner, Observer {
             if(it != null)
             {
-                val action = ItemDetailHomeFragmentDirections.actionItemDetailHomeFragmentToHomeFragment()
-                findNavController().navigate(action)
+                if (destination == 1)
+                {
+                    val action = ItemDetailHomeFragmentDirections.actionItemDetailHomeFragmentToHomeFragment()
+                    findNavController().navigate(action)
+
+                }
+                else
+                {
+                    val action = ItemDetailHomeFragmentDirections.actionItemDetailHomeFragmentToProfileFragment()
+                    findNavController().navigate(action)
+
+                }
+
 
                 itemDetailHomeViewModel.doneNavigating()
             }
@@ -126,6 +139,32 @@ class ItemDetailHomeFragment: Fragment(){
             }
         })
         //onClick on xml
+
+
+        itemDetailHomeViewModel.liked.observe(viewLifecycleOwner, Observer {
+            if(it ==true)
+            {
+                binding.likedButton.visibility = View.VISIBLE
+                binding.likedborderButton.visibility = View.GONE
+            }
+        })
+
+
+        binding.likedborderButton.setOnClickListener {
+
+            itemDetailHomeViewModel.addItemToLiked()
+            binding.likedButton.visibility = View.VISIBLE
+            binding.likedborderButton.visibility = View.GONE
+
+        }
+
+        binding.likedButton.setOnClickListener {
+
+            itemDetailHomeViewModel.addItemToLiked()
+            binding.likedButton.visibility = View.GONE
+            binding.likedborderButton.visibility = View.VISIBLE
+
+        }
 
 
 

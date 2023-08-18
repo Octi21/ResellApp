@@ -18,11 +18,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.transition.Visibility
 import com.example.resellapp.Item
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentHomeBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -61,7 +64,7 @@ class HomeFragment: Fragment() {
         val adapter = ItemsHomeAdapter(ItemHomeListener { itemId ->
             Log.e("itemId","${itemId}")
             homeViewModel.clickOnItem(itemId)
-        })
+        },1)
 
 
         binding.itemsList.adapter = adapter
@@ -69,7 +72,61 @@ class HomeFragment: Fragment() {
         homeViewModel.getItemsList1().observe(viewLifecycleOwner, Observer {
             Log.e("itemsList", "${it}")
             adapter.submitList(it)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(100) // Delay for 1 second (1000 milliseconds)
+                binding.itemsList.layoutManager?.scrollToPosition(0)
+            }
+
         })
+
+        val adapter2 = ItemsHomeAdapter(ItemHomeListener { itemId ->
+            Log.e("itemId","${itemId}")
+            homeViewModel.clickOnItem(itemId)
+        },2)
+        val adapter3 = ItemsHomeAdapter(ItemHomeListener { itemId ->
+            Log.e("itemId","${itemId}")
+            homeViewModel.clickOnItem(itemId)
+        },2)
+        val adapter4 = ItemsHomeAdapter(ItemHomeListener { itemId ->
+            Log.e("itemId","${itemId}")
+            homeViewModel.clickOnItem(itemId)
+        },2)
+
+        binding.clothingItemsList.adapter = adapter2
+        binding.footwearItemsList.adapter = adapter3
+        binding.accessoriesItemsList.adapter = adapter4
+
+
+
+        homeViewModel.itemsListClothing.observe(viewLifecycleOwner, Observer {
+            Log.e("itemsListc", "${it}")
+            adapter2.submitList(it)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(100) // Delay for 1 second (1000 milliseconds)
+                binding.clothingItemsList.layoutManager?.scrollToPosition(0)
+            }
+
+        })
+
+        homeViewModel.itemsListFootwear.observe(viewLifecycleOwner, Observer {
+            adapter3.submitList(it)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(100) // Delay for 1 second (1000 milliseconds)
+                binding.footwearItemsList.layoutManager?.scrollToPosition(0)
+            }
+        })
+        homeViewModel.itemsListAcc.observe(viewLifecycleOwner, Observer {
+            adapter4.submitList(it)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(100) // Delay for 1 second (1000 milliseconds)
+                binding.accessoriesItemsList.layoutManager?.scrollToPosition(0)
+            }
+        })
+
 
 
         //search bar
@@ -202,7 +259,7 @@ class HomeFragment: Fragment() {
                 Log.e("list","$list")
                 homeViewModel.setSubcatList(list.toList())
 
-                homeViewModel.filterListCateg()
+                homeViewModel.filterListSubateg()
             }
             if(!listSize.isEmpty())
             {

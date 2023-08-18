@@ -30,6 +30,18 @@ class HomeViewModel: ViewModel() {
     val itemsList2: LiveData<List<Item>>
         get() = _itemsList2
 
+    private val _itemsListClothing = MutableLiveData<List<Item>>()
+    val itemsListClothing: LiveData<List<Item>>
+        get() = _itemsListClothing
+
+    private val _itemsListFootwear = MutableLiveData<List<Item>>()
+    val itemsListFootwear: LiveData<List<Item>>
+        get() = _itemsListFootwear
+
+    private val _itemsListAcc = MutableLiveData<List<Item>>()
+    val itemsListAcc: LiveData<List<Item>>
+        get() = _itemsListAcc
+
     private val _hideFilters = MutableLiveData<Boolean?>()
     val hideFilters: LiveData<Boolean?>
         get() = _hideFilters
@@ -80,6 +92,11 @@ class HomeViewModel: ViewModel() {
                     _itemsList.value = items
                     _itemsList2.value = items
 
+                    _itemsListClothing.value = filterListCateg("Clothing",items)
+                    _itemsListFootwear.value = filterListCateg("Footwear",items)
+                    _itemsListAcc.value = filterListCateg("Accessories",items)
+
+
 
                 }
             }
@@ -123,12 +140,21 @@ class HomeViewModel: ViewModel() {
         _itemsList.value = _itemsList2.value
     }
 
-    fun filterListCateg(){
+    fun filterListSubateg(){
         val filterList = _itemsList.value?.filter { inList(_subcategList.value ?: emptyList(),it.subcategory)  } ?: emptyList()
         Log.e("list2","$filterList")
 
         _itemsList.value = filterList
     }
+
+    fun filterListCateg(categ: String,items:List<Item>):List<Item>{
+        val filterList = items?.filter { it.category == categ  } ?: emptyList()
+        Log.e("listCATEG","$filterList")
+
+        return filterList
+    }
+
+
 
     fun filterListSize(){
         val filterList = _itemsList.value?.filter { inList(_sizeList.value ?: emptyList(),it.size)  } ?: emptyList()

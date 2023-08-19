@@ -18,6 +18,8 @@ class ItemDetailViewModel(
 
     private var dbRef: DatabaseReference = database.getReference("Items")
 
+    private var deleteRef: DatabaseReference = database.getReference("Deleted")
+
 
 
     private val _item = MutableLiveData<Item?>()
@@ -27,6 +29,7 @@ class ItemDetailViewModel(
     private val _navToMyItems = MutableLiveData<Boolean?>()
     val navToMyItems: LiveData<Boolean?>
         get() = _navToMyItems
+
 
 
 
@@ -85,6 +88,12 @@ class ItemDetailViewModel(
         dbRef.child(itemId).removeValue()
         _navToMyItems.value = true
     }
+
+    fun addDeletedItemToDatabase()
+    {
+        deleteRef.child(itemId).setValue(itemId)
+    }
+
 
 
 

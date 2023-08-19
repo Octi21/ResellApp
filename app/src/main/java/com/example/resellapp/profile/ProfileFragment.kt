@@ -84,6 +84,10 @@ class ProfileFragment: Fragment() {
             adapter.submitList(it)
         })
 
+        profileViewModel.deletedList.observe(viewLifecycleOwner, Observer {
+            Log.e("deletedItems",it.toString())
+            profileViewModel.deleteIfInList(it)
+        })
 
 
 

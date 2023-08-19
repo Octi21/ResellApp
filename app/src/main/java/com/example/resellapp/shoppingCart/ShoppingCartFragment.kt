@@ -85,7 +85,14 @@ class ShoppingCartFragment: Fragment() {
         })
 
 
+        binding.buyButton.setOnClickListener {
+//            shoppingCartViewModel.buyItemFromCart()
+        }
 
+        shoppingCartViewModel.deletedList.observe(viewLifecycleOwner, Observer {
+            Log.e("deletedItems",it.toString())
+            shoppingCartViewModel.deleteIfInList(it)
+        })
 
         shoppingCartViewModel.emptyListToast.observe(viewLifecycleOwner, Observer {
             if(it == true)

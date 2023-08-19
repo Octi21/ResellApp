@@ -9,6 +9,8 @@ import com.example.resellapp.User
 import com.example.resellapp.notification.NotificationData
 import com.example.resellapp.notification.PushNotification
 import com.example.resellapp.notification.RetrofitInstance
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
@@ -24,6 +26,7 @@ class ShoppingCartViewModel: ViewModel() {
 
     private  var userId = Firebase.auth.currentUser!!.uid
 
+    private var deletedRef: DatabaseReference = database.getReference("Deleted")
     private var itemsRef: DatabaseReference = database.getReference("Items")
 
 
@@ -31,11 +34,75 @@ class ShoppingCartViewModel: ViewModel() {
     val itemList: LiveData<List<Item>>
         get() = _itemsList
 
+    private val _deletedList = MutableLiveData<List<String>>()
+    val deletedList: LiveData<List<String>>
+        get() = _deletedList
+
     private val _emptyListToast = MutableLiveData<Boolean?>()
     val emptyListToast: LiveData<Boolean?>
         get() = _emptyListToast
 
     init{
+        deletedRef.addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list: MutableList<String> = mutableListOf()
+                for(elem in snapshot.children)
+                {
+//                    Log.e("!!delid",elem.key.toString())
+                    list.add(elem.key.toString())
+                }
+                _deletedList.value = list.toList()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("errorDel",error.toString())
+            }
+        })
+
+
+        val taskList = mutableListOf<Task<DataSnapshot>>()
+
+        var databaseReferenceTask: Task<DataSnapshot> = deletedRef.get()
+        taskList.add(databaseReferenceTask)
+        databaseReferenceTask = database.getReference("Users").child(userId).child("items").get()
+        taskList.add(databaseReferenceTask)
+
+        val resultTask = Tasks.whenAll(taskList)
+        resultTask.addOnCompleteListener {
+            var aux = 1
+            val deleted = mutableListOf<String>()
+            var newList: MutableList<Item> = mutableListOf()
+            for (task in taskList) {
+                if (aux == 1) {
+                    val result: DataSnapshot = task.result
+                    for (elem in result.children) {
+                        Log.e("elem", elem.value.toString())
+                        deleted.add(elem.value.toString())
+                    }
+
+                    Log.e("!!!!$aux", result.toString())
+                }
+                if (aux == 2) {
+                    val result: DataSnapshot = task.result
+                    for(elem in result.children)
+                    {
+                        val item = elem.getValue(Item::class.java)
+                        Log.e("elem2", item.toString())
+                        val test = deleted.all{ it != item!!.id}
+                        if(item!!.bought !=true and test)
+                            newList.add(item!!)
+                    }
+                    Log.e("!!!!$aux", result.toString())
+                }
+
+                aux += 1
+            }
+            Log.e("!!!!!!!!!!!!!!", newList.toString())
+
+            database.getReference("Users").child(userId).child("items").setValue(newList)
+        }
+
+
         val userRef = database.getReference("Users").child(userId)
         userRef.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -182,6 +249,33 @@ class ShoppingCartViewModel: ViewModel() {
         } catch(e: Exception) {
             Log.e("notif3", e.toString())
         }
+    }
+
+
+    fun deleteIfInList(list:List<String>){
+        val l:MutableList<Item> = _itemsList.value?.toMutableList() ?: mutableListOf()
+        val newList: MutableList<Item> = mutableListOf()
+        Log.e("merge",l.toString())
+        l.forEach{
+            var ok = true
+            list.forEach{ it2 ->
+                if(it.id == it2)
+                {
+                    ok = false
+                }
+
+            }
+            if(ok)
+            {
+                newList.add(it)
+            }
+
+        }
+
+        database.getReference("Users").child(userId).child("items").setValue(newList.toList())
+
+
+        _itemsList.value = newList.toList()
     }
 
 

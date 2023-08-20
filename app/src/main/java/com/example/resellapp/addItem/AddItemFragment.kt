@@ -30,7 +30,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
-import com.example.resellapp.AspectRatioViewPager
 import com.example.resellapp.ButtonItem
 import com.example.resellapp.Item
 import com.example.resellapp.R

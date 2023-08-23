@@ -15,7 +15,9 @@ data class Item(
     var category: String? = null,
     var subcategory: String? = null,
     var size: String? = null,
-    var timestamp: Long?  = null
+    var timestamp: Long?  = null,
+    var imageFirebaseLocations: List<String>? = emptyList()
+
 
 
     )

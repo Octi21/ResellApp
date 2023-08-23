@@ -107,7 +107,8 @@ class ItemDetailFragment: Fragment() {
             builder.setMessage("Are you sure you want to delete?")
             builder.setPositiveButton("Yes") { dialogInterface: DialogInterface, _: Int ->
                 itemDetailViewModel.addDeletedItemToDatabase()
-//                itemDetailViewModel.deleteItem()
+                itemDetailViewModel.deleteImages()
+                itemDetailViewModel.deleteItem()
 
                 dialogInterface.dismiss()
                 itemDetailViewModel.navToMyItems()

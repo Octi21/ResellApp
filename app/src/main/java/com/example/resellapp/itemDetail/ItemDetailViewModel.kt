@@ -6,8 +6,13 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.resellapp.Item
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ItemDetailViewModel(
     private val itemId: String = ""):  ViewModel(){
@@ -20,6 +25,9 @@ class ItemDetailViewModel(
 
     private var deleteRef: DatabaseReference = database.getReference("Deleted")
 
+    val storage = FirebaseStorage.getInstance("gs://androidkotlinresellapp.appspot.com").getReference("Images")
+
+
 
 
     private val _item = MutableLiveData<Item?>()
@@ -30,14 +38,18 @@ class ItemDetailViewModel(
     val navToMyItems: LiveData<Boolean?>
         get() = _navToMyItems
 
+    var list = listOf<String>()
 
 
 
 
     init{
-         dbRef.child(itemId).addValueEventListener(object : ValueEventListener{
+         dbRef.child(itemId).addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                _item.value = snapshot.getValue(Item::class.java)
+                val item = snapshot.getValue(Item::class.java)
+                _item.value = item
+                list = item?.imageFirebaseLocations ?: listOf()
+                Log.e("listEleme",list.toString())
             }
 
 
@@ -84,9 +96,34 @@ class ItemDetailViewModel(
 //        return View.GONE
 //    }
 
+
+    fun deleteImages(){
+        viewModelScope.launch {
+            try {
+                for (imageLocation in list) {
+                    // Create a Firebase Storage reference for each image
+                    val imageRef = storage.child(imageLocation)
+
+                    // Delete the image
+                    imageRef.delete()
+                        .addOnSuccessListener {
+                            Log.d("DeleteImage", "Image deleted: $imageLocation")
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.e("DeleteImage", "Error deleting image $imageLocation: ${exception.message}")
+                        }
+                }
+            } catch (e: Exception) {
+                Log.e("DeleteImages", "Error deleting images: ${e.message}")
+            }
+        }
+
+        Log.e("imageLocations",list.toString())
+    }
+
     fun deleteItem() {
         dbRef.child(itemId).removeValue()
-        _navToMyItems.value = true
+//        _navToMyItems.value = true
     }
 
     fun addDeletedItemToDatabase()

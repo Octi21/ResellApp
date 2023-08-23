@@ -75,6 +75,8 @@ class AddItemFragment: Fragment() {
 
     private var sizeButton: Button? = null
 
+    private lateinit var imageLocationList: MutableList<String>
+
 
     private val contract2  = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         if (it.resultCode == Activity.RESULT_OK) {
@@ -610,7 +612,11 @@ class AddItemFragment: Fragment() {
 
 
         return@withContext try {
-            val imageRef = storeRef.child(System.currentTimeMillis().toString() + ".jpg")
+            val photoName = System.currentTimeMillis().toString()
+//            addItemViewModel.addImageFBloc(photoName + ".jpg")
+            imageLocationList.add(photoName+ ".jpg")
+
+            val imageRef = storeRef.child(photoName+ ".jpg")
 
             val uploadTask = imageRef.putFile(photoUri)
             uploadTask.await() // Wait for the upload to complete
@@ -649,6 +655,7 @@ class AddItemFragment: Fragment() {
 
 
     private fun addObject(): Boolean{
+        imageLocationList = mutableListOf()
 
         val name = binding.nameText.text.toString()
         val price = binding.priceText.text.toString()
@@ -731,6 +738,7 @@ class AddItemFragment: Fragment() {
 
                         val timestamp: Long = System.currentTimeMillis() // Get the current timestamp
 
+                        Log.e("LocatiiStorage",imageLocationList.toString())
 
                         Log.e("PhotoListFinal2", downloadUrls.toString())
                         val item = Item(
@@ -746,7 +754,8 @@ class AddItemFragment: Fragment() {
                             category,
                             subcatogory,
                             size,
-                            timestamp
+                            timestamp,
+                            imageLocationList.toList()
 
 
                         )

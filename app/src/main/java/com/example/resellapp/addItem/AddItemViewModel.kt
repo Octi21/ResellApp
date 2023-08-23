@@ -24,6 +24,10 @@ class AddItemViewModel: ViewModel() {
     val imageUriList: LiveData<List<Uri>>
         get() = _imageUriList
 
+    private val _imageFBlocation = MutableLiveData<List<String>>()
+    val imageFBlocation: LiveData<List<String>>
+        get() = _imageFBlocation
+
     private val _category = MutableLiveData<Int>()
     val category: LiveData<Int>
         get() = _category
@@ -45,6 +49,7 @@ class AddItemViewModel: ViewModel() {
         _category.value = 0
         _subcategory.value = ""
         _size.value = ""
+        _imageFBlocation.value = emptyList()
 
     }
 
@@ -97,6 +102,14 @@ class AddItemViewModel: ViewModel() {
         currentList.add(imageUri)
         _imageUriList.value = currentList
     }
+
+    fun addImageFBloc(image: String)
+    {
+        val currentList = _imageFBlocation.value?.toMutableList() ?: mutableListOf()
+        currentList.add(image)
+        _imageFBlocation.value = currentList
+    }
+
 
 
 

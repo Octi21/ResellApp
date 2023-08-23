@@ -30,7 +30,11 @@
         android:id="@+id/shoppingCartFragment"
         android:name="com.example.resellapp.shoppingCart.ShoppingCartFragment"
         android:label="ShoppingCartFragment"
-        tools:layout="@layout/fragment_shopping_cart" />
+        tools:layout="@layout/fragment_shopping_cart" >
+        <action
+            android:id="@+id/action_shoppingCartFragment_to_successFragment"
+            app:destination="@id/successFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.resellapp.profile.ProfileFragment"
@@ -84,5 +88,15 @@
             app:argType="integer"
             android:defaultValue="1" />
     </fragment>
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="com.example.resellapp.shoppingCart.SuccessFragment"
+        android:label="SuccessFragment"
+        tools:layout="@layout/fragment_checkout_success">
+        <action
+            android:id="@+id/action_successFragment_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment" />
+    </fragment>
+
 
 </navigation>

@@ -96,7 +96,42 @@ class HomeViewModel: ViewModel() {
                     _itemsListFootwear.value = filterListCateg("Footwear",items)
                     _itemsListAcc.value = filterListCateg("Accessories",items)
 
+                    // if newItem added _itemsList needs filters applyed
+                    val ok1 = _subcategList.value?.size  ?: 0
+                    Log.e("ordonator",ok1.toString())
 
+                    if(ok1 > 0)
+                    {
+                        val filterList = _itemsList.value?.filter { inList(_subcategList.value ?: emptyList(),it.subcategory)  } ?: emptyList()
+                        _itemsList.value = filterList
+                    }
+                    val ok2 = _sizeList.value?.size ?: 0
+                    Log.e("ordonator",ok2.toString())
+
+                    if(ok2 > 0)
+                    {
+                        val filterList = _itemsList.value?.filter { inList(_sizeList.value ?: emptyList(),it.size)  } ?: emptyList()
+                        _itemsList.value = filterList
+                    }
+                    val ord = _RBvalue.value
+                    Log.e("ordonator",ord.toString())
+
+
+                    if(ord == 2)
+                    {
+                        val itemListByDate = _itemsList.value?.sortedByDescending { it.timestamp } ?: emptyList()
+                        _itemsList.value = itemListByDate
+                    }
+                    if(ord == 3)
+                    {
+                        val itemListAsc = _itemsList.value?.sortedByDescending { it.price } ?: emptyList()
+                        _itemsList.value = itemListAsc
+                    }
+                    if(ord == 4)
+                    {
+                        val itemListAsc = _itemsList.value?.sortedBy { it.price } ?: emptyList()
+                        _itemsList.value = itemListAsc
+                    }
 
                 }
             }

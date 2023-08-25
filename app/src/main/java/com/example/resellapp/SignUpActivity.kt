@@ -3,17 +3,18 @@ package com.example.resellapp
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.example.resellapp.databinding.ActivitySignUpBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -59,11 +60,24 @@ class SignUpActivity : AppCompatActivity() {
         val localStorege = applicationContext.getSharedPreferences("LogOption", Context.MODE_PRIVATE)
         val editor = localStorege.edit()
 
-        binding.signInButton.setOnClickListener {
+//        binding.signInButton.setOnClickListener {
+//            editor.putString("LoginBy","Google")
+//            editor.apply()
+//            signInGoogle()
+//        }
+
+
+
+
+        binding.signInButton2.setSize(SignInButton.SIZE_WIDE)
+        binding.signInButton2.setColorScheme(SignInButton.COLOR_DARK)
+
+        binding.signInButton2.setOnClickListener {
             editor.putString("LoginBy","Google")
             editor.apply()
             signInGoogle()
         }
+
 
 
         binding.signUpButton.setOnClickListener{

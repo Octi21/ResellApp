@@ -57,14 +57,7 @@ class ProfileFragment: Fragment() {
 
         loginMethod = localStorege.getString("LoginBy","").toString()
 
-        binding.textView3.text = loginMethod
 
-        binding.email.text = binding.email.text.toString() + localStorege.getString("email","").toString()
-
-        if (loginMethod.equals("Google"))
-        {
-            binding.name.text = binding.name.text.toString() + localStorege.getString("name","").toString()
-        }
 
         firebaseAuth = Firebase.auth
         userName = firebaseAuth.currentUser?.displayName ?: ""
@@ -73,9 +66,15 @@ class ProfileFragment: Fragment() {
         if(userName == "") {
             Log.e("ghe", "ghe")
             userType = "Email"
+            binding.name.visibility =  View.GONE
+
         }
 
-        binding.email.text = "ghe"
+        binding.type.text =  "Log In Method: $userType"
+        binding.email.text =  "Email: $userEmail"
+        binding.name.text =  "Name: $userName"
+
+
         Log.e("ghe","$userEmail +  $userType")
 
 

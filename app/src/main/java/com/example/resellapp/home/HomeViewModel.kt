@@ -73,21 +73,13 @@ class HomeViewModel: ViewModel() {
                     for(json in snapshot.children)
                     {
                         val item = json.getValue(Item::class.java)
-//                        Log.e("item","${item!!.userId}")
-//                        Log.e("item","${userId}")
-
-                        if(!userId!!.equals(item!!.userId) )
+                        if(!userId.equals(item!!.userId) )
                         {
-//                            Log.e("item","${item}")
-                            item?.let{
+                            item.let{
                                 if(it.bought != true)
                                     items.add(it)
                             }
                         }
-
-
-
-
                     }
                     _itemsList.value = items
                     _itemsList2.value = items
@@ -188,8 +180,6 @@ class HomeViewModel: ViewModel() {
 
         return filterList
     }
-
-
 
     fun filterListSize(){
         val filterList = _itemsList.value?.filter { inList(_sizeList.value ?: emptyList(),it.size)  } ?: emptyList()

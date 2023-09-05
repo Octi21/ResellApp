@@ -104,7 +104,6 @@ class ItemDetailViewModel(
                     // Create a Firebase Storage reference for each image
                     val imageRef = storage.child(imageLocation)
 
-                    // Delete the image
                     imageRef.delete()
                         .addOnSuccessListener {
                             Log.d("DeleteImage", "Image deleted: $imageLocation")
@@ -123,7 +122,6 @@ class ItemDetailViewModel(
 
     fun deleteItem() {
         dbRef.child(itemId).removeValue()
-//        _navToMyItems.value = true
     }
 
     fun addDeletedItemToDatabase()

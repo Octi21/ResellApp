@@ -60,17 +60,13 @@ class HomeFragment: Fragment() {
 
 
         //adapter
-
         val adapter = ItemsHomeAdapter(ItemHomeListener { itemId ->
-            Log.e("itemId","${itemId}")
             homeViewModel.clickOnItem(itemId)
         },1)
-
 
         binding.itemsList.adapter = adapter
 
         homeViewModel.getItemsList1().observe(viewLifecycleOwner, Observer {
-            Log.e("itemsList", "${it}")
             adapter.submitList(it)
 
             viewLifecycleOwner.lifecycleScope.launch {
@@ -79,6 +75,7 @@ class HomeFragment: Fragment() {
             }
 
         })
+
 
         val adapter2 = ItemsHomeAdapter(ItemHomeListener { itemId ->
             Log.e("itemId","${itemId}")
@@ -162,10 +159,8 @@ class HomeFragment: Fragment() {
 
         binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-
                 return false
             }
-
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 homeViewModel.setHideFilters(true)
@@ -177,9 +172,7 @@ class HomeFragment: Fragment() {
                             filteredList.add(i)
                         }
                     }
-
                     if (filteredList.isEmpty()) {
-//                        Toast.makeText(requireContext(), "No Data found", Toast.LENGTH_SHORT).show()
                         adapter.setFilteredList(filteredList)
                     } else {
                         adapter.setFilteredList(filteredList)

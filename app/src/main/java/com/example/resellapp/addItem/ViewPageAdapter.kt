@@ -33,42 +33,24 @@ class ViewPageAdapter(val context: Context, val imageList: List<Uri>, var imageN
         val mLayoutInflater =
             context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-
-        // on below line we are inflating our custom
-        // layout file which we have created.
         val itemView: View = mLayoutInflater.inflate(R.layout.image_slider_item, container, false)
 
-        // on below line we are initializing
-        // our image view with the id.
         val imageView: ImageView = itemView.findViewById<View>(R.id.idImage) as ImageView
-//        val textView: TextView = itemView.findViewById<TextView>(R.id.imageNumber)
-//        textView.text = "${position+1}/${imageList.size}"
-
-
 
         imageNumber?.let {
             it.text = "${position+1}/${imageList.size}"
         }
         Log.e("mesajNr","${imageNumber?.text}")
 
-        // on below line we are setting
-        // image resource for image view.
         Glide.with(context).load(imageList.get(position)).into(imageView)
-        // on the below line we are adding this
-        // item view to the container.
         Objects.requireNonNull(container).addView(itemView)
 
-        // on below line we are simply
-        // returning our item view.
         return itemView
     }
 
 
-
-
     override fun destroyItem(container: ViewGroup, position: Int, obj: Any) {
         container.removeView(obj as View)
-
     }
 
     override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {

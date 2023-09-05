@@ -56,6 +56,7 @@ class ShoppingCartFragment: Fragment() {
     private lateinit var binding: FragmentShoppingCartBinding
     private val model: CheckoutViewModel by viewModels()
 
+    private lateinit var shoppingCartViewModel: ShoppingCartViewModel
 
     private lateinit var googlePayButton: PayButton
     private lateinit var clientSecret: String
@@ -79,7 +80,7 @@ class ShoppingCartFragment: Fragment() {
 
         val viewModelFactory = ShoppingCartViewModelFactory()
 
-        val shoppingCartViewModel = ViewModelProvider(this,viewModelFactory).get(ShoppingCartViewModel::class.java)
+        shoppingCartViewModel = ViewModelProvider(this,viewModelFactory).get(ShoppingCartViewModel::class.java)
 
         binding.shoppingCartViewModel = shoppingCartViewModel
 
@@ -229,19 +230,16 @@ class ShoppingCartFragment: Fragment() {
         when (result) {
             GooglePayLauncher.Result.Completed -> {
                 // Payment succeeded, show a receipt view
-                Log.e("ok","yes")
+                shoppingCartViewModel.buyItemFromCart()
 
                 val action = ShoppingCartFragmentDirections.actionShoppingCartFragmentToSuccessFragment()
                 findNavController().navigate(action)
             }
             GooglePayLauncher.Result.Canceled -> {
-                // User canceled the operation
                 handleError(CommonStatusCodes.CANCELED, "Google Pay canceled")
-
 
             }
             is GooglePayLauncher.Result.Failed -> {
-                // Operation failed; inspect `result.error` for the exception
                 handleError(CommonStatusCodes.ERROR, result.error.message)
 
 

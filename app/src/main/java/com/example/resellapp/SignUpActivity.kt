@@ -24,17 +24,15 @@ import com.google.firebase.ktx.Firebase
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var firebaseAuth: FirebaseAuth
 
     private lateinit var binding: ActivitySignUpBinding
 
-
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySignUpBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         firebaseAuth = Firebase.auth
@@ -42,10 +40,11 @@ class SignUpActivity : AppCompatActivity() {
 
         if(user != null)
         {
-//            Log.e("error", "auto login")
             val intent = Intent(this,NavigationActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()
+
         }
 
 
@@ -59,13 +58,6 @@ class SignUpActivity : AppCompatActivity() {
 
         val localStorege = applicationContext.getSharedPreferences("LogOption", Context.MODE_PRIVATE)
         val editor = localStorege.edit()
-
-//        binding.signInButton.setOnClickListener {
-//            editor.putString("LoginBy","Google")
-//            editor.apply()
-//            signInGoogle()
-//        }
-
 
 
 
@@ -119,7 +111,6 @@ class SignUpActivity : AppCompatActivity() {
     private fun navToLogin(){
         val intent = Intent(this,LoginActivity::class.java)
         startActivity(intent)
-//        finish()
 
     }
 
@@ -216,18 +207,12 @@ class SignUpActivity : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(account.idToken , null)
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful){
-                val intent : Intent = Intent(this , NavigationActivity::class.java)
-//                intent.putExtra("email" , account.email)
-//                intent.putExtra("name" , account.displayName)
-
-                val localStorege = applicationContext.getSharedPreferences("LogOption", Context.MODE_PRIVATE)
-                val editor = localStorege.edit()
-
-                editor.putString("email",account.email)
-                editor.putString("name",account.displayName)
-                editor.apply()
+                val intent = Intent(this , NavigationActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
 
                 startActivity(intent)
+                finish()
+
             }else{
                 Toast.makeText(this, it.exception.toString() , Toast.LENGTH_SHORT).show()
 

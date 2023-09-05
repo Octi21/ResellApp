@@ -40,7 +40,6 @@ class ItemsHomeAdapter(
 
     fun setFilteredList(mList: List<Item>){
         submitList(mList)
-//        notifyDataSetChanged()
     }
 
 

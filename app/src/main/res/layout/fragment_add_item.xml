@@ -100,39 +100,39 @@
                     app:layout_constraintEnd_toEndOf="@+id/clothingButton"
                     app:layout_constraintTop_toBottomOf="@+id/clothingButton" />
 
-                <TextView
-                    android:id="@+id/categText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="val"
-                    app:layout_constraintStart_toStartOf="@+id/clothingButton2"
-                    app:layout_constraintTop_toBottomOf="@+id/clothingButton2" />
+<!--                <TextView-->
+<!--                    android:id="@+id/categText"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:text="val"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/clothingButton2"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/clothingButton2" />-->
 
                 <LinearLayout
                     android:id="@+id/bouttonsLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="48dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="48dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/categText">
+                    app:layout_constraintTop_toBottomOf="@+id/clothingButton3">
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/subcategText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="32dp"
-                    android:text="val"
+<!--                <TextView-->
+<!--                    android:id="@+id/subcategText"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:layout_marginEnd="32dp"-->
+<!--                    android:text="val"-->
 
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/bouttonsLayout" />
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/bouttonsLayout" />-->
 
                 <TextView
                     android:id="@+id/size"
@@ -159,34 +159,23 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="48dp"
                         android:visibility="gone"
-                        android:columnCount="3"                        app:layout_constraintEnd_toEndOf="parent"
+                        android:columnCount="3"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/size">
                     </GridLayout>
 
-                <TextView
-                    android:id="@+id/sizeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
-                    android:text="val"
+<!--                <TextView-->
+<!--                    android:id="@+id/sizeText"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="32dp"-->
+<!--                    android:text="val"-->
 
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/subcategText" />
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/subcategText" />-->
 
-<!--                    <androidx.recyclerview.widget.RecyclerView-->
-<!--                        android:id="@+id/sizeButtonsRecyclerView"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="24dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:layout_marginEnd="24dp"-->
-<!--                        android:visibility="gone"-->
-<!--                        android:orientation="horizontal"-->
-<!--                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toBottomOf="@+id/size" />-->
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/name"
@@ -243,6 +232,16 @@
                         android:hint="Price"
                         android:inputType="numberDecimal" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Currency: $"
+                    app:layout_constraintBottom_toTopOf="@+id/description"
+                    android:layout_marginStart="50dp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/price" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/description"

@@ -123,8 +123,6 @@ class NavigationActivity: AppCompatActivity() {
             ), drawerLayout
         )
 
-
-
         NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
 
 

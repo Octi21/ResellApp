@@ -51,13 +51,6 @@ class LoginActivity:  AppCompatActivity() {
         val editor = localStorege.edit()
 
 
-//        binding.signInButton.setOnClickListener {
-//            editor.putString("LoginBy","Google")
-//            editor.apply()
-//
-//            signInGoogle()
-//        }
-
         binding.signInButton2.setSize(SignInButton.SIZE_WIDE)
         binding.signInButton2.setColorScheme(SignInButton.COLOR_DARK)
 
@@ -86,10 +79,10 @@ class LoginActivity:  AppCompatActivity() {
                             editor.putString("email",email)
                             editor.apply()
                             val intent =Intent(this,NavigationActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                             startActivity(intent)
+                            finish()
 
-                            //destroy activity
-                        // finish()
                         }
                         else
                         {
@@ -179,9 +172,10 @@ class LoginActivity:  AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(account.idToken , null)
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful){
-                val intent : Intent = Intent(this , NavigationActivity::class.java)
-//                intent.putExtra("email" , account.email)
-//                intent.putExtra("name" , account.displayName)
+                val intent = Intent(this , NavigationActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+
+
 
                 val localStorege = applicationContext.getSharedPreferences("LogOption", Context.MODE_PRIVATE)
                 val editor = localStorege.edit()
@@ -191,6 +185,7 @@ class LoginActivity:  AppCompatActivity() {
                 editor.apply()
 
                 startActivity(intent)
+                finish()
             }else{
                 Toast.makeText(this, it.exception.toString() , Toast.LENGTH_SHORT).show()
 

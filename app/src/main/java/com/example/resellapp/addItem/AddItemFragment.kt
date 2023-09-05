@@ -225,7 +225,6 @@ class AddItemFragment: Fragment() {
         }
 
         addItemViewModel.category.observe(viewLifecycleOwner, Observer {
-            binding.categText.text = it.toString()
 
             val buttonContainer = binding.bouttonsLayout
             when(it){
@@ -251,7 +250,6 @@ class AddItemFragment: Fragment() {
 
                         // Set click listener for the button
                         button.setOnClickListener {
-                            binding.subcategText.text = name
                             addItemViewModel.setSubcategory(name)
                             selectSubcategory(button)
                         }
@@ -283,7 +281,6 @@ class AddItemFragment: Fragment() {
                         button.setOnClickListener {
                             selectSubcategory(button)
                             addItemViewModel.setSubcategory(name)
-                            binding.subcategText.text = name
                         }
                     }
                 }
@@ -311,7 +308,6 @@ class AddItemFragment: Fragment() {
                         button.setOnClickListener {
                             selectSubcategory(button)
                             addItemViewModel.setSubcategory(name)
-                            binding.subcategText.text = name
                         }
                     }
                 }
@@ -358,7 +354,6 @@ class AddItemFragment: Fragment() {
                         button.setOnClickListener {
                             selectSubcategorySize(button)
                             addItemViewModel.setSize(name)
-                            binding.sizeText.text = name
                         }
                     }
                 }
@@ -386,7 +381,6 @@ class AddItemFragment: Fragment() {
                         button.setOnClickListener {
                             selectSubcategorySize(button)
                             addItemViewModel.setSize(name)
-                            binding.sizeText.text = name
                         }
                     }
                 }
@@ -414,7 +408,6 @@ class AddItemFragment: Fragment() {
                         button.setOnClickListener {
                             selectSubcategorySize(button)
                             addItemViewModel.setSize(name)
-                            binding.sizeText.text = name
                         }
                     }
                 }
@@ -429,13 +422,11 @@ class AddItemFragment: Fragment() {
 
         viewPager = binding.viewPagerId
 
-
-
-
         addItemViewModel.getImageList().observe(viewLifecycleOwner, Observer {
             Log.e("ImageList",it.toString())
             viewPagerAdapter = ViewPageAdapter(requireContext(),it,binding.countImages)
             viewPager.adapter = viewPagerAdapter
+
             viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                     // Not needed for this implementation
@@ -489,16 +480,10 @@ class AddItemFragment: Fragment() {
                     0 -> {
                         // Camera option selected
                         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        // Specify the camera lens facing direction (rear camera)
-//                        cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", CameraCharacteristics.LENS_FACING_BACK)
-
                         imageUri = createImageUri()!!
-
                         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
 
                         contract2.launch(cameraIntent)
-
-//                        contract.launch(imageUri)
                     }
                     1 -> {
                         // Gallery option selected
@@ -561,12 +546,9 @@ class AddItemFragment: Fragment() {
 
         if (resultCode == RESULT_OK) {
             when (requestCode) {
-
                 pickImage -> {
                     // Gallery activity result
                     imageUri = data?.data
-//                    binding.addImage.setImageURI(imageUri)
-//                    Log.e("imageUri","$imageUri")
 
                     cropImage(imageUri!!)
                 }
@@ -600,7 +582,7 @@ class AddItemFragment: Fragment() {
         val destinationUri = Uri.fromFile(File(requireContext().cacheDir, "cropped_image$timestamp.jpg"))
 
         UCrop.of(imageUri, destinationUri)
-            .withAspectRatio(3f, 4f) // Set the desired aspect ratio (3:5 in this case)
+            .withAspectRatio(3f, 4f) // Set the desired aspect ratio (3:4 in this case)
             .start(requireContext(), this)
     }
 
@@ -609,29 +591,23 @@ class AddItemFragment: Fragment() {
 
 
     suspend fun uploadPhotoToStorage(photoUri: Uri): String = withContext(Dispatchers.IO) {
-
-
         return@withContext try {
             val photoName = System.currentTimeMillis().toString()
-//            addItemViewModel.addImageFBloc(photoName + ".jpg")
-            imageLocationList.add(photoName+ ".jpg")
 
+            imageLocationList.add(photoName+ ".jpg")
             val imageRef = storeRef.child(photoName+ ".jpg")
 
             val uploadTask = imageRef.putFile(photoUri)
             uploadTask.await() // Wait for the upload to complete
 
             val imageUrlSting =imageRef.downloadUrl.await().toString()
-            Log.e("PhotoGood",imageUrlSting)
 
             imageUrlSting
 
         } catch (e: Exception) {
-            // Handle any potential exceptions here
-            Log.e("PhotoError",e.toString())
 
             e.printStackTrace()
-            throw e // Rethrow the exception to handle it in the caller function
+            throw e
         }
     }
 
@@ -647,7 +623,6 @@ class AddItemFragment: Fragment() {
                 }
             }
         }
-
         Log.e("AllUris", deferredUploads.toString())
 
         return@coroutineScope deferredUploads.awaitAll()
@@ -693,6 +668,18 @@ class AddItemFragment: Fragment() {
         }
         binding.price.error = null
 
+        if (price2 < 0) {
+            binding.price.error = "Price cannot be negative"
+            return false
+        }
+
+        val decimalPart = price2.toString().substringAfter(".")
+        if (decimalPart.length > 2) {
+            binding.price.error = "Price should have at most 2 decimal places"
+            return false
+        }
+
+
 
 
         if(description == "")
@@ -734,13 +721,9 @@ class AddItemFragment: Fragment() {
                 lifecycleScope.launch {
                     try {
                         val downloadUrls = uploadMultiplePhotosToStorage(imageUriList)
-                        // Use the list of download URLs as needed
 
                         val timestamp: Long = System.currentTimeMillis() // Get the current timestamp
 
-                        Log.e("LocatiiStorage",imageLocationList.toString())
-
-                        Log.e("PhotoListFinal2", downloadUrls.toString())
                         val item = Item(
                             itemId,
                             name,
@@ -756,8 +739,6 @@ class AddItemFragment: Fragment() {
                             size,
                             timestamp,
                             imageLocationList.toList()
-
-
                         )
                         dbRef.child(itemId).setValue(item).addOnCompleteListener {
                             progressDialog.dismiss()

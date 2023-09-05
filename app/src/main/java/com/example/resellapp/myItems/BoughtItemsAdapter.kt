@@ -9,6 +9,9 @@ import com.bumptech.glide.Glide
 import com.example.resellapp.Item
 import com.example.resellapp.databinding.ListItemBinding
 import com.example.resellapp.databinding.ListItemBoughtBinding
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
 
 class BoughtItemsAdapter(val clickListener: ItemListener2):ListAdapter<Item,BoughtItemsAdapter.ViewHolder>(ItemDiffCallback2()) {
 
@@ -31,6 +34,13 @@ class BoughtItemsAdapter(val clickListener: ItemListener2):ListAdapter<Item,Boug
             binding.clickListener  = clickListener
 
             binding.nameText.text = item.name.toString()
+
+            val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+            formatter.applyPattern("#,##0.##")
+            val formattedNumber = formatter.format(item.price)
+
+
+            binding.priceText.text = formattedNumber.toString() + "$"
 
             Glide.with(binding.root.context).load(item.imageUrl).into(binding.imageView2)
 

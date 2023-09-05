@@ -66,15 +66,12 @@ class ProfileViewModel: ViewModel() {
                 newList = mutableListOf()
 
                 val taskList = mutableListOf<Task<DataSnapshot>>()
-//                val resultFileDataList = List<DataSnapshot>()
 
                 val databaseReferenceTask: Task<DataSnapshot> = deletedRef.get()
                 taskList.add(databaseReferenceTask)
                 list.forEach {
                     val databaseReferenceTask: Task<DataSnapshot> = itemsRef.child(it.id!!).get()
                     taskList.add(databaseReferenceTask)
-
-
                 }
 
                 val resultTask = Tasks.whenAll(taskList)
@@ -87,17 +84,12 @@ class ProfileViewModel: ViewModel() {
                             val result: DataSnapshot = task.result
                             for(elem in result.children)
                             {
-                                Log.e("elem",elem.value.toString())
                                 deleted.add(elem.value.toString())
                             }
-
-                            Log.e("!!!!$aux",result.toString())
-
                         }
                         if(aux!=1)
                         {
                             val item = task.result.getValue(Item::class.java)
-                            Log.e("!!!!$aux",item.toString())
                             val test = deleted.all{ it != item!!.id}
                             if(item!!.bought !=true and test)
                                 newList.add(item!!)
@@ -113,9 +105,6 @@ class ProfileViewModel: ViewModel() {
                     _likeditemsList.value = newList ?: listOf()
 
                 }
-
-//                _likeditemsList.value = user!!.likedItems ?: listOf()
-
             }
 
             override fun onCancelled(error: DatabaseError) {

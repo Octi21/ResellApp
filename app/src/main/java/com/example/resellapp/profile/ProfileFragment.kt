@@ -23,6 +23,8 @@ import com.example.resellapp.home.ItemsHomeAdapter
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 class ProfileFragment: Fragment() {
@@ -30,6 +32,13 @@ class ProfileFragment: Fragment() {
     private lateinit var loginMethod: String
 
     private lateinit var binding: FragmentProfileBinding
+
+    private lateinit var firebaseAuth: FirebaseAuth
+
+    private lateinit var userName: String
+    private lateinit var userEmail: String
+    private lateinit var userType: String
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -56,6 +65,17 @@ class ProfileFragment: Fragment() {
         {
             binding.name.text = binding.name.text.toString() + localStorege.getString("name","").toString()
         }
+
+        firebaseAuth = Firebase.auth
+        userName = firebaseAuth.currentUser?.displayName ?: ""
+        userEmail = firebaseAuth.currentUser?.email ?: ""
+        userType = "Google"
+        if(userName == "") {
+            Log.e("ghe", "ghe")
+            userType = "Email"
+        }
+
+        Log.e("ghe","$userEmail +  $userType")
 
 
 
@@ -105,7 +125,8 @@ class ProfileFragment: Fragment() {
 
     private fun signOut() {
 
-        if (loginMethod.equals("Google")) {
+        if (userType.equals("Google")) {
+            Log.e("logout","google")
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("520061377985-61t4u2n9ebhq1v0pic1rqniao43vhljv.apps.googleusercontent.com")
                 .requestEmail()
@@ -117,13 +138,19 @@ class ProfileFragment: Fragment() {
 
 
             val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
+            requireActivity().finish()
         }
-        else if ((loginMethod.equals("Email"))) {
+        else if ((userType.equals("Email"))) {
+            Log.e("logout","email")
+
             FirebaseAuth.getInstance().signOut()
 
             val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
+            requireActivity().finish()
         }
         else
         {

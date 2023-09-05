@@ -11,127 +11,256 @@
     </data>
 
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="64dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+
+        <ImageView
+            android:id="@+id/likedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:visibility="gone"
+
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="72dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baseline_favorite_24"
+            app:tint="@color/redheart"/>
+
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+
+            app:tint="@android:color/white"
+            android:background="@drawable/custom_fab_background"
+            android:onClick="@{() -> itemDetailViewModel.navToMyItems()}"/>
+
+        <TextView
+            android:id="@+id/brandName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Brand"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="24dp"/>
+
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="1dp"
+            android:background="#676767"
+            android:layout_marginTop="74dp"
+            android:layout_gravity="start|top"
+            android:layout_alignParentStart="true"
+
+            android:layout_alignParentEnd="true"
+            />
+
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="64dp">
+            android:layout_marginTop="74dp"
+            >
 
-            <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
 
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_arrow_back_24"
-
-                app:tint="@android:color/white"
-                android:background="@drawable/custom_fab_background"
-                android:onClick="@{() -> itemDetailViewModel.navToMyItems()}"/>
-
-            <ImageView
-                android:id="@+id/imageView"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginTop="13dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name"
-                app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24"
-                android:visibility="gone"/>
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPagerId"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name"
-                app:layout_constraintDimensionRatio="3:4"/>
-            />
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
-                android:text="TextView"
-                android:textSize="22sp"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/backButton" />
-
-            <TextView
-                android:id="@+id/countImages"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:elevation="10dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:text=""
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name"
-                android:background="@drawable/black_transparent_background"
-                android:textColor="@color/white"/>
-            />
-
-            <TextView
-                android:id="@+id/price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:text="TextView"
-                android:textSize="18sp"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewPagerId" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="64dp">
 
 
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="16dp"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/price" />
 
 
-            <Button
-                android:id="@+id/deleteButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/detete_button"
 
-                android:backgroundTint="#90F10707"
-                android:text="Delete item"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="0dp"
+                    android:layout_height="300dp"
+                    android:scaleType="centerCrop"
+                    android:layout_marginTop="13dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/name"
+                    app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24"
+                    android:visibility="gone"/>
+
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPagerId"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+
+
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/name"
+                    app:layout_constraintDimensionRatio="3:4"/>
+
+                <TextView
+                    android:id="@+id/countImages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="10dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="24dp"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:text=""
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/name"
+                    android:background="@drawable/black_transparent_background"
+                    android:textColor="@color/white"/>
+
+
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    android:text="TextView"
+                    android:textColor="#000000"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:text="TextView"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/viewPagerId" />
+
+
+                <TextView
+                    android:id="@+id/descriptionText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Description:"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/price" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="TextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
+
+
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+
+                    android:layout_marginTop="8dp"
+                    android:background="#676767"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/description" />
+
+                <TextView
+                    android:id="@+id/detailsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Detalis:"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+                <TextView
+                    android:id="@+id/details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="details"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/detailsText"
+                    app:layout_constraintStart_toEndOf="@id/detailsText"
+                    />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#676767"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/detailsText" />
+
+
+                <Button
+                    android:id="@+id/deleteButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/detete_button"
+
+                    android:backgroundTint="#90F10707"
+                    android:text="Delete item"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/detailsText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+
+
 
 </layout>

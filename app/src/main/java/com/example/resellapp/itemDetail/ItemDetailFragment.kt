@@ -65,6 +65,7 @@ class ItemDetailFragment: Fragment() {
 
                 binding.price.text = formattedNumber.toString() + "$"
                 binding.description.text = it.description
+                binding.details.text = it.category + " / " + it.subcategory
 
                 if(it.bought == true)
                 {
@@ -114,7 +115,6 @@ class ItemDetailFragment: Fragment() {
                 itemDetailViewModel.navToMyItems()
             }
             builder.setNegativeButton("No") { dialogInterface: DialogInterface, _: Int ->
-                // Handle negative button click
                 dialogInterface.dismiss()
             }
 

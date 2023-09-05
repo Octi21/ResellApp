@@ -75,6 +75,7 @@ class ProfileFragment: Fragment() {
             userType = "Email"
         }
 
+        binding.email.text = "ghe"
         Log.e("ghe","$userEmail +  $userType")
 
 

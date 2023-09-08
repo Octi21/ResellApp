@@ -70,10 +70,14 @@ class ItemDetailFragment: Fragment() {
                 if(it.bought == true)
                 {
                     binding.deleteButton.visibility = View.GONE
+                    binding.updateButton.visibility = View.GONE
+
                 }
                 else
                 {
                     binding.deleteButton.visibility = View.VISIBLE
+                    binding.updateButton.visibility = View.VISIBLE
+
                 }
 
 
@@ -100,6 +104,19 @@ class ItemDetailFragment: Fragment() {
 
             }
         })
+
+        itemDetailViewModel.navToUpdate.observe(viewLifecycleOwner, Observer {
+            if(it == true)
+            {
+                val action = ItemDetailFragmentDirections.actionItemDetailFragmentToUpdateItemFragment(arguments.itemIdString)
+                findNavController().navigate(action)
+                itemDetailViewModel.doneNavigating()
+            }
+        })
+
+        binding.updateButton.setOnClickListener {
+            itemDetailViewModel.navToUpdate()
+        }
 
 
         binding.deleteButton.setOnClickListener {

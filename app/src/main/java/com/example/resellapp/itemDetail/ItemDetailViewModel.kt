@@ -38,6 +38,10 @@ class ItemDetailViewModel(
     val navToMyItems: LiveData<Boolean?>
         get() = _navToMyItems
 
+    private val _navToUpdate = MutableLiveData<Boolean?>()
+    val navToUpdate: LiveData<Boolean?>
+        get() = _navToUpdate
+
     var list = listOf<String>()
 
 
@@ -67,10 +71,16 @@ class ItemDetailViewModel(
         _navToMyItems.value = true
     }
 
-
-
     fun doneNavigating(){
         _navToMyItems.value = null
+    }
+
+    fun navToUpdate(){
+        _navToUpdate.value = true
+    }
+
+    fun doneNavUpdate(){
+        _navToUpdate.value = false
     }
 
 //    fun viewDeleteButton(): Int{

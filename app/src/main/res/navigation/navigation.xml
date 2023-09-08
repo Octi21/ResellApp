@@ -68,6 +68,9 @@
         <argument
             android:name="itemIdString"
             app:argType="string" />
+        <action
+            android:id="@+id/action_itemDetailFragment_to_updateItemFragment"
+            app:destination="@id/updateItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemDetailHomeFragment"
@@ -97,6 +100,19 @@
             android:id="@+id/action_successFragment_to_shoppingCartFragment"
             app:destination="@id/shoppingCartFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/updateItemFragment"
+        android:name="com.example.resellapp.updateItem.UpdateItemFragment"
+        android:label="UpdateItemFragment"
+        tools:layout="@layout/fragment_update_item">
+        <action
+            android:id="@+id/action_updateItemFragment_to_itemDetailFragment"
+            app:destination="@id/itemDetailFragment" />
+        <argument
+            android:name="itemIdString"
+            app:argType="string" />
+    </fragment>
+
 
 
 </navigation>

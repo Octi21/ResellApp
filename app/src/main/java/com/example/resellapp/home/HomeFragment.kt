@@ -125,6 +125,8 @@ class HomeFragment: Fragment() {
         })
 
 
+        homeViewModel.setHideFilters(false)
+
 
         //search bar
         binding.searchBar.queryHint = "Name,Brand"
@@ -163,12 +165,13 @@ class HomeFragment: Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                homeViewModel.setHideFilters(true)
+//                homeViewModel.setHideFilters(true)
                 if(newText!= null)
                 {
                     val filteredList = ArrayList<Item>()
                     for (i in homeViewModel.getItemsList1().value!!) {
-                        if (i.name!!.lowercase(Locale.ROOT).contains(newText.lowercase(Locale.ROOT))) {
+                        if (i.name!!.lowercase(Locale.ROOT).contains(newText.lowercase(Locale.ROOT)) ||
+                            (i.brand != null && i.brand!!.lowercase(Locale.ROOT).contains(newText.lowercase(Locale.ROOT)))) {
                             filteredList.add(i)
                         }
                     }

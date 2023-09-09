@@ -162,6 +162,7 @@ class ShoppingCartFragment: Fragment() {
         googlePayButton =    binding.payButton
         googlePayButton.initialize(
             ButtonOptions.newBuilder()
+                .setButtonType(ButtonConstants.ButtonType.BUY)
                 .setAllowedPaymentMethods(PaymentsUtil.allowedPaymentMethods.toString())
                 .build()
         )

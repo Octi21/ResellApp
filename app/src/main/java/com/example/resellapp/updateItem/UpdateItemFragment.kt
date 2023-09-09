@@ -433,6 +433,7 @@ class UpdateItemFragment: Fragment() {
                         val newLocationList = listAfterDeleteLocation + imageLocationList.toList()
                         itemValue.imageUrlList = newUrlList
                         itemValue.imageFirebaseLocations = newLocationList
+                        itemValue.imageUrl = newUrlList[0]
 
 
                         dbRef.child(itemId).setValue(itemValue).addOnCompleteListener {

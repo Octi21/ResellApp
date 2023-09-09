@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.resellapp.Item
 import com.example.resellapp.R
 import com.example.resellapp.databinding.FragmentMyItemBinding
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.database.*
 import java.util.*
 
@@ -27,12 +26,7 @@ class MyItemsFragment: Fragment() {
 
     private lateinit var dbRef: DatabaseReference
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        // Set the user's locale
-        FirebaseAnalytics.getInstance(requireContext()).setUserProperty("locale", Locale.getDefault().language)
-    }
 
 
 

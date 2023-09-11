@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.resellapp.Item
 import com.example.resellapp.User
+import com.example.resellapp.notification.FirebaseService
 import com.example.resellapp.notification.NotificationData
 import com.example.resellapp.notification.PushNotification
 import com.example.resellapp.notification.RetrofitInstance
@@ -175,6 +176,7 @@ class ShoppingCartViewModel: ViewModel() {
                                 val notificationId = snapshot.getValue(String::class.java)
                                 Log.e("notificationId",notificationId.toString())
                                 if(notificationId != null) {
+                                    FirebaseService.token = notificationId
 
                                     PushNotification(
                                         NotificationData("Sold item", "Someone Bought ${it.name}"),

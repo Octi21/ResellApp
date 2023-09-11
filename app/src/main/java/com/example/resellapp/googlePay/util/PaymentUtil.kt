@@ -2,10 +2,13 @@ package com.example.resellapp.googlePay.util
 
 import android.content.Context
 import com.example.resellapp.googlePay.Constants
+import com.google.android.gms.tasks.Tasks
+import com.google.android.gms.wallet.IsReadyToPayRequest
 
 
 import com.google.android.gms.wallet.PaymentsClient
 import com.google.android.gms.wallet.Wallet
+import com.google.android.gms.wallet.WalletConstants
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -203,6 +206,8 @@ object PaymentsUtil {
             put("shippingAddressRequired", true)
         }
     }
+
+
 }
 
 /**
@@ -212,3 +217,4 @@ fun Long.centsToString() = BigDecimal(this)
     .divide(PaymentsUtil.CENTS)
     .setScale(2, RoundingMode.HALF_EVEN)
     .toString()
+

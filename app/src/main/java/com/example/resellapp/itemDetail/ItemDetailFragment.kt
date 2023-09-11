@@ -66,6 +66,7 @@ class ItemDetailFragment: Fragment() {
                 binding.price.text = formattedNumber.toString() + "$"
                 binding.description.text = it.description
                 binding.details.text = it.category + " / " + it.subcategory
+                binding.brandName.text = it.brand ?: "No Brand"
 
                 if(it.bought == true)
                 {

@@ -126,21 +126,26 @@ class NavigationActivity: AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
 
 
-        val userRef = dbRef.child(uid)
+//        val userRef = dbRef.child(uid)
+        val userRef = dbRef
+
 
         userRef.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                val user = snapshot.getValue(User::class.java)
-                val size = user!!.items?.size ?: 0
 
-                val shoppingBagBadge = binding.bottomNavigationView.getOrCreateBadge(R.id.shoppingCartFragment)
-                shoppingBagBadge.number = size
+                if (snapshot.hasChild(uid)) {
+                    val user = snapshot.child(uid).getValue(User::class.java)
+                    val size = user!!.items?.size ?: 0
 
-                shoppingBagBadge.isVisible = true
+                    val shoppingBagBadge =
+                        binding.bottomNavigationView.getOrCreateBadge(R.id.shoppingCartFragment)
+                    shoppingBagBadge.number = size
 
-                if(size == 0)
-                    shoppingBagBadge.isVisible = false
+                    shoppingBagBadge.isVisible = true
 
+                    if (size == 0)
+                        shoppingBagBadge.isVisible = false
+                }
 
 
 

@@ -68,6 +68,8 @@ class ShoppingCartFragment: Fragment() {
     var sum = 0.0
     var showButton = false
 
+    var pkey = "pk_test_51Nh88KAl5tOl44uNAYlhBQBZNWxcprKNEUQPrpqYxxV0Qz3c0hbL6PwHbBXgA2M9fI3wb88GAPsK2F6FHxmpL9YV00FDjwr1jN"
+
 
 
     override fun onCreateView(
@@ -167,6 +169,7 @@ class ShoppingCartFragment: Fragment() {
                 .build()
         )
 
+        PaymentConfiguration.init(requireContext(),pkey)
 
 
         val googlePayLauncher = GooglePayLauncher(
@@ -198,7 +201,10 @@ class ShoppingCartFragment: Fragment() {
     private fun initializePayment(){
         runBlocking{
             launch(Dispatchers.IO){
-                val amount = sum.toLong() * 100 + 500
+                val formattedNumber = DecimalFormat("0.00").format(sum)
+                val ghe = formattedNumber.toDouble()
+                Log.e("sum","${ghe}")
+                val amount = (ghe * 100).toLong() + 500
                 val (_,_,result) = ApiURL.plus("/stripePayment?amt=$amount")
                     .httpGet()
                     .responseJson()
@@ -206,19 +212,29 @@ class ShoppingCartFragment: Fragment() {
                     val responseJson = result.get().obj()
                     clientSecret = responseJson.getString("paymentIntent")
                     val publicKey = responseJson.getString("publisableKey")
-                    PaymentConfiguration.init(requireContext(),publicKey)
+//                    PaymentConfiguration.init(requireContext(),publicKey)
                 }
             }
         }
     }
 
     private fun pay(googlePayLauncher:GooglePayLauncher){
-        // call backend, fetch secret
-        initializePayment()
+        try{
+            initializePayment()
 
-        googlePayLauncher.presentForPaymentIntent(clientSecret)
+            googlePayLauncher.presentForPaymentIntent(clientSecret)
+        }catch(e:Exception){
+            Toast.makeText(
+                requireContext(),
+                "Google Pay is not available on this device",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
 
     }
+
+
 
 
     private fun onGooglePayReady(isReady: Boolean) {

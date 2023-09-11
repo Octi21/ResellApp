@@ -153,7 +153,7 @@ class UpdateItemFragment: Fragment() {
                 binding.brandText.setText(it.brand.toString())
                 binding.nameText.setText(it.name.toString())
                 binding.descriptionText.setText(it.description.toString())
-                binding.priceText.setText(it.price.toString())
+                binding.priceText.setText(it.price!!.toInt().toString())
 
             }
         })

@@ -502,8 +502,8 @@ class AddItemFragment: Fragment() {
                 Log.e("ajungemesajul","ajungemesajul")
 
 
-                val action = AddItemFragmentDirections.actionAddItemFragmentToMyItemsFragment()
-                findNavController().navigate(action)
+//                val action = AddItemFragmentDirections.actionAddItemFragmentToMyItemsFragment()
+//                findNavController().navigate(action)
             }
             else{
                 Log.e("nuseajunge","nuseajunge")
@@ -742,6 +742,8 @@ class AddItemFragment: Fragment() {
                         )
                         dbRef.child(itemId).setValue(item).addOnCompleteListener {
                             progressDialog.dismiss()
+                            val action = AddItemFragmentDirections.actionAddItemFragmentToMyItemsFragment()
+                            findNavController().navigate(action)
 
                             Toast.makeText(requireContext(), "Data inserted successfully", Toast.LENGTH_LONG).show()
                         }.addOnFailureListener {

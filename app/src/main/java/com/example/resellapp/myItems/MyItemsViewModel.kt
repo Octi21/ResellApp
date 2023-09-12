@@ -57,12 +57,12 @@ class MyItemsViewModel: ViewModel() {
                     for(json in snapshot.children)
                     {
                         val item = json.getValue(Item::class.java)
-                        Log.e("item","${item!!.userId}")
-                        Log.e("item","${userId}")
+//                        Log.e("item","${item!!.userId}")
+//                        Log.e("item","${userId}")
 
                         if(userId!!.equals(item!!.userId) )
                         {
-                            Log.e("item","${item}")
+//                            Log.e("item","${item}")
                             item?.let{
                                 items.add(it)
                             }
@@ -94,7 +94,7 @@ class MyItemsViewModel: ViewModel() {
                     }
                 }
 
-                Log.e("boughtItems","${_boughtItemsList.value}")
+//                Log.e("boughtItems","${_boughtItemsList.value}")
 
             }
 

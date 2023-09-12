@@ -324,22 +324,38 @@ class UpdateItemFragment: Fragment() {
         }
     }
 
-    suspend fun uploadMultiplePhotosToStorage(photoUris: List<Uri>): List<String> = coroutineScope {
-        val deferredUploads = photoUris.map { uri ->
-            async {
-                try {
-                    uploadPhotoToStorage(uri)
-                }
-                catch (e: Exception) {
-                    Log.e("PhotoUploadError", e.toString())
-                    throw e
-                }
+//    suspend fun uploadMultiplePhotosToStorage(photoUris: List<Uri>): List<String> = coroutineScope {
+//        val deferredUploads = photoUris.map { uri ->
+//            async {
+//                try {
+//                    uploadPhotoToStorage(uri)
+//                }
+//                catch (e: Exception) {
+//                    Log.e("PhotoUploadError", e.toString())
+//                    throw e
+//                }
+//            }
+//        }
+//        Log.e("AllUris", deferredUploads.toString())
+//
+//        return@coroutineScope deferredUploads.awaitAll()
+//    }
+    suspend fun uploadMultiplePhotosToStorage(photoUris: List<Uri>): List<String> {
+        val uploadedUrls = mutableListOf<String>()
+
+        for (uri in photoUris) {
+            try {
+                val imageUrl = uploadPhotoToStorage(uri)
+                uploadedUrls.add(imageUrl)
+            } catch (e: Exception) {
+                Log.e("PhotoUploadError", e.toString())
+                throw e
             }
         }
-        Log.e("AllUris", deferredUploads.toString())
 
-        return@coroutineScope deferredUploads.awaitAll()
+        return uploadedUrls
     }
+
 
 
     private fun updateObject(): Boolean{

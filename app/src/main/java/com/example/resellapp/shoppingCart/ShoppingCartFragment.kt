@@ -231,7 +231,6 @@ class ShoppingCartFragment: Fragment() {
             ).show()
         }
 
-
     }
 
 

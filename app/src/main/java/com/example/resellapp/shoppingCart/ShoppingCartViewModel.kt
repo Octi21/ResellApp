@@ -89,9 +89,13 @@ class ShoppingCartViewModel: ViewModel() {
                     {
                         val item = elem.getValue(Item::class.java)
                         Log.e("elem2", item.toString())
-                        val test = deleted.all{ it != item!!.id}
-                        if(item!!.bought !=true and test)
-                            newList.add(item!!)
+                        if(item != null && item.id !=null)
+                        {
+                            val test = deleted.all{ it != item!!.id}
+                            if(item!!.bought !=true and test)
+                                newList.add(item!!)
+                        }
+
                     }
                     Log.e("!!!!$aux", result.toString())
                 }

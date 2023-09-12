@@ -458,6 +458,10 @@ class AddItemFragment: Fragment() {
 
 
 
+//        binding.priceText.setText("1")
+//        binding.brandText.setText("1")
+//        binding.nameText.setText("1")
+//        binding.descriptionText.setText("1")
 
         // onClick on xml file
 
@@ -611,21 +615,37 @@ class AddItemFragment: Fragment() {
         }
     }
 
-    suspend fun uploadMultiplePhotosToStorage(photoUris: List<Uri>): List<String> = coroutineScope {
-        val deferredUploads = photoUris.map { uri ->
-            async {
-                try {
-                uploadPhotoToStorage(uri)
-                }
-                catch (e: Exception) {
-                    Log.e("PhotoUploadError", e.toString())
-                    throw e
-                }
+//    suspend fun uploadMultiplePhotosToStorage(photoUris: List<Uri>): List<String> = coroutineScope {
+//        val deferredUploads = photoUris.map { uri ->
+//            async {
+//                try {
+//                uploadPhotoToStorage(uri)
+//                }
+//                catch (e: Exception) {
+//                    Log.e("PhotoUploadError", e.toString())
+//                    throw e
+//                }
+//            }
+//        }
+//        Log.e("AllUris", deferredUploads.toString())
+//
+//        return@coroutineScope deferredUploads.awaitAll()
+//    }
+
+    suspend fun uploadMultiplePhotosToStorage(photoUris: List<Uri>): List<String> {
+        val uploadedUrls = mutableListOf<String>()
+
+        for (uri in photoUris) {
+            try {
+                val imageUrl = uploadPhotoToStorage(uri)
+                uploadedUrls.add(imageUrl)
+            } catch (e: Exception) {
+                Log.e("PhotoUploadError", e.toString())
+                throw e
             }
         }
-        Log.e("AllUris", deferredUploads.toString())
 
-        return@coroutineScope deferredUploads.awaitAll()
+        return uploadedUrls
     }
 
 

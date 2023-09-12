@@ -71,27 +71,27 @@ class MyItemsFragment: Fragment() {
         /// adapater things
 
         val adapter = ItemsAdapter(ItemListener { itemId ->
-            Log.e("itemId","${itemId}")
+//            Log.e("itemId","${itemId}")
             myItemsViewModel.clickOnItem(itemId)
         })
 
         binding.itemsList.adapter = adapter
 
         myItemsViewModel.getItemsList().observe(viewLifecycleOwner, Observer {
-            Log.e("itemsList", "${it}")
+//            Log.e("itemsList", "${it}")
             adapter.submitList(it)
         })
 
 
 
         val adapter2 =  BoughtItemsAdapter(ItemListener2 { itemId ->
-            Log.e("itemId","${itemId}")
+//            Log.e("itemId","${itemId}")
             myItemsViewModel.clickOnItem(itemId)
         })
         binding.boughtItemsList.adapter = adapter2
 
         myItemsViewModel.getBoughtItemsList().observe(viewLifecycleOwner, Observer {
-            Log.e("boughtitemsList", "${it}")
+//            Log.e("boughtitemsList", "${it}")
             adapter2.submitList(it)
         })
 

@@ -62,7 +62,7 @@ class ProfileViewModel: ViewModel() {
                 val user = snapshot.getValue(User::class.java)
 
                 //!!!if item if bought!!!   or if item is deleted!!!
-                val list = user!!.likedItems ?: emptyList()
+                var list = user!!.likedItems ?: emptyList()
                 newList = mutableListOf()
 
                 val taskList = mutableListOf<Task<DataSnapshot>>()
@@ -70,8 +70,12 @@ class ProfileViewModel: ViewModel() {
                 val databaseReferenceTask: Task<DataSnapshot> = deletedRef.get()
                 taskList.add(databaseReferenceTask)
                 list.forEach {
-                    val databaseReferenceTask: Task<DataSnapshot> = itemsRef.child(it.id!!).get()
-                    taskList.add(databaseReferenceTask)
+                    Log.e("probabil nu mai exist","$it")
+                    if(it.id != null)
+                    {
+                        val databaseReferenceTask: Task<DataSnapshot> = itemsRef.child(it.id!!).get()
+                        taskList.add(databaseReferenceTask)
+                    }
                 }
 
                 val resultTask = Tasks.whenAll(taskList)
@@ -87,12 +91,17 @@ class ProfileViewModel: ViewModel() {
                                 deleted.add(elem.value.toString())
                             }
                         }
-                        if(aux!=1)
+                        if(aux>1 && list.isNotEmpty())
                         {
                             val item = task.result.getValue(Item::class.java)
-                            val test = deleted.all{ it != item!!.id}
-                            if(item!!.bought !=true and test)
-                                newList.add(item!!)
+                            Log.e("gheitem", "$item")
+                            if(item != null)
+                            {
+                                val test = deleted.all{ it != item!!.id}
+                                if(item!!.bought !=true and test)
+                                    newList.add(item!!)
+                            }
+
                         }
 
                         aux +=1
